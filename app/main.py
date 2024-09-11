@@ -28,10 +28,11 @@ def read_cliente(cleinte_id: int, db: Session = Depends(get_db)):
 def update_cliente(cliente_id: int, cliente: schemas.ClienteCreate, db: Session = Depends(get_db)):
     return crud.update_cliente(db=db, cliente_id=cliente_id, cliente=cliente)
 
-@app.delete("clientes/{cliente_id}")
+@app.delete("/clientes/{cliente_id}", response_model=dict)
 def delete_cliente(cliente_id: int, db: Session = Depends(get_db)):
     crud.delete_cliente(db=db, cliente_id=cliente_id)
     return {"detail": "Cliente eliminado"}
+
 
 @app.post("/productos/", response_model=schemas.Producto)
 def create_producto(producto: schemas.ProductoCreate, cliente_id: int, db: Session = Depends(get_db)):

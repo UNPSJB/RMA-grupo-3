@@ -20,6 +20,8 @@ class Producto(Base):
     id = Column(Integer, primary_key=True, index=True)
     nombre = Column(String, index=True)
     precio = Column(Float)
+    cliente_id = Column(Integer, ForeignKey("clientes.id"))  # Clave foránea añadida
 
     cliente = relationship("Cliente", back_populates="productos")
+
 
