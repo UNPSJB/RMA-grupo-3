@@ -1,2 +1,20 @@
-[tool.fastapi]
-app = "app.main:app"
+[tool.poetry]
+name = "mi desarrollo app"
+version = "0.1.0"
+description = "Mi primera aplicacion"
+authors = ["Franquito"]
+license = "Todas"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.114.1"
+uvicorn = "^0.30.6"
+sqlalchemy = "^2.0.34"
+pydantic = "^2.9.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
