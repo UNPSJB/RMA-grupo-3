@@ -1,32 +1,13 @@
-#Crear los esquemas Pydantic
+from typing import Optional
 from pydantic import BaseModel
-from typing import List, Optional
 
-class ProductoBase(BaseModel):
-    nombre: str
-    precio: float
+class Cliente(BaseModel):
+    id: Optional[str]
+    name: str
+    email: str
+    password: str
 
-class ProductoCreate(ProductoBase):
-    pass
-
-class Producto(ProductoBase):
-    id: int
-    cliente_id: int
-
-    class Config:
-        orm_mode = True
-
-class ClienteBase(BaseModel):
-    nombre: str
-    #email: str
-
-class ClienteCreate(ClienteBase):
-    pass
-
-class Cliente(ClienteBase):
-    id: int
-    productos: List[Producto] = []
-
-    class Config:
-        orm_mode = True
-
+class Producto(BaseModel):
+    id: Optional[str]
+    name: str
+    precio: str
