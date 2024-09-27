@@ -1,15 +1,27 @@
-from sqlalchemy import Table, Column 
-from sqlalchemy.sql.sqltypes import Integer, String
-from db import meta, engine
-clientes = Table("clientes", meta, Column("id", Integer, primary_key=True), 
-                                    Column("name", String(255)), 
-                                    Column("email", String(255)), 
-                                    Column("password", String(255)))
-#
-'''
-productos = Table("productos", meta, Column("id", Integer, primary_key=True), 
-                                    Column("name", String(255)), 
-                                    Column("precio", Integer(255)))
-'''
-#
-meta.create_all(engine)
+# Definición de las tablas
+from sqlalchemy import Column, Integer, String, Float, ForeignKey
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+
+Base = declarative_base()
+
+class Cliente(Base):
+    __tablename__ = "clientes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    nombre = Column(String, index=True)
+    #email = Column(String, unique=True, index=True)
+
+    productos = relationship("Producto", back_populates="cliente")
+
+class Producto(Base):
+    __tablename__ = "productos"
+
+    id = Column(Integer, primary_key=True, index=True)
+    nombre = Column(String, index=True)
+    precio = Column(Float)
+    cliente_id = Column(Integer, ForeignKey("clientes.id"))  # Clave foránea añadida
+
+    cliente = relationship("Cliente", back_populates="productos")
+
+
