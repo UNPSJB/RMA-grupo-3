@@ -30,7 +30,7 @@ def get_persona(persona_dni: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Persona no encontrada")
     return persona
 
-@router.put("/personas/{persona_id}")
+@router.put("/personas/{persona_dni}")
 def update_persona(persona_dni: int, nombre: str, edad: int, db: Session = Depends(get_db)):
     persona = db.query(Persona).filter(Persona.dni == persona_dni).first()
     if persona is None:
@@ -41,7 +41,7 @@ def update_persona(persona_dni: int, nombre: str, edad: int, db: Session = Depen
     db.commit()
     return persona
 
-@router.delete("/personas/{persona_id}")
+@router.delete("/personas/{persona_dni}")
 def delete_persona(persona_dni: int, db: Session = Depends(get_db)):
     persona = db.query(Persona).filter(Persona.dni == persona_dni).first()
     if persona is None:
