@@ -23,7 +23,7 @@ def create_persona(dni: str, nombre: str, edad: int, db: Session = Depends(get_d
 def get_personas(db: Session = Depends(get_db)):
     return db.query(Persona).all()
 
-@router.get("/personas/{persona_id}")
+@router.get("/personas/{persona_dni}")
 def get_persona(persona_dni: int, db: Session = Depends(get_db)):
     persona = db.query(Persona).filter(Persona.dni == persona_dni).first()
     if persona is None:
