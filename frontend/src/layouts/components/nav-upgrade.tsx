@@ -11,13 +11,13 @@ import { textGradient } from 'src/theme/styles';
 export function NavUpgrade({ sx, ...other }: StackProps) {
   return (
     <Box
-      display="flex"
-      alignItems="center"
-      flexDirection="column"
-      sx={{ mb: 4, textAlign: 'center', ...sx }}
-      {...other}
+  //    display="flex"
+    //  alignItems="center"
+    //  flexDirection="column"
+    //  sx={{ mb: 4, textAlign: 'center', ...sx }}
+    //  {...other}
     >
-      <Typography
+{/*       <Typography
         variant="h6"
         sx={(theme) => ({
           ...textGradient(
@@ -32,14 +32,14 @@ export function NavUpgrade({ sx, ...other }: StackProps) {
         <Box component="strong" sx={{ color: 'text.primary' }}>
           $69
         </Box>
-      </Typography>
+      </Typography> */}
 
-      <Box
+{/*       <Box
         component="img"
         alt="Minimal dashboard"
         src="/assets/illustrations/illustration-dashboard.webp"
         sx={{ width: 200, my: 2 }}
-      />
+      /> */}
 
       {/* <Button
         href="https://material-ui.com/store/items/minimal-dashboard/"
