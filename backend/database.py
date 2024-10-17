@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime#, ForeignKey#, Date, Time
+from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime, ForeignKey#, Date, Time
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -31,8 +31,8 @@ class Nodo(Base):
 class Temperatura(Base):
     __tablename__ = "temperaturas"
 
-    id = Column(Integer, primary_key=True, index=True)#, autoincrement=True)
-    #nodo_id = Column(Integer, ForeignKey("nodos.id"))
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    nodo_id = Column(Integer, ForeignKey("nodos.id"), index=True)
     type = Column(String)
     dato = Column(Float)  
     time = Column(DateTime)

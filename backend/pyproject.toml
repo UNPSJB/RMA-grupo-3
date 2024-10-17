@@ -10,6 +10,7 @@ python = "^3.12"
 fastapi = "^0.115.0"
 SQLAlchemy = "^2.0.35"
 uvicorn = "^0.31.0"
+paho-mqtt = "^2.1.0"
 
 
 [build-system]
