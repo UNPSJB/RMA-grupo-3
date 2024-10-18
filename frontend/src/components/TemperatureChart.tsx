@@ -19,7 +19,7 @@ const TemperatureChart: React.FC = () => {
     datasets: [
       {
         label: 'Temperatura',
-        data: [] as number[], // Valores de temperatura
+        data: [30] as number[], // Valores de temperatura
         backgroundColor: 'rgba(75, 192, 192, 0.5)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1,

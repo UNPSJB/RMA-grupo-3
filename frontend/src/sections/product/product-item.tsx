@@ -43,13 +43,13 @@ export function ProductItem({ product }: { product: ProductItemProps }) {
       component="img"
       alt={product.name}
       src={product.coverUrl}
-      sx={{
+       sx={{
         top: 0,
         width: 1,
         height: 1,
         objectFit: 'cover',
         position: 'absolute',
-      }}
+      }} 
     />
   );
 
