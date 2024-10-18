@@ -1,25 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Box, Typography } from '@mui/material';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import mqtt from 'mqtt'; // Librería para conectarse a MQTT
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Line } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+// Registrar todos los componentes de Chart.js
+Chart.register(...registerables);
 
+// Definición del tipo de dato TemperatureData
 interface TemperatureData {
-  timestamp: string;
-  temperature: number;
+  time: string;        // Cambiado de timestamp a time
+  dato: number;       // Cambiado de temperature a dato
 }
 
 const TemperatureChart: React.FC = () => {
   const [data, setData] = useState<TemperatureData[]>([]);
 
   const [chartData, setChartData] = useState({
-    labels: [] as string[], // Eje X (timestamps)
+    labels: [] as string[], // Eje X (time)
     datasets: [
       {
         label: 'Temperatura',
-        data: [30] as number[], // Valores de temperatura
+        data: [] as number[], // Valores de dato
         backgroundColor: 'rgba(75, 192, 192, 0.5)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1,
@@ -28,65 +29,44 @@ const TemperatureChart: React.FC = () => {
   });
 
   useEffect(() => {
-    // Conectar a MQTT
-    const client = mqtt.connect('mqtt://localhost:1883'); // Asegúrate de que esta URL coincida con tu configuración
+    const obtenerTemperaturas = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/temperaturas/');
+        const temperaturas: TemperatureData[] = response.data;
 
-    // Suscribirse al topic de temperaturas
-    client.on('connect', () => {
-      client.subscribe('temperatures', (err) => {
-        if (!err) {
-          console.log('Suscrito al topic temperatures');
-        }
-      });
-    });
+        // Actualiza el estado `data` con los datos recibidos
+        setData(temperaturas);
 
-    // Manejar los mensajes entrantes de MQTT
-    client.on('message', (topic, message) => {
-      const temp = parseFloat(message.toString());
-      const newData = {
-        timestamp: new Date().toLocaleTimeString(), // Generar un timestamp simple
-        temperature: temp,
-      };
+        // Mapea los datos para crear los labels (time) y las temperaturas (dato)
+        const times = temperaturas.map((t) => t.time);
+        const valoresDato = temperaturas.map((t) => t.dato);
 
-      // Actualizar el estado con el nuevo valor
-      setData((prevData) => [...prevData, newData]);
-
-      // Actualizar los datos del gráfico
-      setChartData((prevChartData) => ({
-        ...prevChartData,
-        labels: [...prevChartData.labels, newData.timestamp],
-        datasets: [
-          {
-            ...prevChartData.datasets[0],
-            data: [...prevChartData.datasets[0].data, newData.temperature],
-          },
-        ],
-      }));
-    });
-
-    // Desconectar de MQTT cuando se desmonte el componente
-    return () => {
-      client.end();
+        // Actualiza el estado `chartData` para reflejar los nuevos datos
+        setChartData({
+          labels: times,
+          datasets: [
+            {
+              label: 'Temperatura',
+              data: valoresDato,
+              backgroundColor: 'rgba(75, 192, 192, 0.5)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1,
+            },
+          ],
+        });
+      } catch (error) {
+        console.error('Error al obtener las temperaturas:', error);
+      }
     };
+
+    obtenerTemperaturas();
   }, []);
 
   return (
-    <Box sx={{ width: '100%', maxWidth: 800, margin: '0 auto' }}>
-      <Typography variant="h6" gutterBottom>
-        Gráfico de Temperatura en Tiempo Real
-      </Typography>
-      <Bar
-        data={chartData}
-        options={{
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        }}
-      />
-    </Box>
+    <div>
+      <h1>Gráfico de Temperaturas</h1>
+      <Line data={chartData} />
+    </div>
   );
 };
 

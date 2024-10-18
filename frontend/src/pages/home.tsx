@@ -35,12 +35,12 @@ export default function Page() {
 
 
       {/* Agrega aquí el componente TemperatureChart */}
-      <Box sx={{ padding: 2 }}>
+       <Box sx={{ padding: 2 }}>
         <TemperatureChart />
-      </Box>
+       </Box> 
 
 {/* Agrega aquí el componente TemperatureChart */}
-      <Box sx={{ padding: 2 }}>
+      <Box sx={{ padding: 10 }}>
         <Temperaturas />
       </Box>
 
