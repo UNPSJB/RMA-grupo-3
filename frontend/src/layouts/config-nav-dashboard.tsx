@@ -39,6 +39,11 @@ export const navData = [
     icon: icon('ic-lock'),
   },
   {
+    title: 'Regístros históricos',
+    path: '/404', // acá deberia acceder a la base y tener una lista con todos los datos cargados hasta el momento.
+    icon: icon('ic-analytics'),
+  },
+  {
     title: 'No encontrado',
     path: '/404',
     icon: icon('ic-disabled'),
