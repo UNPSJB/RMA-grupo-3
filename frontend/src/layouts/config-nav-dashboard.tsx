@@ -9,18 +9,18 @@ const icon = (name: string) => (
 
 export const navData = [
   {
-    title: 'Dashboard',
+    title: 'Principal',
     path: '/',
     icon: icon('ic-analytics'),
   },
   {
-    title: 'User',
+    title: 'Usuario',
     path: '/user',
     icon: icon('ic-user'),
   },
   {
-     title: 'Nodos',
-    path: '/nodos',
+    title: 'Nodos',
+    path: '/products',
     icon: icon('ic-cart'),
     info: (
       <Label color="error" variant="inverted">
@@ -29,17 +29,17 @@ export const navData = [
     ), 
   },
   {
-    title: 'Blog',
+    title: 'Gráficos',
     path: '/blog',
     icon: icon('ic-blog'),
   },
   {
-    title: 'Sign in',
+    title: 'Configuración',
     path: '/sign-in',
     icon: icon('ic-lock'),
   },
   {
-    title: 'Not found',
+    title: 'No encontrado',
     path: '/404',
     icon: icon('ic-disabled'),
   },

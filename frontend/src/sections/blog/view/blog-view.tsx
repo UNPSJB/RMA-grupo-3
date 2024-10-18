@@ -28,7 +28,11 @@ export function BlogView() {
     <DashboardContent>
       <Box display="flex" alignItems="center" mb={5}>
         <Typography variant="h4" flexGrow={1}>
+<<<<<<< HEAD
           Nodos
+=======
+          Gráficos
+>>>>>>> 6a8a80f25d709dae1424d40db78a5fa8b24f9ef9
         </Typography>
         <Button
           variant="contained"

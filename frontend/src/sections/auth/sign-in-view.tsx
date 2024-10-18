@@ -36,7 +36,7 @@ export function SignInView() {
       />
 
       <Link variant="body2" color="inherit" sx={{ mb: 1.5 }}>
-        Forgot password?
+        Has olvidado tu contraseña?
       </Link>
 
       <TextField
