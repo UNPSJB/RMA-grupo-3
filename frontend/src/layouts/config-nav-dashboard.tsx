@@ -26,7 +26,7 @@ export const navData = [
       <Label color="error" variant="inverted">
         +3
       </Label>
-    ),
+    ), 
   },
   {
     title: 'Gráficos',

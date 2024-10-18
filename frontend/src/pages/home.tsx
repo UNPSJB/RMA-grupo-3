@@ -4,6 +4,13 @@ import { CONFIG } from 'src/config-global';
 
 import { OverviewAnalyticsView } from 'src/sections/overview/view';
 
+import * as React from 'react';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
+
+
+import TemperatureChart from 'src/components/TemperatureChart'; 
 // ----------------------------------------------------------------------
 
 export default function Page() {
@@ -18,7 +25,33 @@ export default function Page() {
         <meta name="keywords" content="react,material,kit,application,dashboard,admin,template" />
       </Helmet>
 
-      <OverviewAnalyticsView />
+      {/* <OverviewAnalyticsView /> */}
+
+
+
+ 
+
+
+      {/* Agrega aquí el componente TemperatureChart */}
+      <Box sx={{ padding: 2 }}>
+        <TemperatureChart />
+      </Box>
+
+
+
+{/* {      <Stack direction="row" sx={{ width: '100%' }}>
+      <Box sx={{ flexGrow: 1 }}>
+        <SparkLineChart data={[1, 4, 2, 5, 7, 2, 4, 6]} height={100} />
+      </Box>
+      <Box sx={{ flexGrow: 1 }}>
+        <SparkLineChart
+          plotType="bar"
+          data={[1, 4, 2, 5, 7, 2, 4, 6]}
+          height={100}
+        />
+      </Box>
+    </Stack>} */}
     </>
   );
 }
+
