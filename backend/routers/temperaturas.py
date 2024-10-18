@@ -6,7 +6,7 @@ from datetime import datetime
 import paho.mqtt.client as mqtt
 import json
 
-router = APIRouter(prefix="/temperaturas")
+router = APIRouter()
 
 # Función para manejar la recepción de mensajes MQTT
 def on_message(_, userdata, message):
@@ -15,14 +15,14 @@ def on_message(_, userdata, message):
     data = json.loads(payload) # Convertir el JSON recibido en un diccionario de Python
     
     # Extraer los campos del mensaje
-    id = data['id']  
+    nodo_id = data['nodo_id']  
     type = data['type']   
     dato = data['data']  
     time = datetime.strptime(data['time'], "%Y-%m-%d %H:%M:%S.%f")  
 
     # Conectar a la base de datos - guardar los datos
     db = next(get_db())
-    temperatura = Temperatura(nodo_id=id, type=type, dato=float(dato), time=time)
+    temperatura = Temperatura(nodo_id=nodo_id, type=type, dato=float(dato), time=time)
 
     try:
         db.add(temperatura)
@@ -43,21 +43,21 @@ def mqtt_subscribe():
     client.loop_start()
 
 # CRUD para Temperatura
-@router.post("/temperaturas/")
-def create_temperatura(id: int, type: str, dato: float, time: str, db: Session = Depends(get_db)):
+@router.post("/")
+def create_temperatura(nodo_id: int, type: str, dato: float, time: str, db: Session = Depends(get_db)):
     temperatura = Temperatura(nodo_id=id, type=type, dato=dato, time=time)
     db.add(temperatura)
     db.commit()
     db.refresh(temperatura)
     return temperatura
 
-@router.get("/temperaturas/")
+@router.get("/")
 def get_temperaturas(db: Session = Depends(get_db)):
     return db.query(Temperatura).all()
 
-@router.get("/temperaturas/{temperatura_valor}")
-def get_temperatura(temperatura_id: int, db: Session = Depends(get_db)):
-    temperatura = db.query(Temperatura).filter(Temperatura.id == temperatura_id).first()
+@router.get("/{}")
+def get_temperatura(temperatura_nodo_id: int, db: Session = Depends(get_db)):
+    temperatura = db.query(Temperatura).filter(Temperatura.nodo_id == temperatura_nodo_id).first()
     if temperatura is None:
         raise HTTPException(status_code=404, detail="Temperatura no encontrada")
     return temperatura

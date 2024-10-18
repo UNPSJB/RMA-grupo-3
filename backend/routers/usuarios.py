@@ -3,10 +3,10 @@ from sqlalchemy.orm import Session
 from dependencies import get_db  # Asegúrate de que esto es correcto
 from database import Usuario  # Importa tu modelo desde el módulo correcto
 
-router = APIRouter(prefix="/usuarios")
+router = APIRouter()
 
 # CRUD para Usuario
-@router.post("/usuarios/")
+@router.post("/")
 def create_usuario(dni: str, nombre: str, edad: int, db: Session = Depends(get_db)):
     # Verifica si la usuario ya existe
     existing_usuario = db.query(Usuario).filter(Usuario.dni == dni).first()
@@ -19,18 +19,18 @@ def create_usuario(dni: str, nombre: str, edad: int, db: Session = Depends(get_d
     db.refresh(usuario)
     return usuario
 
-@router.get("/usuarios/")
+@router.get("/{m}")
 def get_usuarios(db: Session = Depends(get_db)):
     return db.query(Usuario).all()
 
-@router.get("/usuarios/{usuario_dni}")
+@router.get("/{u}")
 def get_usuario(usuario_dni: int, db: Session = Depends(get_db)):
     usuario = db.query(Usuario).filter(Usuario.dni == usuario_dni).first()
     if usuario is None:
         raise HTTPException(status_code=404, detail="Usuario no encontrada")
     return usuario
 
-@router.put("/usuarios/{usuario_dni}")
+@router.put("/")
 def update_usuario(usuario_dni: int, nombre: str, edad: int, db: Session = Depends(get_db)):
     usuario = db.query(Usuario).filter(Usuario.dni == usuario_dni).first()
     if usuario is None:
@@ -41,7 +41,7 @@ def update_usuario(usuario_dni: int, nombre: str, edad: int, db: Session = Depen
     db.commit()
     return usuario
 
-@router.delete("/usuarios/{usuario_dni}")
+@router.delete("/")
 def delete_usuario(usuario_dni: int, db: Session = Depends(get_db)):
     usuario = db.query(Usuario).filter(Usuario.dni == usuario_dni).first()
     if usuario is None:

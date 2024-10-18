@@ -4,9 +4,9 @@ from sqlalchemy.orm import Session
 from dependencies import get_db  # Asegúrate de que esto es correcto
 from database import Nodo  # Importa tu modelo desde el módulo correcto
 
-router = APIRouter(prefix="/nodos")
+router = APIRouter()
 
-@router.post("/nodos")
+@router.post("/")
 def create_nodos(id: int, db: Session = Depends(get_db)):
     existing_nodo = db.query(Nodo).filter(Nodo.id == id).first()
     if existing_nodo:
@@ -18,18 +18,18 @@ def create_nodos(id: int, db: Session = Depends(get_db)):
     db.refresh(nodo)
     return nodo
 
-@router.get("/nodos")
+@router.get("/{m}")
 def get_nodos(db: Session = Depends(get_db)):
     return db.query(Nodo).all()
 
-@router.get("/{nodos_id}")
+@router.get("/{u}")
 def get_nodos(nodo_id: int, db: Session = Depends(get_db)):
     nodo = db.query(Nodo).filter(Nodo.id == nodo_id).first()
     if nodo is None:
         raise HTTPException(status_code=404, detail="Nodo no encontrado")
     return nodo
 
-@router.put("/{nodo_id}")
+@router.put("/")
 def update_nodo(nodo_id: int, db: Session = Depends(get_db)):
     nodo = db.query(Nodo).filter(Nodo.id == nodo_id).first()
     if nodo is None:

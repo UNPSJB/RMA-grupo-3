@@ -14,8 +14,8 @@ app = FastAPI()
 mqtt_subscribe()
 
 # Incluye el router de productos
-app.include_router(usuarios.router, prefix="/usuarios", tags=["usuarios"])
-app.include_router(nodos.router, prefix="/nodos", tags=["nodos"])
-app.include_router(temperaturas.router, prefix="/temperaturas", tags=["temperaturas"])
+app.include_router(usuarios.router, prefix="/usuarios", tags=["Usuarios"])
+app.include_router(nodos.router, prefix="/nodos", tags=["Nodos"])
+app.include_router(temperaturas.router, prefix="/temperaturas", tags=["Temperaturas"])
 
 
