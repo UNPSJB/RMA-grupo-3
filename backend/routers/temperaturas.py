@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException,Depends
 from sqlalchemy.orm import Session
 from dependencies import get_db  
 from database import Temperatura  
+from database import Nodo
 from datetime import datetime
 import paho.mqtt.client as mqtt
 import json
@@ -15,24 +16,33 @@ def on_message(_, userdata, message):
     data = json.loads(payload) # Convertir el JSON recibido en un diccionario de Python
     
     # Extraer los campos del mensaje
-    nodo_id = data['nodo_id']  
+    #id = data['id']  
+    nodo_id = data['id']
     type = data['type']   
     dato = data['data']  
     time = datetime.strptime(data['time'], "%Y-%m-%d %H:%M:%S.%f")  
 
     # Conectar a la base de datos - guardar los datos
     db = next(get_db())
-    temperatura = Temperatura(nodo_id=nodo_id, type=type, dato=float(dato), time=time)
 
-    try:
-        db.add(temperatura)
-        db.commit()
-        db.refresh(temperatura)
-    except Exception as e:
-        db.rollback()
-        print(f"Error al insertar en la base de datos: {e}")
-    finally:
-        db.close()
+    # Verificar si nodo_id existe en la tabla de nodos
+    nodo_existente = db.query(Nodo).filter(Nodo.id == nodo_id).first()
+
+    
+    if nodo_existente is None:
+        print(f"Error: El nodo_id {nodo_id} no existe en la tabla de nodos.")#temperatura = Temperatura(nodo_id=nodo_id, type=type, dato=float(dato), time=time)
+    else:
+    # Solo se ejecuta si el nodo_id existe
+        temperatura = Temperatura(nodo_id=nodo_id, type=type, dato=float(dato), time=time)
+        try:
+            db.add(temperatura)
+            db.commit()
+            db.refresh(temperatura)
+        except Exception as e:
+            db.rollback()
+            print(f"Error al insertar en la base de datos: {e}")
+        finally:
+            db.close()
 
 # Inicializar el cliente MQTT y suscribirse a un tópico
 def mqtt_subscribe():
