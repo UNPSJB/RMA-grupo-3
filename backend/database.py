@@ -26,7 +26,7 @@ class Nodo(Base):
     __tablename__ = "nodos"
 
     id = Column(Integer, primary_key=True, index=True)  
-    temperaturas = relationship("Temperatura", back_populates="nodo")
+    temperaturas = relationship("Temperatura", back_populates="nodos")
     #hidrometricos = relationship("Hidrometrico", back_populates="nodo")
 
 class Temperatura(Base):
@@ -38,7 +38,7 @@ class Temperatura(Base):
     dato = Column(Float)  
     time = Column(DateTime)
 
-    nodo = relationship("Nodo", back_populates="temperaturas")
+    nodos = relationship("Nodo", back_populates="temperaturas")
 
 '''
 class Hidrometrico(Base):
@@ -54,3 +54,4 @@ class Hidrometrico(Base):
 
 # Crear las tablas
 Base.metadata.create_all(bind=engine)
+

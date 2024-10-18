@@ -1,0 +1,3 @@
+frontend>src>layouts>config-nav-dashboard.tsx>navData>title (titulos de caja izq)
+frontend>src>pages>blog.tsx>Page
+frontend>src>sections>blog>view>blog-view>Blogview

@@ -1,8 +1,7 @@
 from fastapi import APIRouter, HTTPException,Depends
 from sqlalchemy.orm import Session
 from dependencies import get_db  
-from database import Temperatura  
-from database import Nodo
+from database import Temperatura, Nodo
 from datetime import datetime
 import paho.mqtt.client as mqtt
 import json
@@ -27,7 +26,6 @@ def on_message(_, userdata, message):
 
     # Verificar si nodo_id existe en la tabla de nodos
     nodo_existente = db.query(Nodo).filter(Nodo.id == nodo_id).first()
-
     
     if nodo_existente is None:
         print(f"Error: El nodo_id {nodo_id} no existe en la tabla de nodos.")#temperatura = Temperatura(nodo_id=nodo_id, type=type, dato=float(dato), time=time)
