@@ -23,7 +23,7 @@ export function OverviewAnalyticsView() {
         Hi, Welcome back 👋
       </Typography>
 
-      <Grid container spacing={3}>
+        <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AnalyticsWidgetSummary
             title="Weekly sales"
@@ -35,7 +35,7 @@ export function OverviewAnalyticsView() {
               series: [22, 8, 35, 50, 82, 84, 77, 12],
             }}
           />
-        </Grid>
+        </Grid> 
 
         <Grid xs={12} sm={6} md={3}>
           <AnalyticsWidgetSummary

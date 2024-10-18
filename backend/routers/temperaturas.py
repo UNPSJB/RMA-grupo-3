@@ -7,7 +7,28 @@ from datetime import datetime
 import paho.mqtt.client as mqtt
 import json
 
+import sqlite3
+
 router = APIRouter()
+
+""" conn=sqlite3.connect('test.db')
+cursor = conn.cursor()
+
+def publish_temperature(value):
+    client= mqtt.Client()
+    client.connect('localhost', 1883, 60)
+    client.publish('temperatures', value)
+    client.disconnect()
+
+
+
+
+# Almacenar la temperatura en SQLite
+def store_temperature(value):
+    cursor.execute('INSERT INTO temperatures (temperature) VALUES (?)', (value,))
+    conn.commit()
+    publish_temperature(value) """
+
 
 # Función para manejar la recepción de mensajes MQTT
 def on_message(_, userdata, message):
