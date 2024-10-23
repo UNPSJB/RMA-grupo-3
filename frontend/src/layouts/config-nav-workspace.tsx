@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------
 
 export const _workspaces = [
-  {
+  /* {
     id: 'team-1',
     name: 'Team 1',
     logo: `/assets/icons/workspaces/logo-1.webp`,
@@ -18,5 +18,5 @@ export const _workspaces = [
     name: 'Team 3',
     logo: `/assets/icons/workspaces/logo-3.webp`,
     plan: 'Pro',
-  },
+  }, */
 ];

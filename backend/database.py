@@ -26,11 +26,11 @@ class Nodo(Base):
     __tablename__ = "nodos"
 
     id = Column(Integer, primary_key=True, index=True)  
-    temperaturas = relationship("Temperatura", back_populates="nodos")
-    #hidrometricos = relationship("Hidrometrico", back_populates="nodo")
+    datosGenerales = relationship("DatosGenerales", back_populates="nodos")
+    #temperaturas = relationship("Temperatura", back_populates="nodos")
 
-class Temperatura(Base):
-    __tablename__ = "temperaturas"
+class DatosGenerales(Base):
+    __tablename__ = "datosGenerales"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     nodo_id = Column(Integer, ForeignKey("nodos.id"), index=True)
@@ -38,18 +38,18 @@ class Temperatura(Base):
     dato = Column(Float)  
     time = Column(DateTime)
 
-    nodos = relationship("Nodo", back_populates="temperaturas")
+    nodos = relationship("Nodo", back_populates="datosGenerales")
 
 '''
-class Hidrometrico(Base):
-    __tablename__ = "hidrometricos"
+class Temperatura(Base):
+    __tablename__ = "temperaturas"
     id = Column(Integer, primary_key=True, index=True, autoincrement=True) #?
     type = Column(String)
     data = Column(String)  
     time = Column(String)
     nodo_id = Column(Integer, ForeignKey("nodos.id"))
 
-    nodo = relationship("Nodo", back_populates="hidrometricos")
+    nodo = relationship("Nodo", back_populates="temperaturas")
 '''
 
 # Crear las tablas

@@ -14,12 +14,12 @@ import { Iconify } from 'src/components/iconify';
 
 export default function App() {
   useScrollToTop();
-
+/*
   const githubButton = (
     <Fab
       size="medium"
       aria-label="Github"
-      href="https://github.com/minimal-ui-kit/material-kit-react"
+      href="https://homers-webpage.vercel.app/"
       sx={{
         zIndex: 9,
         right: 20,
@@ -34,11 +34,11 @@ export default function App() {
       <Iconify width={24} icon="eva:github-fill" />
     </Fab>
   );
-
+*/
   return (
     <ThemeProvider>
       <Router />
-      {githubButton}
+      {}
     </ThemeProvider>
   );
 }
