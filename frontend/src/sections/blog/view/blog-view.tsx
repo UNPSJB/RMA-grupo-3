@@ -28,14 +28,14 @@ export function BlogView() {
     <DashboardContent>
       <Box display="flex" alignItems="center" mb={5}>
         <Typography variant="h4" flexGrow={1}>
-          Gráficos
+          Nodos
         </Typography>
         <Button
           variant="contained"
           color="inherit"
           startIcon={<Iconify icon="mingcute:add-line" />}
         >
-          New post
+          Agregar nodo
         </Button>
       </Box>
 
@@ -52,7 +52,7 @@ export function BlogView() {
         />
       </Box>
 
-      <Grid container spacing={3}>
+     {/*  <Grid container spacing={3}>
         {_posts.map((post, index) => {
           const latestPostLarge = index === 0;
           const latestPost = index === 1 || index === 2;
@@ -63,7 +63,7 @@ export function BlogView() {
             </Grid>
           );
         })}
-      </Grid>
+      </Grid> */}
 
       <Pagination count={10} color="primary" sx={{ mt: 8, mx: 'auto' }} />
     </DashboardContent>

@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> {`Graficos - ${CONFIG.appName}`}</title>
+        <title> {`Nodos - ${CONFIG.appName}`}</title>
       </Helmet>
 
       <BlogView />
