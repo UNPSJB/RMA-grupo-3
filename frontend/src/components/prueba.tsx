@@ -15,7 +15,7 @@ const Temperaturas: React.FC = () => {
   useEffect(() => {
     const obtenerTemperaturas = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/temperaturas/');
+        const response = await axios.get('http://localhost:8000/datosgenerales/');
 
         //  const result = await response.json();
 

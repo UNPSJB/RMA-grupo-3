@@ -31,7 +31,7 @@ const TemperatureChart: React.FC = () => {
   useEffect(() => {
     const obtenerTemperaturas = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/temperaturas/');
+        const response = await axios.get('http://localhost:8000/datosgenerales/');
         const temperaturas: TemperatureData[] = response.data;
 
         // Actualiza el estado `data` con los datos recibidos
