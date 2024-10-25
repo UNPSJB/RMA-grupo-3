@@ -1,16 +1,11 @@
 import type { BoxProps } from '@mui/material/Box';
-
 import { useId, forwardRef } from 'react';
-
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-
 import { RouterLink } from 'src/routes/components';
 import React from 'react';
 import { logoClasses } from './classes';
-import logo from '../../../public/assets/images/logo1.jpg'
-
-
+import logo from '../../../public/assets/images/logo1.jpg'; // Ajuste para importar correctamente el logo
 
 // ----------------------------------------------------------------------
 
@@ -26,38 +21,12 @@ export const Logo = forwardRef<HTMLDivElement, LogoProps>(
     ref
   ) => {
     const theme = useTheme();
-
     const gradientId = useId();
 
     const TEXT_PRIMARY = theme.vars.palette.text.primary;
     const PRIMARY_LIGHT = theme.vars.palette.primary.light;
     const PRIMARY_MAIN = theme.vars.palette.primary.main;
     const PRIMARY_DARKER = theme.vars.palette.primary.dark;
-
-    /*
-    * OR using local (public folder)
-    *
-    const singleLogo = (
-      <Box
-        alt="Single logo"
-        component="img"
-        src={`/logo/logo-single.svg`}
-        width="100%"
-        height="100%"
-      />
-    );
-
-    const fullLogo = (
-      <Box
-        alt="Full logo"
-        component="img"
-        src={`/logo/logo-full.svg`}
-        width="100%"
-        height="100%"
-      />
-    );
-    *
-    */
 
     const singleLogo = (
       <svg
@@ -121,21 +90,9 @@ export const Logo = forwardRef<HTMLDivElement, LogoProps>(
       </svg>
     );
 
-const fullLogo = (
-  // Comentario sobre el logo anterior, si deseas dejarlo:
-  /* 
-  <svg
-    width="100%"
-    height="100%"
-    viewBox="0 0 360 128"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    ... código SVG
-  </svg>
-  */
-  <img src={logo} alt="Logo" />
-);
+    const fullLogo = (
+      <img src={logo} alt="Logo" /> // Cambiado para utilizar el logo local
+    );
 
     const baseSize = {
       width: width ?? 40,
@@ -149,8 +106,8 @@ const fullLogo = (
     return (
       <Box
         ref={ref}
-        component={RouterLink}
-        href={href}
+        component={disableLink ? 'div' : RouterLink} // Evita errores con disableLink
+        href={!disableLink ? href : undefined}
         className={logoClasses.root.concat(className ? ` ${className}` : '')}
         aria-label="Logo"
         sx={{
