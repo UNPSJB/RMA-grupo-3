@@ -72,8 +72,6 @@ class Nodo:
                     message = str(
                     round(random.uniform(0.0, 5.0), 2)
                 )  # temperatura random entre 10 y 35°C
-
-            print(tipo)
             mensaje = self.formatear_mensaje(
                 topic,
                 tipo,
