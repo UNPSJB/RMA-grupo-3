@@ -29,18 +29,13 @@ export default function Page() {
 
       {/* <OverviewAnalyticsView /> */}
 
-
-
- 
-
-
       {/* Agrega aquí el componente TemperatureChart */}
        <Box sx={{ padding: 2 }}>
         <TemperatureChart />
        </Box> 
 
 {/* Agrega aquí el componente TemperatureChart */}
-      <Box sx={{ padding: 10 }}>
+      <Box sx={{ padding: 2 }}>
         <Temperaturas />
       </Box>
 

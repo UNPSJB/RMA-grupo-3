@@ -3,7 +3,7 @@ import { useId, forwardRef } from 'react';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { RouterLink } from 'src/routes/components';
-import React from 'react';
+// import React from 'react';
 import { logoClasses } from './classes';
 import logo from '../../../public/assets/images/logo1.jpg'; // Ajuste para importar correctamente el logo
 
