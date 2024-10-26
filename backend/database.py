@@ -15,12 +15,12 @@ Base = declarative_base()
 class Usuario(Base):
     __tablename__ = "usuarios"
 
-    dni = Column(String, primary_key=True)  # Cambia a String si el DNI tiene ceros a la izquierda
-    nombre = Column(String, nullable=False)
-    edad = Column(Integer, nullable=False)
-
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    user = Column(String, nullable=False, unique=True)  # Cambia a String si el DNI tiene ceros a la izquierda
+    password = Column(String, nullable=False)
+    
     def __repr__(self):
-        return f"<Usuarios(dni={self.dni}, nombre={self.nombre}, edad={self.edad})>"
+        return f"<Usuario(user={self.user})>"
 
 class Nodo(Base):
     __tablename__ = "nodos"
