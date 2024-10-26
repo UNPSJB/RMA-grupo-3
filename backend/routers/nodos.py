@@ -18,16 +18,17 @@ def create_nodos(id: int, db: Session = Depends(get_db)):
     db.refresh(nodo)
     return nodo
 
-@router.get("/{m}")
+@router.get("/")
 def get_nodos(db: Session = Depends(get_db)):
     return db.query(Nodo).all()
 
-@router.get("/{u}")
+@router.get("/{nodo_id}")
 def get_nodos(nodo_id: int, db: Session = Depends(get_db)):
     nodo = db.query(Nodo).filter(Nodo.id == nodo_id).first()
     if nodo is None:
         raise HTTPException(status_code=404, detail="Nodo no encontrado")
     return nodo
+
 
 @router.put("/")
 def update_nodo(nodo_id: int, db: Session = Depends(get_db)):

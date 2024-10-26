@@ -36,9 +36,25 @@ if __name__ == "__main__":
     print(f"{len(lista_nodos)} nodo/s creado/s. Publicando...")
 
     for nodo in lista_nodos:
+
         thread = threading.Thread(
             target=nodo.publicar,
             args=(config.topic, TipoMensaje.TEMP_T),
         )
         thread.start()
+
+        time.sleep(random.randint(1, 3))
+        thread = threading.Thread(
+            target=nodo.publicar,
+            args=(config.topic, TipoMensaje.ALTITUDE_T),
+        )
+        thread.start()
+
+        time.sleep(random.randint(1, 3))
+        thread = threading.Thread(
+            target=nodo.publicar,
+            args=(config.topic, TipoMensaje.VOLTAGE_T),
+        )
+        thread.start()
+        
         time.sleep(random.randint(1, 3))

@@ -60,10 +60,20 @@ class Nodo:
 
         while not self.stop_event.is_set():
             if len(message) == 0:
-                message = str(
-                    round(random.uniform(10.0, 35.0), 2)
+                if tipo == 'altitude_t': #Altura
+                    message = str(
+                    round(random.uniform(0.0, 20.0), 2)
+                )  # temperatura random entre 10 y 35°C
+                elif tipo == 'temp_t': #Temperatura
+                    message = str(
+                    round(random.uniform(10.0, 30.0), 2)
+                )  # temperatura random entre 10 y 35°C
+                elif tipo == 'voltage_t': #Voltaje
+                    message = str(
+                    round(random.uniform(0.0, 5.0), 2)
                 )  # temperatura random entre 10 y 35°C
 
+            print(tipo)
             mensaje = self.formatear_mensaje(
                 topic,
                 tipo,
@@ -106,7 +116,8 @@ class Nodo:
 
     def formatear_mensaje(self, topic: str, tipo: TipoMensaje, mensaje: str) -> str:
         mensaje = Mensaje(
-            id=self.id, type=tipo, data=str(mensaje), time=str(random_date())
+            #id=self.id, type=tipo, data=str(mensaje), time=str(random_date())
+            id=self.id, type=tipo, data=str(mensaje), time=str(datetime.now())
         ).model_dump()
         return str(mensaje)
     

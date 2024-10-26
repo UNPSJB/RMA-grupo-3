@@ -40,18 +40,6 @@ class DatosGenerales(Base):
 
     nodos = relationship("Nodo", back_populates="datosGenerales")
 
-'''
-class Temperatura(Base):
-    __tablename__ = "temperaturas"
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True) #?
-    type = Column(String)
-    data = Column(String)  
-    time = Column(String)
-    nodo_id = Column(Integer, ForeignKey("nodos.id"))
-
-    nodo = relationship("Nodo", back_populates="temperaturas")
-'''
-
 # Crear las tablas
 Base.metadata.create_all(bind=engine)
 
