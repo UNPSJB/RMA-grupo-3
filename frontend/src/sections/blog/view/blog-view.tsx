@@ -15,6 +15,15 @@ import { PostItem } from '../post-item';
 import { PostSort } from '../post-sort';
 import { PostSearch } from '../post-search';
 
+
+import * as React from 'react';
+import Stack from '@mui/material/Stack';
+import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
+
+
+import TemperatureChart from 'src/components/TemperatureChart'; 
+import Temperaturas from 'src/components/prueba'; 
+
 // ----------------------------------------------------------------------
 
 export function BlogView() {
@@ -37,6 +46,16 @@ export function BlogView() {
         >
           Agregar nodo
         </Button>
+      </Box>
+
+      {/* Agrega aquí el componente TemperatureChart */}
+      <Box sx={{ padding: 2 }}>
+        <TemperatureChart />
+       </Box> 
+
+{/* Agrega aquí el componente TemperatureChart */}
+      <Box sx={{ padding: 2 }}>
+        <Temperaturas />
       </Box>
 
       <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ mb: 5 }}>

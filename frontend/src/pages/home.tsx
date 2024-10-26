@@ -10,8 +10,6 @@ import Box from '@mui/material/Box';
 import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
 
 
-import TemperatureChart from 'src/components/TemperatureChart'; 
-import Temperaturas from 'src/components/prueba'; 
 
 // ----------------------------------------------------------------------
 
@@ -28,16 +26,6 @@ export default function Page() {
       </Helmet>
 
       {/* <OverviewAnalyticsView /> */}
-
-      {/* Agrega aquí el componente TemperatureChart */}
-       <Box sx={{ padding: 2 }}>
-        <TemperatureChart />
-       </Box> 
-
-{/* Agrega aquí el componente TemperatureChart */}
-      <Box sx={{ padding: 2 }}>
-        <Temperaturas />
-      </Box>
 
 
 {/* {      <Stack direction="row" sx={{ width: '100%' }}>
