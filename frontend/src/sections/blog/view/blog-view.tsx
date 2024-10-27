@@ -11,9 +11,7 @@ import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Iconify } from 'src/components/iconify';
 
-import { PostItem } from '../post-item';
-import { PostSort } from '../post-sort';
-import { PostSearch } from '../post-search';
+
 
 
 import * as React from 'react';
@@ -23,6 +21,10 @@ import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
 
 import TemperatureChart from 'src/components/TemperatureChart'; 
 import Temperaturas from 'src/components/prueba'; 
+
+import { PostItem } from '../post-item';
+import { PostSort } from '../post-sort';
+import { PostSearch } from '../post-search';
 
 // ----------------------------------------------------------------------
 
@@ -53,7 +55,7 @@ export function BlogView() {
         <TemperatureChart />
        </Box> 
 
-{/* Agrega aquí el componente TemperatureChart */}
+      {/* Agrega aquí el componente TemperatureChart */}
       <Box sx={{ padding: 2 }}>
         <Temperaturas />
       </Box>
