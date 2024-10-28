@@ -35,6 +35,7 @@ const renderFallback = (
 export function Router() {
   return useRoutes([
     {
+      path: 'home',
       element: (
         <DashboardLayout>
           <Suspense fallback={renderFallback}>
@@ -49,13 +50,17 @@ export function Router() {
         { path: 'blog', element: <BlogPage /> },
       ],
     },
+   /* estos no usan el dashboard */
     {
-      path: 'sign-in',
+      //
       element: (
         <AuthLayout>
           <SignInPage />
         </AuthLayout>
       ),
+      children: [
+        {element:<SignInPage />, path: '/'},
+      ]
     },
     {
       path: '404',

@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> {`Configuración - ${CONFIG.appName}`}</title>
+        <title> {`Inicio de sesión - ${CONFIG.appName}`}</title>
       </Helmet>
 
       <SignInView />

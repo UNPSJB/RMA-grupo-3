@@ -24,7 +24,7 @@ export const navData = [
     icon: icon('ic-cart'),
     info: (
       <Label color="error" variant="inverted">
-        +3
+        +5
       </Label>
     ), 
   },

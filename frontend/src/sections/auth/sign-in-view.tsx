@@ -9,41 +9,42 @@ import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import { useRouter } from 'src/routes/hooks';
+import { useNavigate  } from 'react-router-dom';
 
 import { Iconify } from 'src/components/iconify';
 
-// ----------------------------------------------------------------------
+import Fab from '@mui/material/Fab';
+
 
 export function SignInView() {
-  const router = useRouter();
+  const navigate = useNavigate ();
 
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSignIn = useCallback(() => {
-    router.push('/');
-  }, [router]);
+    navigate('/home/');
+  }, [navigate]);
 
   const renderForm = (
     <Box display="flex" flexDirection="column" alignItems="flex-end">
       <TextField
         fullWidth
         name="email"
-        label="Email address"
-        defaultValue="hello@gmail.com"
+        label="Dirección de correo"
+        defaultValue="ejemplo@gmail.com"
         InputLabelProps={{ shrink: true }}
         sx={{ mb: 3 }}
       />
 
       <Link variant="body2" color="inherit" sx={{ mb: 1.5 }}>
-        Has olvidado tu contraseña?
+        ¿Has olvidado tu contraseña?
       </Link>
 
       <TextField
         fullWidth
         name="password"
-        label="Password"
-        defaultValue="@demo1234"
+        label="Contraseña"
+        defaultValue="@ejemplo.1234"
         InputLabelProps={{ shrink: true }}
         type={showPassword ? 'text' : 'password'}
         InputProps={{
@@ -66,19 +67,19 @@ export function SignInView() {
         variant="contained"
         onClick={handleSignIn}
       >
-        Sign in
+        Iniciar sesión
       </LoadingButton>
     </Box>
   );
-
+  //
   return (
     <>
       <Box gap={1.5} display="flex" flexDirection="column" alignItems="center" sx={{ mb: 5 }}>
-        <Typography variant="h5">Sign in</Typography>
+        <Typography variant="h5">Iniciar sesión</Typography>
         <Typography variant="body2" color="text.secondary">
-          Don’t have an account?
+        ¿No tienes una cuenta?
           <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-            Get started
+            Empezar
           </Link>
         </Typography>
       </Box>
@@ -90,19 +91,23 @@ export function SignInView() {
           variant="overline"
           sx={{ color: 'text.secondary', fontWeight: 'fontWeightMedium' }}
         >
-          OR
+          O
         </Typography>
       </Divider>
 
       <Box gap={1} display="flex" justifyContent="center">
         <IconButton color="inherit">
-          <Iconify icon="logos:google-icon" />
+          <Fab href="https://google.com/">
+            <Iconify icon="logos:google-icon" />
+          </Fab>
         </IconButton>
         <IconButton color="inherit">
           <Iconify icon="eva:github-fill" />
         </IconButton>
         <IconButton color="inherit">
-          <Iconify icon="ri:twitter-x-fill" />
+          <Fab href="https://homers-webpage.vercel.app/">
+            <Iconify icon="ri:twitter-x-fill" />
+          </Fab>
         </IconButton>
       </Box>
     </>
