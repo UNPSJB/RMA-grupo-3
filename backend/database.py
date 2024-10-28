@@ -26,8 +26,9 @@ class Nodo(Base):
     __tablename__ = "nodos"
 
     id = Column(Integer, primary_key=True, index=True)  
+    latitud = Column(Float)  # Agregar columna para latitud
+    longitud = Column(Float)  # Agregar columna para longitud
     datosGenerales = relationship("DatosGenerales", back_populates="nodos")
-    #temperaturas = relationship("Temperatura", back_populates="nodos")
 
 class DatosGenerales(Base):
     __tablename__ = "datosGenerales"

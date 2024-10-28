@@ -7,12 +7,12 @@ from database import Nodo  # Importa tu modelo desde el módulo correcto
 router = APIRouter()
 
 @router.post("/")
-def create_nodos(id: int, db: Session = Depends(get_db)):
+def create_nodos(id: int,latitud: float,longitud: float, db: Session = Depends(get_db)):
     existing_nodo = db.query(Nodo).filter(Nodo.id == id).first()
     if existing_nodo:
         raise HTTPException(status_code=400, detail="El ya existe")
 
-    nodo = Nodo(id=id)
+    nodo = Nodo(id=id, latitud=latitud, longitud=longitud)
     db.add(nodo)
     db.commit()
     db.refresh(nodo)
@@ -49,3 +49,5 @@ def delete_nodo(nodo_id: int, db: Session = Depends(get_db)):
     db.delete(nodo)
     db.commit()
     return {"detail": "Nodo eliminado"}
+
+

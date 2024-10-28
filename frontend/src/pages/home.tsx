@@ -8,6 +8,7 @@ import * as React from 'react';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
+import MapComponent from 'src/components/MapComponent'; 
 
 
 
@@ -26,7 +27,7 @@ export default function Page() {
       </Helmet>
 
       {/* <OverviewAnalyticsView /> */}
-
+      <MapComponent />
 
     </>
   );
