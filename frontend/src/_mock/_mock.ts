@@ -55,7 +55,7 @@ export const _fullName = (index: number) =>
     'Adam Trantow',
     'Brandon Von',
     'Willis Ankunding',
-  ][index];
+  ][index]; 
 
 export const _price = (index: number) =>
   [
@@ -145,7 +145,7 @@ export const _postTitles = (index: number) =>
     'Gradient Ticket icon',
     'Here’s a Dyson motorcycle concept that doesn’t ‘suck’!',
     'How to Animate a SVG with border-image',
-  ][index];
+  ][index]; 
 
 export const _description = (index: number) =>
   [
@@ -173,7 +173,7 @@ export const _description = (index: number) =>
     'Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support',
     'The Football Is Good For Training And Recreational Purposes',
     'The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive',
-  ][index];
+  ][index]; 
 
 export const _taskNames = (index: number) =>
   [
@@ -201,7 +201,7 @@ export const _taskNames = (index: number) =>
     `Conduct Quality Assurance`,
     `Plan Event Logistics`,
     `Optimize SEO Strategies`,
-  ][index];
+  ][index]; 
 
 export const _productNames = (index: number) =>
   [
@@ -229,4 +229,4 @@ export const _productNames = (index: number) =>
     'NikeCourt Royale',
     'Nike React Art3mis',
     'Nike React Infinity Run Flyknit A.I.R. Chaz Bear',
-  ][index];
+  ][index]; 
