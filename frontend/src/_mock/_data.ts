@@ -97,7 +97,7 @@ export const _products = [...Array(24)].map((_, index) => {
 });
 
 // ----------------------------------------------------------------------
-
+/*
 export const _langs = [
   {
     value: 'en',
@@ -114,7 +114,7 @@ export const _langs = [
     label: 'French',
     icon: '/assets/icons/flags/ic-flag-fr.svg',
   },
-];
+]; */
 
 // ----------------------------------------------------------------------
 
