@@ -31,11 +31,12 @@ export const _times = (index: number) =>
 
 export const _fullName = (index: number) =>
   [
-    'Billy Stoltenberg',
-    'Eloise Ebert',
-    'Teresa Luettgen',
-    'Salvador Mayert',
-    'Dr. Guadalupe Rath',
+    'Abel Maldonado',
+    'Alvaro Rojas Cuello',
+    'Carolina López Delgado',
+    'Franco Matamala',
+    'Adrian Griffiths',
+    /* 'Dr. Guadalupe Rath',
     'Kelvin Pouros',
     'Thelma Langworth',
     'Kristen Wunsch',
@@ -52,9 +53,9 @@ export const _fullName = (index: number) =>
     'Dr. Lee Doyle-Grant',
     'Cheryl Romaguera',
     'Billy Braun',
-    'Adam Trantow',
+    'Abel Maldonado',
     'Brandon Von',
-    'Willis Ankunding',
+    'Willis Ankunding', */
   ][index]; 
 
 export const _price = (index: number) =>
@@ -65,12 +66,12 @@ export const _price = (index: number) =>
 
 export const _company = (index: number) =>
   [
-    'Medhurst, Moore and Franey',
-    'Hahn, Homenick and Lind',
-    'Larkin LLC',
-    'Stamm, Larson and Mertz',
-    'Spencer, Raynor and Langosh',
-    'Lehner - Feeney',
+    'UNPSJB',
+    'UNPSJB',
+    'UNPSJB',
+    'UNPSJB',
+    'UNPSJB',
+    /* 'Lehner - Feeney',
     'Leuschke, Harris and Kuhlman',
     'Gutmann - Kassulke',
     'Turcotte - Runolfsson',
@@ -88,7 +89,7 @@ export const _company = (index: number) =>
     'White, Cassin and Goldner',
     'Mohr, Langworth and Hills',
     'Mitchell, Volkman and Prosacco',
-    'Streich Group',
+    'Streich Group', */
   ][index];
 
 export const _boolean = (index: number) =>
