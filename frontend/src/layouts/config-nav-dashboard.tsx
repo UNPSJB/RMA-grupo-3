@@ -8,20 +8,20 @@ const icon = (name: string) => (
 );
 
 export const navData = [
-  {
+  /* {
     title: 'Principal',
     path: '/',
     icon: icon('ic-analytics'),
-  },
-  {
-    title: 'Usuario',
-    path: '/user',
-    icon: icon('ic-user'),
+  }, */
+  { 
+    title: 'Gráficos',
+    path: '/graficos',
+    icon: icon('ic-analytics'),
   },
   {
     title: 'Nodos',
-    path: '/products',
-    icon: icon('ic-cart'),
+    path: '/nodos', 
+    icon: icon('nodos'),
     /* info: (
       <Label color="error" variant="inverted">
       +3
@@ -29,23 +29,23 @@ export const navData = [
     ),  */
   },
   {
-    title: 'Gráficos',
-    path: '/blog',
-    icon: icon('ic-blog'),
+    title: 'Usuarios',
+    path: '/user', 
+    icon: icon('usuario'),
   },
   {
     title: 'Configuración',
-    path: '/sign-in',
-    icon: icon('ic-lock'),
+    path: '/configuracion', // hacerle una pagina para sacarle el "sign in"
+    icon: icon('ajustes'),
   },
   {
     title: 'Regístros históricos',
-    path: '/404', // acá deberia acceder a la base y tener una lista con todos los datos cargados hasta el momento.
-    icon: icon('ic-analytics'),
+    path: '/registros_historicos', // acá deberia tener una lista con todos los datos cargados hasta el momento de hacer click.
+    icon: icon('documento'),
   },
-  {
+  /* {
     title: 'No encontrado',
     path: '/404',
     icon: icon('ic-disabled'),
-  },
+  }, */
 ];

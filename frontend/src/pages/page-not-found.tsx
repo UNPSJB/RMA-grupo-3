@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> {`404 page not found! | Error - ${CONFIG.appName}`}</title>
+        <title> {`404 página no encontrada! | Error - ${CONFIG.appName}`}</title>
       </Helmet>
 
       <NotFoundView />

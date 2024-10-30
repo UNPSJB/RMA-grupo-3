@@ -14,12 +14,13 @@ export function NotFoundView() {
     <SimpleLayout content={{ compact: true }}>
       <Container>
         <Typography variant="h3" sx={{ mb: 2 }}>
-          Sorry, page not found!
+        ¡Lo sentimos, página no encontrada!
         </Typography>
 
         <Typography sx={{ color: 'text.secondary' }}>
-          Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL? Be
-          sure to check your spelling.
+        Lo sentimos, no hemos podido encontrar la página que buscas. 
+        ¿Quizás has escrito mal la URL? 
+        Asegúrate de revisar tu ortografía..
         </Typography>
 
         <Box
@@ -33,7 +34,7 @@ export function NotFoundView() {
         />
 
         <Button component={RouterLink} href="/" size="large" variant="contained" color="inherit">
-          Go to home
+          Volver a la página de inicio
         </Button>
       </Container>
     </SimpleLayout>

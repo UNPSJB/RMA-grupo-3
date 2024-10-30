@@ -1,1 +1,1 @@
-export * from './products-view';
+export * from './nodos-view';

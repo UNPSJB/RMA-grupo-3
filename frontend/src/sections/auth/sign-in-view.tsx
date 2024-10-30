@@ -22,11 +22,11 @@ export function SignInView() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSignIn = useCallback(() => {
-    navigate('/home/');
+    navigate('/home'); // (blog = graficos) 
   }, [navigate]);
 
   const renderForm = (
-    <Box display="flex" flexDirection="column" alignItems="flex-end">
+    <Box display="flex" flexDirection="column" alignItems="flex-end" >
       <TextField
         fullWidth
         name="email"
@@ -69,7 +69,10 @@ export function SignInView() {
       >
         Iniciar sesión
       </LoadingButton>
+
+      
     </Box>
+    
   );
   //
   return (
@@ -77,10 +80,20 @@ export function SignInView() {
       <Box gap={1.5} display="flex" flexDirection="column" alignItems="center" sx={{ mb: 5 }}>
         <Typography variant="h5">Iniciar sesión</Typography>
         <Typography variant="body2" color="text.secondary">
-        ¿No tienes una cuenta?
-          <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-            Empezar
-          </Link>
+        {/* ¿No tienes una cuenta? */}
+          {/* <Link variant="subtitle2" sx={{ ml: 0.5 }}>
+            Registrar usuario nuevo
+          </Link> */}
+          {/* <LoadingButton
+            fullWidth
+            size="large"
+            type="submit"
+            color="inherit"
+            variant="contained"
+            onClick={handleSignIn}
+          >
+            Registrar usuario nuevo
+          </LoadingButton> */}
         </Typography>
       </Box>
 
@@ -95,7 +108,36 @@ export function SignInView() {
         </Typography>
       </Divider>
 
-      <Box gap={1} display="flex" justifyContent="center">
+    {/* <LoadingButton
+        fullWidth
+        size="large"
+        type="submit"
+        color="inherit"
+        variant="contained"
+        onClick={handleSignIn}
+      >
+        Registrar usuario nuevo
+      </LoadingButton> */}
+      <Box display="flex" justifyContent="center">
+        <LoadingButton 
+          size="medium" // Cambiar el tamaño a "medium" o "small" según preferencia
+          type="submit"
+          color="inherit" // usa un color predefinido como "primary" o "secondary"
+          variant="contained"
+          content="center"
+          onClick={handleSignIn}
+          sx={{
+            width: '200px',           // Ajusta el ancho 
+            backgroundColor: '#1976d2', // Cambiar a color deseado (este caso azul)
+            '&:hover': {
+              backgroundColor: '#115293', // Color al pasar el ratón por encima
+            },
+          }}
+        >
+          Registrar usuario nuevo
+        </LoadingButton>
+      </Box>
+      {/* <Box gap={1} display="flex" justifyContent="center">
         <IconButton color="inherit">
           <Fab href="https://google.com/">
             <Iconify icon="logos:google-icon" />
@@ -109,7 +151,7 @@ export function SignInView() {
             <Iconify icon="ri:twitter-x-fill" />
           </Fab>
         </IconButton>
-      </Box>
+      </Box> */}
     </>
   );
 }
