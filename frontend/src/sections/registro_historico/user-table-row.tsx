@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
-// import Avatar from '@mui/material/Avatar';
+import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
@@ -15,23 +15,23 @@ import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export type NodoProps = {
+export type UserProps = {
   id: string;
-  nodo: string;
-  bateria: string;
-  estado: string;
-  ubicacion: string; // -------------------------------------------------------------------------
-  // avatarUrl: string;
-  // isVerified: boolean;
+  name: string;
+  role: string;
+  status: string;
+  company: string;
+  avatarUrl: string;
+  isVerified: boolean;
 };
 
-type NodoTableRowProps = {
-  row: NodoProps;
+type UserTableRowProps = {
+  row: UserProps;
   selected: boolean;
   onSelectRow: () => void;
 };
 
-export function NodoTableRow({ row, selected, onSelectRow }: NodoTableRowProps) {
+export function UserTableRow({ row, selected, onSelectRow }: UserTableRowProps) {
   const [openPopover, setOpenPopover] = useState<HTMLButtonElement | null>(null);
 
   const handleOpenPopover = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
@@ -49,27 +49,27 @@ export function NodoTableRow({ row, selected, onSelectRow }: NodoTableRowProps) 
           <Checkbox disableRipple checked={selected} onChange={onSelectRow} />
         </TableCell>
 
-         <TableCell component="th" scope="row">
+        <TableCell component="th" scope="row">
           <Box gap={2} display="flex" alignItems="center">
-            {/* <Avatar alt={row.name} src={row.avatarUrl} /> */}
-            {row.nodo}
+            <Avatar alt={row.name} src={row.avatarUrl} />
+            {row.name}
           </Box>
-        </TableCell> 
+        </TableCell>
 
-        <TableCell>{row.ubicacion}</TableCell>
+        <TableCell>{row.company}</TableCell>
 
-        <TableCell>{row.bateria}</TableCell>
+        <TableCell>{row.role}</TableCell>
 
-        {/* <TableCell align="center">
+        <TableCell align="center">
           {row.isVerified ? (
             <Iconify width={22} icon="solar:check-circle-bold" sx={{ color: 'success.main' }} />
           ) : (
             '-'
           )}
-        </TableCell> */}
+        </TableCell>
 
         <TableCell>
-          <Label color={(row.estado === 'banned' && 'error') || 'success'}>{row.estado}</Label>
+          <Label color={(row.status === 'banned' && 'error') || 'success'}>{row.status}</Label>
         </TableCell>
 
         <TableCell align="right">

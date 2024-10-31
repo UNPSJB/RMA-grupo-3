@@ -1,6 +1,6 @@
-export const _id = (index: number) => `e99f09a7-dd88-49d5-b1c8-1daf80c2d7b${index}`;
+ export const _ide = (index: number) => `e99f09a7-dd88-49d5-b1c8-1daf80c2d7b${index}`;
 
-export const _times = (index: number) =>
+/* export const _times = (index: number) =>
   // 'MM/DD/YYYY'
   [
     '11/08/2023',
@@ -27,100 +27,45 @@ export const _times = (index: number) =>
     '06/27/2024',
     '10/19/2023',
     '08/09/2024',
-  ][index];
+  ][index]; */
 
-export const _fullName = (index: number) =>
+export const _fullNodo = (index: number) =>
   [
-    'Abel Maldonado',
-    'Alvaro Rojas Cuello',
-    'Carolina López Delgado',
-    'Franco Matamala',
-    'Adrian Griffiths',
-    /* 'Dr. Guadalupe Rath',
-    'Kelvin Pouros',
-    'Thelma Langworth',
-    'Kristen Wunsch',
-    'Steve Welch',
-    'Brian Jacobs',
-    'Lillie Schultz',
-    'Mr. Conrad Spinka',
-    'Charlene Krajcik',
-    'Kerry Kuhlman',
-    'Betty Hammes',
-    'Tony Paucek PhD',
-    'Sherri Davis',
-    'Angel Rolfson-Kulas',
-    'Dr. Lee Doyle-Grant',
-    'Cheryl Romaguera',
-    'Billy Braun',
-    'Abel Maldonado',
-    'Brandon Von',
-    'Willis Ankunding', */
+    'Nodo 1',
+    'Nodo 2',
+    'Nodo 3',
+    'Nodo 4',
+    'Nodo 5',
+    'Nodo 6',
   ][index]; 
 
-export const _price = (index: number) =>
+export const _ubicacion = (index: number) =>
+  [
+    'lat - long',
+    'lat - long',
+    'lat - long',
+    'lat - long',
+    'lat - long',
+    
+  ][index];
+
+export const _bulean = (index: number) =>
+  [
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+  ][index];
+
+/* export const _price = (index: number) =>
   [
     35.17, 57.22, 64.78, 50.79, 9.57, 61.46, 96.73, 63.04, 33.18, 36.3, 54.42, 20.52, 62.82, 19.96,
     25.93, 70.39, 23.11, 67.23, 14.31, 31.5, 26.72, 44.8, 37.87, 75.53,
-  ][index];
+  ][index]; */
 
-export const _company = (index: number) =>
-  [
-    'UNPSJB',
-    'UNPSJB',
-    'UNPSJB',
-    'UNPSJB',
-    'UNPSJB',
-    /* 'Lehner - Feeney',
-    'Leuschke, Harris and Kuhlman',
-    'Gutmann - Kassulke',
-    'Turcotte - Runolfsson',
-    'Howe - Anderson',
-    'Sipes - Yost',
-    'Johns - Aufderhar',
-    'Schmidt LLC',
-    'Smitham - Gerlach',
-    'Waelchi - VonRueden',
-    'Padberg - Macejkovic',
-    'Lemke - Ferry',
-    'Koch and Sons',
-    'Klein - Rolfson',
-    'Weimann LLC',
-    'White, Cassin and Goldner',
-    'Mohr, Langworth and Hills',
-    'Mitchell, Volkman and Prosacco',
-    'Streich Group', */
-  ][index];
-
-export const _boolean = (index: number) =>
-  [
-    true,
-    false,
-    true,
-    false,
-    true,
-    true,
-    true,
-    false,
-    false,
-    true,
-    false,
-    true,
-    true,
-    false,
-    true,
-    false,
-    false,
-    true,
-    false,
-    false,
-    false,
-    true,
-    true,
-    false,
-  ][index];
-
-export const _postTitles = (index: number) =>
+/* export const _postTitles = (index: number) =>
   [
     'Whiteboard Templates By Industry Leaders',
     'Tesla Cybertruck-inspired camper trailer for Tesla fans who can’t just wait for the truck!',
@@ -146,9 +91,9 @@ export const _postTitles = (index: number) =>
     'Gradient Ticket icon',
     'Here’s a Dyson motorcycle concept that doesn’t ‘suck’!',
     'How to Animate a SVG with border-image',
-  ][index]; 
+  ][index];  */
 
-export const _description = (index: number) =>
+/* export const _description = (index: number) =>
   [
     'The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J',
     'New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart',
@@ -174,9 +119,9 @@ export const _description = (index: number) =>
     'Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support',
     'The Football Is Good For Training And Recreational Purposes',
     'The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive',
-  ][index]; 
+  ][index]; */ 
 
-export const _taskNames = (index: number) =>
+/* export const _taskNames = (index: number) =>
   [
     `Prepare Monthly Financial Report`,
     `Design New Marketing Campaign`,
@@ -202,9 +147,9 @@ export const _taskNames = (index: number) =>
     `Conduct Quality Assurance`,
     `Plan Event Logistics`,
     `Optimize SEO Strategies`,
-  ][index]; 
+  ][index];  */
 
-export const _productNames = (index: number) =>
+/* export const _productNames = (index: number) =>
   [
     'Nike Air Force 1 NDESTRUKT',
     'Nike Space Hippie 04',
@@ -230,5 +175,11 @@ export const _productNames = (index: number) =>
     'NikeCourt Royale',
     'Nike React Art3mis',
     'Nike React Infinity Run Flyknit A.I.R. Chaz Bear',
-  ][index]; 
+  ][index];  */
 
+  
+  
+
+    
+    
+    

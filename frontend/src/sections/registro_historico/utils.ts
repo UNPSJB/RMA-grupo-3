@@ -1,4 +1,4 @@
-import type { NodoProps } from './nodo-table-row';
+import type { UserProps } from './user-table-row';
 
 // ----------------------------------------------------------------------
 
@@ -53,13 +53,13 @@ export function getComparator<Key extends keyof any>(
 // ----------------------------------------------------------------------
 
 type ApplyFilterProps = {
-  inputDato: NodoProps[];
+  inputData: UserProps[];
   filterName: string;
   comparator: (a: any, b: any) => number;
 };
 
-export function applyFilter({ inputDato, comparator, filterName }: ApplyFilterProps) {
-  const stabilizedThis = inputDato.map((el, index) => [el, index] as const);
+export function applyFilter({ inputData, comparator, filterName }: ApplyFilterProps) {
+  const stabilizedThis = inputData.map((el, index) => [el, index] as const);
 
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -67,13 +67,13 @@ export function applyFilter({ inputDato, comparator, filterName }: ApplyFilterPr
     return a[1] - b[1];
   });
 
-  inputDato = stabilizedThis.map((el) => el[0]);
+  inputData = stabilizedThis.map((el) => el[0]);
 
   if (filterName) {
-    inputDato = inputDato.filter(
-      (nodo) => nodo.nodo.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+    inputData = inputData.filter(
+      (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 
-  return inputDato;
+  return inputData;
 }

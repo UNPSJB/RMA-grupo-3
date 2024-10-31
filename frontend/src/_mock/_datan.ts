@@ -1,51 +1,46 @@
 import {
-  _id,
-  _price,
-  _times,
-  _company,
-  _boolean,
-  _fullName,
-  _taskNames,
-  _postTitles,
-  _description,
-  _productNames,
-} from './_mock';
+   _ide,
+  /* _price,
+  _times, */
+  _ubicacion,
+  _bulean,
+  _fullNodo,
+  // _taskNames,
+  /* _postTitles,
+  _description, */
+  // _productNames,
+} from './_mockn';
 
 // ----------------------------------------------------------------------
 
-export const _myAccount = {
+/* export const _myAccount = {
   displayName: 'Jaydon Frankie',
   email: 'demo@minimals.cc',
   photoURL: '/assets/images/avatar/avatar-25.webp',
-};
+}; */
 
-// ----------------------------------------------------------------------
-
-export const _users = [...Array(24)].map((_, index) => ({
-  id: _id(index),
-  name: _fullName(index),
-  company: _company(index),
-  isVerified: _boolean(index),
-  avatarUrl: `/assets/images/avatar/avatar-${index + 1}.webp`,
-  status: index % 4 ? 'active' : 'banned',
-  role:
+// ---------------------------------------------------------------------- este de abajo es copia de arriba
+ 
+export const _nodos = [...Array(24)].map((_, index) => ({
+  id: _ide(index),
+  nodo: _fullNodo(index),
+  ubicacion: _ubicacion(index),
+  // isVerified: _boolean(index),
+  // avatarUrl: `/assets/images/avatar/avatar-${index + 1}.webp`,
+  estado: index % 6 ? 'activo' : 'activo',
+  bateria:
     [
-      'Estudiante',
-      'Estudiante',
-      'Estudiante',
-      'Estudiante',
-      'Estudiante',
-      /* 'Project Manager',
-      'Backend Developer',
-      'Full Stack Designer',
-      'Front End Developer',
-      'Full Stack Developer', */
+      '85 %',
+      '70 %',
+      '15 %',
+      '84 %',
+      '73 %',
     ][index] || 'UI Designer',
 }));
 
 // ----------------------------------------------------------------------
 
-export const _posts = [...Array(23)].map((_, index) => ({
+/* export const _posts = [...Array(23)].map((_, index) => ({
   id: _id(index),
   title: _postTitles(index),
   description: _description(index),
@@ -56,11 +51,11 @@ export const _posts = [...Array(23)].map((_, index) => ({
   totalFavorites: 8870,
   postedAt: _times(index),
   author: {
-    name: _fullName(index),
-    avatarUrl: `/assets/images/avatar/avatar-${index + 1}.webp`,
+    name: _fullNodo(index),
+    // avatarUrl: `/assets/images/avatar/avatar-${index + 1}.webp`,
   },
 }));
-
+ */
 // ----------------------------------------------------------------------
 
 const COLORS = [
@@ -74,7 +69,7 @@ const COLORS = [
   '#FFC107',
 ];
 
-export const _products = [...Array(24)].map((_, index) => {
+/* export const _products = [...Array(24)].map((_, index) => {
   const setIndex = index + 1;
 
   return {
@@ -95,30 +90,11 @@ export const _products = [...Array(24)].map((_, index) => {
       ([1, 3, 5].includes(setIndex) && 'sale') || ([4, 8, 12].includes(setIndex) && 'new') || '',
   };
 });
-
-// ----------------------------------------------------------------------
-/*
-export const _langs = [
-  {
-    value: 'en',
-    label: 'English',
-    icon: '/assets/icons/flags/ic-flag-en.svg',
-  }, 
-  {
-    value: 'de',
-    label: 'German',
-    icon: '/assets/icons/flags/ic-flag-de.svg',
-  },
-  {
-    value: 'fr',
-    label: 'French',
-    icon: '/assets/icons/flags/ic-flag-fr.svg',
-  },
-]; */
+ */
 
 // ----------------------------------------------------------------------
 
-export const _timeline = [...Array(5)].map((_, index) => ({
+/* export const _timeline = [...Array(5)].map((_, index) => ({
   id: _id(index),
   title: [
     '1983, orders, $4220',
@@ -129,22 +105,22 @@ export const _timeline = [...Array(5)].map((_, index) => ({
   ][index],
   type: `order${index + 1}`,
   time: _times(index),
-}));
+})); */
 
 // ----------------------------------------------------------------------
 
-export const _tasks = [...Array(5)].map((_, index) => ({
+/* export const _tasks = [...Array(5)].map((_, index) => ({
   id: _id(index),
-  name: _taskNames(index),
-}));
+  // name: _taskNames(index),
+})); */
 
 // ----------------------------------------------------------------------
 
-export const _notifications = [
+/* export const _notifications = [
   {
     id: _id(1),
-    title: 'Alerta roja!',
-    description: 'el rio se esta desbordando!',
+    title: 'Your order is placed',
+    description: 'waiting for shipping',
     avatarUrl: null,
     type: 'order-placed',
     postedAt: _times(1),
@@ -152,14 +128,14 @@ export const _notifications = [
   },
   {
     id: _id(2),
-    title: 'Bateria de nodo:',
-    description: 'La bateria del nodo 3 se esta agotando!',
-    avatarUrl: null,
-    type: 'order-placed',
+    title: _fullNodo(2),
+    description: 'answered to your comment on the Minimal',
+    avatarUrl: '/assets/images/avatar/avatar-2.webp',
+    type: 'friend-interactive',
     postedAt: _times(2),
     isUnRead: true,
   },
-  /* {
+  {
     id: _id(3),
     title: 'You have new message',
     description: '5 unread messages',
@@ -185,5 +161,5 @@ export const _notifications = [
     type: 'order-shipped',
     postedAt: _times(5),
     isUnRead: false,
-  }, */
-];
+  },
+]; */

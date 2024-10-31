@@ -9,30 +9,30 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
-import { _nodos } from 'src/_mock';
+import { _users } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 
 import { TableNoData } from '../table-no-data';
-import { NodoTableRow } from '../nodo-table-row';
-import { NodoTableHead } from '../nodo-table-head';
+import { UserTableRow } from '../user-table-row';
+import { UserTableHead } from '../user-table-head';
 import { TableEmptyRows } from '../table-empty-rows';
-import { NodoTableToolbar } from '../nodo-table-toolbar';
+import { UserTableToolbar } from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
-import type { NodoProps } from '../nodo-table-row';
+import type { UserProps } from '../user-table-row';
 
 // ----------------------------------------------------------------------
 
-export function NodoView() {
+export function UserView() {
   const table = useTable();
 
   const [filterName, setFilterName] = useState('');
 
-  const dataFiltered: NodoProps[] = applyFilter({
-    inputDato: _nodos,
+  const dataFiltered: UserProps[] = applyFilter({
+    inputData: _users,
     comparator: getComparator(table.order, table.orderBy),
     filterName,
   });
@@ -43,19 +43,19 @@ export function NodoView() {
     <DashboardContent>
       <Box display="flex" alignItems="center" mb={5}>
         <Typography variant="h4" flexGrow={1}>
-          Nodos
+          Usuarios
         </Typography>
         <Button
           variant="contained"
           color="inherit"
           startIcon={<Iconify icon="mingcute:add-line" />}
         >
-          Agregar nodo
+          Config
         </Button>
       </Box>
 
       <Card>
-        <NodoTableToolbar
+        <UserTableToolbar
           numSelected={table.selected.length}
           filterName={filterName}
           onFilterName={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,26 +67,25 @@ export function NodoView() {
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
-              <NodoTableHead
+              <UserTableHead
                 order={table.order}
                 orderBy={table.orderBy}
-                rowCount={_nodos.length}
+                rowCount={_users.length}
                 numSelected={table.selected.length}
                 onSort={table.onSort}
                 onSelectAllRows={(checked) =>
                   table.onSelectAllRows(
                     checked,
-                    _nodos.map((nodo) => nodo.id)
+                    _users.map((user) => user.id)
                   )
                 }
                 headLabel={[
-                  { id: 'name', label: 'Nodo' },
-                  { id: 'company', label: 'Ubicación' },
-                  { id: 'role', label: 'Batería' },
+                  { id: 'name', label: 'Name' },
+                  { id: 'company', label: 'Company' },
+                  { id: 'role', label: 'Role' },
+                  { id: 'isVerified', label: 'Verified', align: 'center' },
                   { id: 'status', label: 'Status' },
-                  // { id: '' },
-                  // { id: 'isVerified', label: 'Verified', align: 'center' },
-
+                  { id: '' },
                 ]}
               />
               <TableBody>
@@ -96,7 +95,7 @@ export function NodoView() {
                     table.page * table.rowsPerPage + table.rowsPerPage
                   )
                   .map((row) => (
-                    <NodoTableRow
+                    <UserTableRow
                       key={row.id}
                       row={row}
                       selected={table.selected.includes(row.id)}
@@ -106,7 +105,7 @@ export function NodoView() {
 
                 <TableEmptyRows
                   height={68}
-                  emptyRows={emptyRows(table.page, table.rowsPerPage, _nodos.length)}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, _users.length)}
                 />
 
                 {notFound && <TableNoData searchQuery={filterName} />}
@@ -118,7 +117,7 @@ export function NodoView() {
         <TablePagination
           component="div"
           page={table.page}
-          count={_nodos.length}
+          count={_users.length}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}
           rowsPerPageOptions={[5, 10, 25]}

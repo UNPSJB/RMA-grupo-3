@@ -51,7 +51,7 @@ export function DashboardLayout({ sx, children, header }: DashboardLayoutProps) 
           slotProps={{
             container: {
               maxWidth: false,
-              sx: { px: { [layoutQuery]: 5 } },
+              sx: { px: { [layoutQuery]: 3 } },
             },
           }}
           sx={header?.sx}
@@ -91,12 +91,12 @@ export function DashboardLayout({ sx, children, header }: DashboardLayoutProps) 
                       icon: <Iconify width={22} icon="solar:home-angle-bold-duotone" />,
                     },
                     {
-                      label: 'Profile',
+                      label: 'Perfil',
                       href: '#',
                       icon: <Iconify width={22} icon="solar:shield-keyhole-bold-duotone" />,
                     },
                     {
-                      label: 'Settings',
+                      label: 'Configuraciones',
                       href: '#',
                       icon: <Iconify width={22} icon="solar:settings-bold-duotone" />,
                     },
@@ -124,7 +124,7 @@ export function DashboardLayout({ sx, children, header }: DashboardLayoutProps) 
         '--layout-nav-vertical-width': '300px',
         '--layout-dashboard-content-pt': theme.spacing(1),
         '--layout-dashboard-content-pb': theme.spacing(8),
-        '--layout-dashboard-content-px': theme.spacing(5),
+        '--layout-dashboard-content-px': theme.spacing(2),
       }}
       sx={{
         [`& .${layoutClasses.hasSidebar}`]: {

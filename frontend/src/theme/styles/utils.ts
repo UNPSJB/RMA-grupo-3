@@ -3,7 +3,7 @@
 export const stylesMode = {
   light: '[data-mui-color-scheme="light"] &',
   dark: '[data-mui-color-scheme="dark"] &',
-};
+}; 
 
 export const mediaQueries = {
   upXs: '@media (min-width:0px)',
