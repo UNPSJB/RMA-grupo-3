@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Line } from 'react-chartjs-2';
+import { Line , Bar } from 'react-chartjs-2';
+
 import { Chart, registerables } from 'chart.js';
 
 // Registrar todos los componentes de Chart.js
+
 Chart.register(...registerables);
+
 
 // Definición del tipo de dato DatosGenerales
 interface DatosGenerales {
@@ -118,6 +121,18 @@ const DatosGeneralesChart: React.FC = () => {
   const handleTipoChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedTipo(event.target.value); // Actualiza el tipo seleccionado
   };
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Gráfico de Barras de Datos Generales',
+      },
+    },
+    }
 
   return (
     <div>
@@ -142,6 +157,7 @@ const DatosGeneralesChart: React.FC = () => {
       </select>
 
       <Line data={chartData} />
+      <Bar data={chartData} options={options} />
     </div>
   );
 };

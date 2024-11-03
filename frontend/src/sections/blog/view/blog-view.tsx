@@ -22,6 +22,7 @@ import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
 import TemperatureChart from 'src/components/TemperatureChart'; 
 import Temperaturas from 'src/components/prueba'; 
 
+
 import { PostItem } from '../post-item';
 import { PostSort } from '../post-sort';
 import { PostSearch } from '../post-search';
