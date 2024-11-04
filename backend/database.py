@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime, ForeignKey#, Date, Time
+from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime, ForeignKey, Boolean#, Date, Time
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
@@ -22,12 +22,17 @@ class Usuario(Base):
     def __repr__(self):
         return f"<Usuario(user={self.user})>"
 
+
 class Nodo(Base):
     __tablename__ = "nodos"
 
-    id = Column(Integer, primary_key=True, index=True)  
-    latitud = Column(Float)  # Agregar columna para latitud
-    longitud = Column(Float)  # Agregar columna para longitud
+    id = Column(Integer, primary_key=True, index=True)
+    latitud = Column(Float)  # Columna para latitud
+    longitud = Column(Float)  # Columna para longitud
+    alias = Column(String, nullable=True)  # Alias del nodo (opcional)
+    descripcion = Column(String, nullable=True)  # Descripción del nodo
+    estado = Column(Boolean, default=True)  # Estado del nodo (activo o inactivo)
+    
     datosGenerales = relationship("DatosGenerales", back_populates="nodos")
 
 class DatosGenerales(Base):
