@@ -7,6 +7,8 @@ interface Nodo {
     id: number;
     latitud: number;
     longitud: number;
+    alias: string; // Nuevo campo para alias
+    estado: number; // Nuevo campo para estado
 }
 
 const MapComponent: React.FC = () => {
@@ -27,7 +29,7 @@ const MapComponent: React.FC = () => {
         // Llamar a fetchNodos de inmediato
         fetchNodos();
 
-        // Intervalo de actualizacion
+        // Intervalo de actualización
         const intervalId = setInterval(fetchNodos, 10000); // 10 segundos en milisegundos
 
         // Limpiar el intervalo al desmontar el componente
@@ -78,10 +80,32 @@ const MapComponent: React.FC = () => {
         });
 
         // Agregar un marcador por cada nodo
-        nodos.forEach(({ id, latitud, longitud }) => {
-            L.marker([latitud, longitud])
-                .addTo(map)
-                .bindPopup(`Nodo ${id}`);
+        nodos.forEach(({ id, latitud, longitud, alias, estado }) => {
+            const marker = L.marker([latitud, longitud]).addTo(map);
+            
+            // Información que se mostrará en el popup
+            const popupContent = `
+                <b>Nodo ${id}</b><br>
+                ${alias ? `Alias: ${alias}<br>` : ''} 
+                Latitud: ${latitud.toFixed(6)}<br>
+                Longitud: ${longitud.toFixed(6)}<br>
+                Estado: ${estado === 1 ? 'Activo' : 'Inactivo'}<br>
+                 <button onclick="navigateToDetail(${id})" style="
+                    margin-top: 10px; 
+                    padding: 8px 12px; 
+                    color: white; 
+                    background-color: #007bff; 
+                    border: none; 
+                    border-radius: 5px; 
+                    cursor: pointer;
+                    font-size: 14px;
+                ">
+                    Ver detalles
+                 </button>
+            `;
+
+            // Asignar el popup al marcador
+            marker.bindPopup(popupContent);
         });
     }, [nodos, map]); // Ejecutar este efecto cuando `nodos` o `map` cambien
 
