@@ -26,7 +26,6 @@ export const _ubicacion2 = (index: number) =>
     
   ][index];
 
-
 export const _temperatura = (index: number) =>
 [
   'Max - min',
@@ -54,8 +53,6 @@ export const _boolean2 = (index: number) =>
     true,
     false,
   ][index];
-
-  
 
 /* export const _price = (index: number) =>
   [

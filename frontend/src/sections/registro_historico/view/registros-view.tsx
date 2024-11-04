@@ -48,9 +48,10 @@ export function RegistroView() {
         <Button
           variant="contained"
           color="inherit"
-          startIcon={<Iconify icon="mingcute:add-line" />}
+          startIcon={<Iconify icon="mingcute:download-3-line" />}
+          
         >
-          Agregar nodo
+          Descargar reporte
         </Button>
       </Box>
 
