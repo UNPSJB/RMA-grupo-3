@@ -1,4 +1,4 @@
- export const _ide = (index: number) => `e99f09a7-dd88-49d5-b1c8-1daf80c2d7b${index}`;
+ export const _id1 = (index: number) => `e99f09a7-dd88-49d5-b1c8-1daf80c2d7b${index}`;
 
 /* export const _times = (index: number) =>
   // 'MM/DD/YYYY'
@@ -29,7 +29,7 @@
     '08/09/2024',
   ][index]; */
 
-export const _fullNodo = (index: number) =>
+export const _fullNodo1 = (index: number) =>
   [
     'Nodo 1',
     'Nodo 2',
@@ -39,7 +39,7 @@ export const _fullNodo = (index: number) =>
     'Nodo 6',
   ][index]; 
 
-export const _ubicacion = (index: number) =>
+export const _ubicacion1 = (index: number) =>
   [
     'lat - long',
     'lat - long',
@@ -49,7 +49,7 @@ export const _ubicacion = (index: number) =>
     
   ][index];
 
-export const _bulean = (index: number) =>
+export const _boolean1 = (index: number) =>
   [
     true,
     true,

@@ -5,7 +5,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Pagination from '@mui/material/Pagination';
 import Typography from '@mui/material/Typography';
 
-import { _products } from 'src/_mock';
+/* import { _products } from 'src/_mock'; */
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { ProductItem } from '../product-item';
@@ -130,14 +130,14 @@ export function ProductsView() {
         </Box>
       </Box>
 
-      <Grid container spacing={3}>
+      {/* <Grid container spacing={3}>
         {_products.map((product) => (
           <Grid key={product.id} xs={12} sm={6} md={3}>
             <ProductItem product={product} />
           </Grid>
         ))}
       </Grid>
-
+ */}
       <Pagination count={10} color="primary" sx={{ mt: 8, mx: 'auto' }} />
     </DashboardContent>
   );

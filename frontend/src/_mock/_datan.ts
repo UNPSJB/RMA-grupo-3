@@ -1,10 +1,10 @@
 import {
-   _ide,
+   _id1,
   /* _price,
   _times, */
-  _ubicacion,
-  _bulean,
-  _fullNodo,
+  _ubicacion1,
+  _boolean1,
+  _fullNodo1,
   // _taskNames,
   /* _postTitles,
   _description, */
@@ -22,9 +22,9 @@ import {
 // ---------------------------------------------------------------------- este de abajo es copia de arriba
  
 export const _nodos = [...Array(24)].map((_, index) => ({
-  id: _ide(index),
-  nodo: _fullNodo(index),
-  ubicacion: _ubicacion(index),
+  id: _id1(index),
+  nodo: _fullNodo1(index),
+  ubicacion: _ubicacion1(index),
   // isVerified: _boolean(index),
   // avatarUrl: `/assets/images/avatar/avatar-${index + 1}.webp`,
   estado: index % 6 ? 'activo' : 'activo',

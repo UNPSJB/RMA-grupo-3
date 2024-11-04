@@ -16,6 +16,7 @@ export const UserPage = lazy(() => import('src/pages/user'));
 export const SignInPage = lazy(() => import('src/pages/sign-in'));
 export const NodosPage = lazy(() => import('src/pages/nodos'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
+export const RegistroPage = lazy(() => import('src/pages/registro'));
 
 // ----------------------------------------------------------------------
 
@@ -33,9 +34,27 @@ const renderFallback = (
 );
 
 export function Router() {
+
   return useRoutes([
     {
-      path: '/',
+      path:'/',
+      element: <Navigate to = "/login" replace />
+    },
+
+    {
+      // Sign in
+      path: '/login',
+      element: (
+        <AuthLayout>
+          <SignInPage />
+        </AuthLayout>
+      ),
+      children: [
+        { element:<SignInPage />, path: '/login' , index: true },
+      ]
+    },
+    {
+      path: '/dashboard',
       element: (
         <DashboardLayout>
           <Suspense fallback={renderFallback}>
@@ -49,29 +68,18 @@ export function Router() {
         { path: 'nodos', element: <NodosPage /> },
         { path: 'graficos', element: <GraficosPage /> }, // blog
         { path: 'home', element: <HomePage /> },
-        { path: 'registros_historicos', element: <HomePage /> },
+        { path: 'registros_historicos', element: <RegistroPage /> },
         { path: 'configuracion', element: <HomePage /> },
       ],
     },
 
-    {
-      // Sign in
-      element: (
-        <AuthLayout>
-          <SignInPage />
-        </AuthLayout>
-      ),
-      children: [
-        { element:<SignInPage />, path: '/login' , index: true },
-      ]
-    },
     {
       path: '404',
       element: <Page404 />,
     },
     {
       path: '*',
-      element: <Navigate to="/404" replace />,
+      element: <Navigate to="/dashboard" replace />,
     },
   ]);
 }
