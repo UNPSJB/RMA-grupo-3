@@ -13,18 +13,27 @@ const MapComponent: React.FC = () => {
     const [nodos, setNodos] = useState<Nodo[]>([]);
     const [map, setMap] = useState<L.Map | null>(null);
 
-    // Fetch de nodos solo una vez al montar el componente
-    useEffect(() => {
-        const fetchNodos = async () => {
-            try {
-                const response = await axios.get('http://127.0.0.1:8000/nodos/');
-                setNodos(response.data);
-            } catch (error) {
-                console.error("Error al obtener los nodos:", error);
-            }
-        };
+    // Fetch de nodos
+    const fetchNodos = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:8000/nodos/');
+            setNodos(response.data);
+        } catch (error) {
+            console.error("Error al obtener los nodos:", error);
+        }
+    };
 
+    useEffect(() => {
+        // Llamar a fetchNodos de inmediato
         fetchNodos();
+
+        // Intervalo de actualizacion
+        const intervalId = setInterval(fetchNodos, 10000); // 10 segundos en milisegundos
+
+        // Limpiar el intervalo al desmontar el componente
+        return () => {
+            clearInterval(intervalId);
+        };
     }, []); // Lista de dependencias vacía para ejecutar solo una vez
 
     // Inicializar el mapa solo una vez al montar el componente
@@ -61,8 +70,15 @@ const MapComponent: React.FC = () => {
     useEffect(() => {
         if (!map) return; // Esperar hasta que el mapa esté inicializado
 
+        // Limpiar los marcadores anteriores
+        map.eachLayer((layer) => {
+            if (layer instanceof L.Marker) {
+                map.removeLayer(layer);
+            }
+        });
+
         // Agregar un marcador por cada nodo
-        nodos.forEach(({ id, latitud, longitud }, index) => {
+        nodos.forEach(({ id, latitud, longitud }) => {
             L.marker([latitud, longitud])
                 .addTo(map)
                 .bindPopup(`Nodo ${id}`);

@@ -15,6 +15,7 @@ def create_nodo(id: int, latitud: float, longitud: float, alias: str = None, des
     db.add(nodo)
     db.commit()
     db.refresh(nodo)
+    
     return nodo
 
 @router.get("/")
@@ -48,6 +49,7 @@ def update_nodo(nodo_id: int, latitud: float = None, longitud: float = None, ali
 
     db.commit()
     db.refresh(nodo)
+
     return nodo
 
 @router.delete("/{nodo_id}")
@@ -58,4 +60,5 @@ def delete_nodo(nodo_id: int, db: Session = Depends(get_db)):
     
     db.delete(nodo)
     db.commit()
+
     return {"detail": "Nodo eliminado"}
