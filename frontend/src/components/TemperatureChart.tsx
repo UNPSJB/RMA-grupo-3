@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Line , Bar } from 'react-chartjs-2';
-
+import { Line, Bar } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 
 // Registrar todos los componentes de Chart.js
-
 Chart.register(...registerables);
-
 
 // Definición del tipo de dato DatosGenerales
 interface DatosGenerales {
@@ -17,7 +14,7 @@ interface DatosGenerales {
 
 interface Nodo {
   id: number;   // ID del nodo
-  name: string; // Nombre del nodo
+  alias: string; // Nombre del nodo
 }
 
 const DatosGeneralesChart: React.FC = () => {
@@ -89,10 +86,10 @@ const DatosGeneralesChart: React.FC = () => {
           labels: times,
           datasets: [
             {
-              label: 'Datos Generales',
+              label: selectedTipo === 'temp_t' ? 'Temperatura' : selectedTipo === 'altitude_t' ? 'Altitud' : 'Tensión',
               data: valoresDato,
-              backgroundColor: 'rgba(75, 192, 192, 0.5)',
-              borderColor: 'rgba(75, 192, 192, 1)',
+              backgroundColor: 'rgba(75, 192, 192, 0.5)', // Color fijo
+              borderColor: 'rgba(75, 192, 192, 1)', // Color fijo
               borderWidth: 1,
             },
           ],
@@ -121,6 +118,7 @@ const DatosGeneralesChart: React.FC = () => {
   const handleTipoChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedTipo(event.target.value); // Actualiza el tipo seleccionado
   };
+
   const options = {
     responsive: true,
     plugins: {
@@ -129,10 +127,10 @@ const DatosGeneralesChart: React.FC = () => {
       },
       title: {
         display: true,
-        text: 'Gráfico de Barras de Datos Generales',
+        text: 'Gráfico de Datos Generales',
       },
     },
-    }
+  }
 
   return (
     <div>
@@ -143,7 +141,7 @@ const DatosGeneralesChart: React.FC = () => {
         <option value="">Seleccionar un nodo</option>
         {nodos.map((nodo) => (
           <option key={nodo.id} value={nodo.id}>
-            {nodo.id} {/* Muestra el nombre del nodo */}
+            {nodo.id} - {nodo.alias} {/* Muestra el ID y el nombre del nodo */}
           </option>
         ))}
       </select>
@@ -153,7 +151,7 @@ const DatosGeneralesChart: React.FC = () => {
         <option value="">Seleccionar tipo de dato</option>
         <option value="altitude_t">Altitud</option>
         <option value="temp_t">Temperatura</option>
-        <option value="voltage_t">Voltaje</option>
+        <option value="voltage_t">Tensión</option>
       </select>
 
       <Line data={chartData} />
