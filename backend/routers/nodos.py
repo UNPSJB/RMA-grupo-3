@@ -1,7 +1,11 @@
+import os
+import pandas as pd
 from fastapi import APIRouter, HTTPException, Depends
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from dependencies import get_db  # Asegúrate de que esto es correcto
 from database import Nodo  # Importa tu modelo desde el módulo correcto
+
 
 router = APIRouter()
 
@@ -21,6 +25,37 @@ def create_nodo(id: int, latitud: float, longitud: float, alias: str = None, des
 @router.get("/")
 def get_nodos(db: Session = Depends(get_db)):
     return db.query(Nodo).all()
+
+@router.get("/export-csv")
+def export_csv(db: Session = Depends(get_db)):
+    csv_path = './output.csv'
+    try:
+        if os.path.exists(csv_path):
+            os.remove(csv_path)
+
+        # Paso 1: Consulta la tabla usando SQLAlchemy
+        rows = db.query(Nodo).all()
+        
+        # Paso 2: Convierte los resultados en una lista de diccionarios
+        data = [
+            {column.name: getattr(row, column.name) for column in Nodo.__table__.columns}
+            for row in rows
+        ]
+
+        # Paso 3: Convierte la lista de diccionarios en un DataFrame de pandas
+        df = pd.DataFrame(data)
+
+        # Paso 4: Genera el archivo CSV
+        df.to_csv(csv_path, index=False)
+
+        # Paso 5: Envía el archivo para descarga
+        #return send_file(csv_path, as_attachment=True, download_name='data.csv')
+        #return FileResponse(csv_path, media_type="application/octet-stream", filename=csv_path)
+        return FileResponse(csv_path, media_type="text/csv", filename="data.csv")
+
+    except Exception as e:
+        raise HTTPException(status_code=404, detail={"error": str(e)})
+
 
 @router.get("/{nodo_id}")
 def get_nodo(nodo_id: int, db: Session = Depends(get_db)):
@@ -62,3 +97,15 @@ def delete_nodo(nodo_id: int, db: Session = Depends(get_db)):
     db.commit()
 
     return {"detail": "Nodo eliminado"}
+
+
+# class YourTable(db.Model):
+#     __tablename__ = 'nodos'  # Cambia el nombre a tu tabla
+
+#     # Define las columnas de la tabla (ejemplo)
+#     id = Column(Integer, primary_key=True, index=True)
+#     latitud = Column(Float)  # Columna para latitud
+#     longitud = Column(Float)  # Columna para longitud
+#     # Agrega más columnas según tu tabla
+
+

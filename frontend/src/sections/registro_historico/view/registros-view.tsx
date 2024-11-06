@@ -15,6 +15,8 @@ import { DashboardContent } from 'src/layouts/dashboard';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 
+import ExportadorCsv from 'src/components/ExportadorCsv'; 
+
 import { TableNoData } from '../table-no-data';
 import { RegistroTableRow } from '../registro-table-row';
 import { RegistroTableHead } from '../registro-table-head';
@@ -45,14 +47,9 @@ export function RegistroView() {
         <Typography variant="h4" flexGrow={1}>
           Registros Históricos
         </Typography>
-        <Button
-          variant="contained"
-          color="inherit"
-          startIcon={<Iconify icon="mingcute:download-3-line" />}
-          
-        >
-          Descargar reporte
-        </Button>
+
+        <ExportadorCsv/>
+        {/* </Button> */}
       </Box>
 
       <Card>
