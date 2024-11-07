@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from dependencies import get_db  # Asegúrate de que esto es correcto
-from database import Nodo  # Importa tu modelo desde el módulo correcto
+from database import Nodo, DatosGenerales  # Importa tu modelo desde el módulo correcto
 
 
 router = APIRouter()
@@ -37,16 +37,36 @@ def export_csv(db: Session = Depends(get_db)):
         rows = db.query(Nodo).all()
         
         # Paso 2: Convierte los resultados en una lista de diccionarios
-        data = [
-            {column.name: getattr(row, column.name) for column in Nodo.__table__.columns}
-            for row in rows
-        ]
 
-        # Paso 3: Convierte la lista de diccionarios en un DataFrame de pandas
-        df = pd.DataFrame(data)
+        # Consulta la tabla Nodo
+        nodos = db.query(Nodo).all()
+        nodos_data = [
+            {column.name: getattr(row, column.name) for column in Nodo.__table__.columns}
+            for row in nodos
+        ]
+        df_nodos = pd.DataFrame(nodos_data)
+
+        # Consulta la tabla DatosGenerales
+        datos_generales = db.query(DatosGenerales).all()
+        datos_generales_data = [
+            {column.name: getattr(row, column.name) for column in DatosGenerales.__table__.columns}
+            for row in datos_generales
+        ]
+        df_datos_generales = pd.DataFrame(datos_generales_data)
+        # Consulta la tabla DatosGenerales
+
+
+        # Escribe ambas tablas en el mismo archivo CSV con secciones separadas
+        with open(csv_path, 'w') as f:
+            f.write("Tabla: Nodo\n")
+            df_nodos.to_csv(f, index=False)
+            f.write("\n\nTabla: DatosGenerales\n")
+            df_datos_generales.to_csv(f, index=False)
+
+
 
         # Paso 4: Genera el archivo CSV
-        df.to_csv(csv_path, index=False)
+        #df.to_csv(csv_path, index=False)
 
         # Paso 5: Envía el archivo para descarga
         #return send_file(csv_path, as_attachment=True, download_name='data.csv')
