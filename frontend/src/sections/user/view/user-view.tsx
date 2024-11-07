@@ -50,7 +50,7 @@ export function UserView() {
           color="inherit"
           startIcon={<Iconify icon="mingcute:add-line" />}
         >
-          Config
+          Agregar usuario nuevo
         </Button>
       </Box>
 

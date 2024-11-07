@@ -15,12 +15,12 @@ export const navData = [
   }, */
   { 
     title: 'Gráficos',
-    path: '/graficos',
+    path: '/dashboard/graficos',
     icon: icon('ic-analytics'),
   },
   {
     title: 'Nodos',
-    path: '/nodos', 
+    path: '/dashboard/nodos', 
     icon: icon('nodos'),
     /* info: (
       <Label color="error" variant="inverted">
@@ -29,19 +29,19 @@ export const navData = [
     ),  */
   },
   {
+    title: 'Regístro histórico',
+    path: '/dashboard/registro_historico', // acá deberia tener una lista con todos los datos cargados hasta el momento de hacer click.
+    icon: icon('documento'),
+  },
+  {
     title: 'Usuarios',
-    path: '/user', 
+    path: '/dashboard/user', 
     icon: icon('usuario'),
   },
   {
     title: 'Configuración',
-    path: '/configuracion', // hacerle una pagina para sacarle el "sign in"
+    path: '/dashboard/configuracion', // hacerle una pagina para sacarle el "sign in"
     icon: icon('ajustes'),
-  },
-  {
-    title: 'Regístros históricos',
-    path: '/registros_historicos', // acá deberia tener una lista con todos los datos cargados hasta el momento de hacer click.
-    icon: icon('documento'),
   },
   /* {
     title: 'No encontrado',

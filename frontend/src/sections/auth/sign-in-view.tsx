@@ -22,7 +22,7 @@ export function SignInView() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSignIn = useCallback(() => {
-    navigate('/home'); // (blog = graficos) 
+    navigate('/dashboard'); // (blog = graficos) 
   }, [navigate]);
 
   const renderForm = (
@@ -69,10 +69,7 @@ export function SignInView() {
       >
         Iniciar sesión
       </LoadingButton>
-
-      
     </Box>
-    
   );
   //
   return (
@@ -80,11 +77,11 @@ export function SignInView() {
       <Box gap={1.5} display="flex" flexDirection="column" alignItems="center" sx={{ mb: 5 }}>
         <Typography variant="h5">Iniciar sesión</Typography>
         <Typography variant="body2" color="text.secondary">
-        {/* ¿No tienes una cuenta? */}
+        {/* ¿No tienes una cuenta? 
           {/* <Link variant="subtitle2" sx={{ ml: 0.5 }}>
             Registrar usuario nuevo
-          </Link> */}
-          {/* <LoadingButton
+          </Link> 
+           <LoadingButton
             fullWidth
             size="large"
             type="submit"

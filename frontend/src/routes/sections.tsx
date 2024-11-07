@@ -1,10 +1,11 @@
 import { lazy, Suspense } from 'react';
-import { Outlet, Navigate, useRoutes } from 'react-router-dom';
+import { Outlet, Navigate, useRoutes, Link } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 
 import { varAlpha } from 'src/theme/styles';
+
 import { AuthLayout } from 'src/layouts/auth';
 import { DashboardLayout } from 'src/layouts/dashboard';
 
@@ -36,6 +37,23 @@ export function Router() {
   return useRoutes([
     {
       path: '/',
+      element: <Navigate to="/login" replace />
+
+    },
+    { // Sign in
+      path: '/login',
+      element: (
+        <AuthLayout>
+          <SignInPage />
+        </AuthLayout>
+      ),
+      /* children: [
+        { element:<SignInPage />, index: true },
+      ] */
+    },
+    // paginas que cuentan con el dashboard: 
+    {
+      path: '/dashboard',
       element: (
         <DashboardLayout>
           <Suspense fallback={renderFallback}>
@@ -43,35 +61,24 @@ export function Router() {
           </Suspense>
         </DashboardLayout>
       ),
-      children: [
-        { element: <HomePage />, index: true },
-        { path: 'user', element: <UserPage /> },
-        { path: 'nodos', element: <NodosPage /> },
+      children: [ // rutas hijas  
+        // { path: 'home' },
+        { element: <HomePage />, index:true },
         { path: 'graficos', element: <GraficosPage /> }, // blog
-        { path: 'home', element: <HomePage /> },
-        { path: 'registros_historicos', element: <HomePage /> },
+        { path: 'nodos', element: <NodosPage /> },
+        { path: 'registro_historico', element: <HomePage /> },
+        { path: 'user', element: <UserPage /> },
         { path: 'configuracion', element: <HomePage /> },
       ],
     },
 
-    {
-      // Sign in
-      element: (
-        <AuthLayout>
-          <SignInPage />
-        </AuthLayout>
-      ),
-      children: [
-        { element:<SignInPage />, path: '/login' , index: true },
-      ]
-    },
-    {
+    { // página de error 404
       path: '404',
       element: <Page404 />,
     },
-    {
+    { // redirección a 404 para rutas desconocidas
       path: '*',
-      element: <Navigate to="/404" replace />,
+      element: <Navigate to="/dashboard" replace />,
     },
   ]);
 }
