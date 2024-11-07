@@ -80,5 +80,5 @@ export function Router() {
       path: '*',
       element: <Navigate to="/dashboard" replace />,
     },
-  ]);
+  ]); 
 }

@@ -130,7 +130,7 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
 
         <Box sx={{ p: 1 }}>
         {/* Este boton deberia mandarnos al login */}
-          <Button fullWidth color="error" size="medium" variant="text">
+          <Button fullWidth color="error" size="medium" variant="text"> 
             Cerrar sesión
           </Button>
         </Box>
