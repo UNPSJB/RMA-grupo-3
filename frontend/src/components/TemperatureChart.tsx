@@ -17,6 +17,8 @@ interface Nodo {
   alias: string; // Nombre del nodo
 }
 
+
+
 const DatosGeneralesChart: React.FC = () => {
   const [data, setData] = useState<DatosGenerales[]>([]);
   const [nodos, setNodos] = useState<Nodo[]>([]); // Estado para los nodos disponibles

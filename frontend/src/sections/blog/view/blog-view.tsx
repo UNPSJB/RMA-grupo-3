@@ -19,15 +19,22 @@ import Stack from '@mui/material/Stack';
 import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
 
 
+
+
 import TemperatureChart from 'src/components/TemperatureChart'; 
 import Temperaturas from 'src/components/prueba'; 
 
+import CaptureAndExportPDF from 'src/components/CaptureAndExportPDF';
 
 import { PostItem } from '../post-item';
 import { PostSort } from '../post-sort';
 import { PostSearch } from '../post-search';
 
 // ----------------------------------------------------------------------
+
+
+
+//-----------------------------
 
 export function BlogView() {
   const [sortBy, setSortBy] = useState('latest');
@@ -53,10 +60,10 @@ export function BlogView() {
 
       {/* Agrega aquí el componente TemperatureChart */}
       <Box sx={{ padding: 2 }}>
-        <TemperatureChart />
+      <CaptureAndExportPDF />
        </Box> 
 
-      {/* Agrega aquí el componente TemperatureChart */}
+      {/* Agrega aquí el componente TemperaturesList */}
       <Box sx={{ padding: 2 }}>
         <Temperaturas />
       </Box>
@@ -87,7 +94,8 @@ export function BlogView() {
         })}
       </Grid> */}
 
-      <Pagination count={10} color="primary" sx={{ mt: 8, mx: 'auto' }} />
+      <Pagination count={10} color="primary" sx={{ mt: 8, mx: 'auto' }} /> 
+
     </DashboardContent>
   );
 }
