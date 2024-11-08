@@ -44,6 +44,9 @@ def export_csv(db: Session = Depends(get_db)):
             {column.name: getattr(row, column.name) for column in Nodo.__table__.columns}
             for row in nodos
         ]
+
+
+
         df_nodos = pd.DataFrame(nodos_data)
 
         # Consulta la tabla DatosGenerales
@@ -52,6 +55,18 @@ def export_csv(db: Session = Depends(get_db)):
             {column.name: getattr(row, column.name) for column in DatosGenerales.__table__.columns}
             for row in datos_generales
         ]
+
+
+                # Paso 2bis: Reemplaza los valores específicos
+        for row in datos_generales_data:
+            if row.get("type"):  # Cambia "tu_variable" por el nombre de la columna
+                if row["type"] == "temp_t":
+                    row["type"] = "Temperatura °C"
+                elif row["type"] == "altitude_t":
+                    row["type"] = "Altitud mm"
+                elif row["type"] == "voltage_t":
+                    row["type"] = "Voltage V"
+
         df_datos_generales = pd.DataFrame(datos_generales_data)
         # Consulta la tabla DatosGenerales
 

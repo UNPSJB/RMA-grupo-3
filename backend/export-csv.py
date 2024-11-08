@@ -36,6 +36,10 @@ def export_csv():
             for row in rows
         ]
 
+
+
+
+
         # Paso 3: Convierte la lista de diccionarios en un DataFrame de pandas
         df = pd.DataFrame(data)
 
