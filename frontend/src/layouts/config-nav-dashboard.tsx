@@ -22,11 +22,12 @@ export const navData = [
     title: 'Nodos',
     path: '/dashboard/nodos', 
     icon: icon('nodos'),
-    /* info: (
-      <Label color="error" variant="inverted">
-      +3
-      </Label>
-    ),  */
+    
+  },
+  {
+    title: 'Regístros históricos',
+    path: '/dashboard/registros_historicos', // acá deberia tener una lista con todos los datos cargados hasta el momento de hacer click.
+    icon: icon('documento'),
   },
   {
     title: 'Usuarios',
@@ -38,11 +39,7 @@ export const navData = [
     path: '/dashboard/configuracion', // hacerle una pagina para sacarle el "sign in"
     icon: icon('ajustes'),
   },
-  {
-    title: 'Regístros históricos',
-    path: '/dashboard/registros_historicos', // acá deberia tener una lista con todos los datos cargados hasta el momento de hacer click.
-    icon: icon('documento'),
-  },
+  
   /* {
     title: 'No encontrado',
     path: '/404',
