@@ -1,37 +1,66 @@
-import { useState, useCallback } from 'react';
-
+import { useState, useCallback } from 'react'
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import Divider from '@mui/material/Divider';
+// import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import InputAdornment from '@mui/material/InputAdornment';
-
-import { useNavigate  } from 'react-router-dom';
-
+import { useNavigate, Outlet } from 'react-router-dom';
 import { Iconify } from 'src/components/iconify';
 
-import Fab from '@mui/material/Fab';
-
+// import Fab from '@mui/material/Fab';
 
 export function SignInView() {
   const navigate = useNavigate ();
 
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false); 
 
-  const handleSignIn = useCallback(() => {
-    navigate('/dashboard'); // (blog = graficos) 
-  }, [navigate]);
+  const handleSignIn = useCallback(async () => {
+    if (!username || !password) {
+      alert("Nombre de ususario y contraseña son requeridos.")
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://loaclhost:8000/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          username,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("access_token", data.access_token);
+        navigate('/dashboard'); // ver si borrar 
+      } else {
+        alert("Nombre de usuario o contraseña incorrectos.");
+      }
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [username, password, navigate]);
 
   const renderForm = (
     <Box display="flex" flexDirection="column" alignItems="flex-end" >
       <TextField
         fullWidth
-        name="email"
-        label="Dirección de correo"
-        defaultValue="ejemplo@gmail.com"
+        name="username"
+        label="Nombre de usuario"
+        placeholder="Usuario"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
         InputLabelProps={{ shrink: true }}
         sx={{ mb: 3 }}
       />
@@ -44,7 +73,9 @@ export function SignInView() {
         fullWidth
         name="password"
         label="Contraseña"
-        defaultValue="@ejemplo.1234"
+        placeholder="ejemplo.1234"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         InputLabelProps={{ shrink: true }}
         type={showPassword ? 'text' : 'password'}
         InputProps={{
@@ -62,10 +93,11 @@ export function SignInView() {
       <LoadingButton
         fullWidth
         size="large"
-        type="submit"
+        type="button"
         color="inherit"
         variant="contained"
         onClick={handleSignIn}
+        loading={loading}
       >
         Iniciar sesión
       </LoadingButton>
@@ -75,80 +107,13 @@ export function SignInView() {
   return (
     <>
       <Box gap={1.5} display="flex" flexDirection="column" alignItems="center" sx={{ mb: 5 }}>
-        <Typography variant="h5">Iniciar sesión</Typography>
-        <Typography variant="body2" color="text.secondary">
-        {/* ¿No tienes una cuenta? 
-          {/* <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-            Registrar usuario nuevo
-          </Link> 
-           <LoadingButton
-            fullWidth
-            size="large"
-            type="submit"
-            color="inherit"
-            variant="contained"
-            onClick={handleSignIn}
-          >
-            Registrar usuario nuevo
-          </LoadingButton> */}
-        </Typography>
+        <Typography variant="h5">Inicio de sesión</Typography>
       </Box>
 
       {renderForm}
-
-      <Divider sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' } }}>
-        <Typography
-          variant="overline"
-          sx={{ color: 'text.secondary', fontWeight: 'fontWeightMedium' }}
-        >
-          O
-        </Typography>
-      </Divider>
-
-    {/* <LoadingButton
-        fullWidth
-        size="large"
-        type="submit"
-        color="inherit"
-        variant="contained"
-        onClick={handleSignIn}
-      >
-        Registrar usuario nuevo
-      </LoadingButton> */}
-      <Box display="flex" justifyContent="center">
-        <LoadingButton 
-          size="medium" // Cambiar el tamaño a "medium" o "small" según preferencia
-          type="submit"
-          color="inherit" // usa un color predefinido como "primary" o "secondary"
-          variant="contained"
-          content="center"
-          onClick={handleSignIn}
-          sx={{
-            width: '200px',           // Ajusta el ancho 
-            backgroundColor: '#1976d2', // Cambiar a color deseado (este caso azul)
-            '&:hover': {
-              backgroundColor: '#115293', // Color al pasar el ratón por encima
-            },
-          }}
-        >
-          Registrar usuario nuevo
-        </LoadingButton>
-      </Box>
-      {/* <Box gap={1} display="flex" justifyContent="center">
-        <IconButton color="inherit">
-          <Fab href="https://google.com/">
-            <Iconify icon="logos:google-icon" />
-          </Fab>
-        </IconButton>
-        <IconButton color="inherit">
-          <Iconify icon="eva:github-fill" />
-        </IconButton>
-        <IconButton color="inherit">
-          <Fab href="https://homers-webpage.vercel.app/">
-            <Iconify icon="ri:twitter-x-fill" />
-          </Fab>
-        </IconButton>
-      </Box> */}
     </>
   );
 }
+
+
+

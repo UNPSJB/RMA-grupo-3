@@ -5,18 +5,18 @@ import {
   _company,
   _boolean,
   _fullName,
-  _taskNames,
-  _postTitles,
-  _description,
-  _productNames,
+ /*  _taskNames,
+  _postTitles, */
+  /* _description, */
+  /* _productNames, */
 } from './_mock';
 
 // ----------------------------------------------------------------------
 
 export const _myAccount = {
-  displayName: 'Jaydon Frankie',
-  email: 'demo@minimals.cc',
-  photoURL: '/assets/images/avatar/avatar-25.webp',
+  displayName: 'admin',
+  email: 'admin@gmail.com',
+  photoURL: '/assets/images/avatar/usuario.png',
 };
 
 // ----------------------------------------------------------------------
@@ -47,8 +47,8 @@ export const _users = [...Array(24)].map((_, index) => ({
 
 export const _posts = [...Array(23)].map((_, index) => ({
   id: _id(index),
-  title: _postTitles(index),
-  description: _description(index),
+  /* title: _postTitles(index),
+  description: _description(index), */
   coverUrl: `/assets/images/cover/cover-${index + 1}.webp`,
   totalViews: 8829,
   totalComments: 7977,
@@ -74,7 +74,7 @@ const COLORS = [
   '#FFC107',
 ];
 
-export const _products = [...Array(24)].map((_, index) => {
+/* export const _products = [...Array(24)].map((_, index) => {
   const setIndex = index + 1;
 
   return {
@@ -95,7 +95,7 @@ export const _products = [...Array(24)].map((_, index) => {
       ([1, 3, 5].includes(setIndex) && 'sale') || ([4, 8, 12].includes(setIndex) && 'new') || '',
   };
 });
-
+ */
 // ----------------------------------------------------------------------
 /*
 export const _langs = [
@@ -133,11 +133,11 @@ export const _timeline = [...Array(5)].map((_, index) => ({
 
 // ----------------------------------------------------------------------
 
-export const _tasks = [...Array(5)].map((_, index) => ({
+/* export const _tasks = [...Array(5)].map((_, index) => ({
   id: _id(index),
   name: _taskNames(index),
 }));
-
+ */
 // ----------------------------------------------------------------------
 
 export const _notifications = [

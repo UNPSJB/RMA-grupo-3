@@ -46,7 +46,7 @@ export function AuthLayout({ sx, children, header }: AuthLayoutProps) {
           slots={{
             topArea: (
               <Alert severity="info" sx={{ display: 'none', borderRadius: 0 }}>
-                Esta es una información de alerta.
+                This is an info Alert.
               </Alert>
             ),
             leftArea: <Logo />,
@@ -57,7 +57,7 @@ export function AuthLayout({ sx, children, header }: AuthLayoutProps) {
                 color="inherit"
                 sx={{ typography: 'subtitle2' }}
               >
-                ¿Necesita ayuda?
+                Need help?
               </Link>
             ),
           }}
