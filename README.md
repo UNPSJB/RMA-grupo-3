@@ -29,3 +29,7 @@ luego
 
 para correr el GENERADOR (parado en \generador)
     python main.py
+
+
+
+    PARA INSTALAR JOSE priemero poetry shell y luego pip install python-jose
