@@ -17,8 +17,23 @@ interface Nodo {
   alias: string; // Nombre del nodo
 }
 
+function formatTimestamp(timestamp: string): string {
+  // Crear un objeto Date a partir del string del timestamp
+  const date = new Date(timestamp);
+
+  // Extraer el día, mes, hora y minuto
+  const year = date.getFullYear().toString().slice(-2); // Obtener solo los últimos 2 dígitos del año
+  const day = date.getDate().toString().padStart(2, '0'); // Día con 2 dígitos
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Mes con 2 dígitos (los meses empiezan desde 0)
+  const hours = date.getHours().toString().padStart(2, '0'); // Hora con 2 dígitos
+  const minutes = date.getMinutes().toString().padStart(2, '0'); // Minutos con 2 dígitos
+
+  // Formato final: Día-Mes Hora:Minuto
+  return `${year}/${day}/${month} ${hours}:${minutes}`;
+}
+
 const DatosGeneralesChart: React.FC = () => {
-  const [data, setData] = useState<DatosGenerales[]>([]);
+  const [data, setData] = useState<DatosGenerales[]>([]); 
   const [nodos, setNodos] = useState<Nodo[]>([]); // Estado para los nodos disponibles
   const [selectedNodo, setSelectedNodo] = useState<number | null>(null); // Nodo seleccionado
   const [selectedTipo, setSelectedTipo] = useState<string>(''); // Tipo de dato seleccionado
@@ -78,7 +93,7 @@ const DatosGeneralesChart: React.FC = () => {
         setData(datosGenerales);
 
         // Mapea los datos para crear los labels (time) y los datos generales (dato)
-        const times = datosGenerales.map((t) => t.time);
+        const times = datosGenerales.map((t) => formatTimestamp(t.time));
         const valoresDato = datosGenerales.map((t) => t.dato);
 
         // Actualiza el estado `chartData` para reflejar los nuevos datos
@@ -106,10 +121,8 @@ const DatosGeneralesChart: React.FC = () => {
   const handleNodoChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     if (value === "") {
-      // Si se selecciona "Seleccionar un nodo", establece selectedNodo como null
       setSelectedNodo(null);
     } else {
-      // Actualiza el nodo seleccionado
       setSelectedNodo(Number(value));
     }
   };
@@ -130,12 +143,34 @@ const DatosGeneralesChart: React.FC = () => {
         text: 'Gráfico de Datos Generales',
       },
     },
-  }
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: selectedTipo === 'temp_t' ? 'Temperatura (°C)' : 
+                selectedTipo === 'altitude_t' ? 'Altitud (m)' : 'Tensión (V)',
+           font: {
+            size: 28,
+          }, 
+        },
+        beginAtZero: true, // Esto asegura que el eje Y comience en 0
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Fecha',
+           font: {
+            size: 28,
+          }, 
+        },
+        beginAtZero: true, // Esto asegura que el eje Y comience en 0
+      },
+    },
+  };
 
   return (
     <div>
       <h1>Gráfico de Datos Generales</h1>
-      
       {/* Componente de selección para nodos */}
       <select id="nodoSelect" onChange={handleNodoChange} value={selectedNodo ?? ''}>
         <option value="">Seleccionar un nodo</option>
@@ -154,7 +189,7 @@ const DatosGeneralesChart: React.FC = () => {
         <option value="voltage_t">Tensión</option>
       </select>
 
-      <Line data={chartData} />
+      <Line data={chartData} options={options} />
       <Bar data={chartData} options={options} />
     </div>
   );

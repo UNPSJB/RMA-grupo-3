@@ -1,55 +1,45 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
-from dependencies import get_db  # Asegúrate de que esto es correcto
-from database import Nodo  # Importa tu modelo desde el módulo correcto
+from dependencies import get_db
+from database import Nodo  # Importa el modelo Nodo desde tu base de datos
+from schemas import Nodo as NodoSchema, NodoCreate
 
 router = APIRouter()
 
-@router.post("/")
-def create_nodo(id: int, latitud: float, longitud: float, alias: str = None, descripcion: str = None, estado: bool = True, db: Session = Depends(get_db)):
-    existing_nodo = db.query(Nodo).filter(Nodo.id == id).first()
+@router.post("/", response_model=NodoSchema)
+def create_nodo(nodo_data: NodoCreate, db: Session = Depends(get_db)):
+    existing_nodo = db.query(Nodo).filter(Nodo.id == nodo_data.id).first()
     if existing_nodo:
         raise HTTPException(status_code=400, detail="El nodo ya existe")
 
-    nodo = Nodo(id=id, latitud=latitud, longitud=longitud, alias=alias, descripcion=descripcion, estado=estado)
+    nodo = Nodo(**nodo_data.dict())
     db.add(nodo)
     db.commit()
     db.refresh(nodo)
-    
     return nodo
 
-@router.get("/")
+@router.get("/", response_model=list[NodoSchema])
 def get_nodos(db: Session = Depends(get_db)):
     return db.query(Nodo).all()
 
-@router.get("/{nodo_id}")
+@router.get("/{nodo_id}", response_model=NodoSchema)
 def get_nodo(nodo_id: int, db: Session = Depends(get_db)):
     nodo = db.query(Nodo).filter(Nodo.id == nodo_id).first()
     if nodo is None:
         raise HTTPException(status_code=404, detail="Nodo no encontrado")
     return nodo
 
-@router.put("/{nodo_id}")
-def update_nodo(nodo_id: int, latitud: float = None, longitud: float = None, alias: str = None, descripcion: str = None, estado: bool = None, db: Session = Depends(get_db)):
+@router.put("/{nodo_id}", response_model=NodoSchema)
+def update_nodo(nodo_id: int, nodo_data: NodoCreate, db: Session = Depends(get_db)):
     nodo = db.query(Nodo).filter(Nodo.id == nodo_id).first()
     if nodo is None:
         raise HTTPException(status_code=404, detail="Nodo no encontrado")
 
-    # Actualizar solo los campos proporcionados
-    if latitud is not None:
-        nodo.latitud = latitud
-    if longitud is not None:
-        nodo.longitud = longitud
-    if alias is not None:
-        nodo.alias = alias
-    if descripcion is not None:
-        nodo.descripcion = descripcion
-    if estado is not None:
-        nodo.estado = estado
+    for key, value in nodo_data.dict(exclude_unset=True).items():
+        setattr(nodo, key, value)
 
     db.commit()
     db.refresh(nodo)
-
     return nodo
 
 @router.delete("/{nodo_id}")
@@ -60,5 +50,4 @@ def delete_nodo(nodo_id: int, db: Session = Depends(get_db)):
     
     db.delete(nodo)
     db.commit()
-
     return {"detail": "Nodo eliminado"}

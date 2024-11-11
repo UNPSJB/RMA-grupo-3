@@ -1,44 +1,43 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
-from dependencies import get_db  # Asegúrate de que esto es correcto
-from database import Usuario  # Importa tu modelo desde el módulo correcto
+from dependencies import get_db
+from database import Usuario
+from schemas import Usuario as UsuarioSchema, UsuarioCreate
 
 router = APIRouter()
 
-# CRUD para Usuario
-
-@router.post("/")
-def create_usuario(user: str, password: str, db: Session = Depends(get_db)):
+@router.post("/", response_model=UsuarioSchema)
+def create_usuario(usuario_data: UsuarioCreate, db: Session = Depends(get_db)):
     # Verifica si el usuario ya existe
-    existing_usuario = db.query(Usuario).filter(Usuario.user == user).first()
+    existing_usuario = db.query(Usuario).filter(Usuario.user == usuario_data.user).first()
     if existing_usuario:
         raise HTTPException(status_code=400, detail="El usuario ya existe")
     
-    usuario = Usuario(user=user, password=password)
+    usuario = Usuario(user=usuario_data.user, password=usuario_data.password)
     db.add(usuario)
     db.commit()
     db.refresh(usuario)
     return usuario
 
-@router.get("/")
+@router.get("/", response_model=list[UsuarioSchema])
 def get_usuarios(db: Session = Depends(get_db)):
     return db.query(Usuario).all()
 
-@router.get("/{user}")
+@router.get("/{user}", response_model=UsuarioSchema)
 def get_usuario(user: str, db: Session = Depends(get_db)):
     usuario = db.query(Usuario).filter(Usuario.user == user).first()
     if usuario is None:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
     return usuario
 
-@router.put("/")
-def update_usuario(user: str, password: str, db: Session = Depends(get_db)):
+@router.put("/{user}", response_model=UsuarioSchema)
+def update_usuario(user: str, usuario_data: UsuarioCreate, db: Session = Depends(get_db)):
     usuario = db.query(Usuario).filter(Usuario.user == user).first()
     if usuario is None:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
     
-    usuario.user = user
-    usuario.password = password
+    usuario.user = usuario_data.user
+    usuario.password = usuario_data.password
     db.commit()
     db.refresh(usuario)
     return usuario
