@@ -7,11 +7,11 @@ from routers import usuarios,nodos, datosGenerales, auth
 from dependencies import get_db  # Asegúrate de que esto es correcto
 from routers.datosGenerales import mqtt_subscribe
 from fastapi.middleware.cors import CORSMiddleware
-from routers import auth
+from routers import auth # agregar
 
 # Instancia de FastAPI
 app = FastAPI()
-app.mount("/frontend", StaticFiles(directory="../frontend"), name="frontend")
+app.mount("/frontend", StaticFiles(directory="../frontend"), name="frontend") # agregar
 
 mqtt_subscribe()
 
@@ -19,14 +19,19 @@ mqtt_subscribe()
 app.include_router(usuarios.router, prefix="/usuarios", tags=["Usuarios"])
 app.include_router(nodos.router, prefix="/nodos", tags=["Nodos"])
 app.include_router(datosGenerales.router, prefix="/datosgenerales", tags=["Datos_Generales"])
-app.include_router(auth.router, prefix="/auth", tags=["Autenticacion"])
+app.include_router(auth.router, prefix="/auth/token", tags=["Autenticacion"]) # agregar 
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3039"],  # Permitir el origen de tu frontend
+    allow_origins=["http://localhost:3039"],  # agregar
     allow_credentials=True,
     allow_methods=[""],  # Permitir todos los métodos HTTP
     allow_headers=["*"],  # Permitir todos los headers
 )
 
 
+'''
+
+
+
+'''

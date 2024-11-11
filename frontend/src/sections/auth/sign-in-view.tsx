@@ -4,10 +4,10 @@ import Link from '@mui/material/Link';
 // import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import LoadingButton from '@mui/lab/LoadingButton';
+import Typography from '@mui/material/Typography'; 
+import LoadingButton from '@mui/lab/LoadingButton';  
 import InputAdornment from '@mui/material/InputAdornment';
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';  
 import { Iconify } from 'src/components/iconify';
 
 // import Fab from '@mui/material/Fab';
@@ -22,13 +22,13 @@ export function SignInView() {
 
   const handleSignIn = useCallback(async () => {
     if (!username || !password) {
-      alert("Nombre de ususario y contraseña son requeridos.")
+      alert("Nombre de usuario y contraseña son requeridos.")
     }
 
     setLoading(true);
 
     try {
-      const response = await fetch("http://loaclhost:8000/token", {
+      const response = await fetch("http://localhost:8000/auth/token", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({

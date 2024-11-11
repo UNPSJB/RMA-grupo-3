@@ -35,7 +35,7 @@ def decode_token(token: Annotated [str, Depends(oauth2_scheme)]) -> dict:
 
 # OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):   
 #    usuario = get_usuario(db, form_data.username)
-@router.post("/token")
+@router.post("/auth/token")
 async def login(form_data: Annotated [OAuth2PasswordRequestForm, Depends(), Session, Depends(get_db)]):   
     usuario = get_usuario( form_data.username)
     if not form_data.username or not form_data.password:
