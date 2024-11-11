@@ -18,11 +18,12 @@ import { Iconify } from 'src/components/iconify';
 export type RegistroProps = {
     id: string;
     nodo: string;
+    fecha: string; // Hacer opcional
+    ubicacion: string; // Hacer opcional
     temperatura: string;
     altura: string;
+    precipitacion: string;
     estado: string;
-    ubicacion: string; // Hacer opcional
-    fecha: string; // Hacer opcional
 };
 
   // -------------------------------------------------------------------------
@@ -60,10 +61,11 @@ export function RegistroTableRow({ row, selected, onSelectRow }: RegistroTableRo
           </Box>
         </TableCell> 
 
-        <TableCell>{row.ubicacion}</TableCell>
         <TableCell>{row.fecha}</TableCell>
+        <TableCell>{row.ubicacion}</TableCell>
         <TableCell>{row.temperatura}</TableCell>
         <TableCell>{row.altura}</TableCell>
+        <TableCell>{row.precipitacion}</TableCell>
        
 
 
