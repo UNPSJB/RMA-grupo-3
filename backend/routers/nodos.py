@@ -61,6 +61,8 @@ def export_csv(db: Session = Depends(get_db)):
                     row["type"] = "Altitud mm"
                 elif row["type"] == "voltage_t":
                     row["type"] = "Voltage V"
+                elif row["type"] == "rainfall_t":
+                    row["type"] = "Precipitación mm"
         df_datos_generales = pd.DataFrame(datos_generales_data)
         # Consulta la tabla DatosGenerales
 
