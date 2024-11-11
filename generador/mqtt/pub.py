@@ -63,7 +63,7 @@ class Nodo:
                 if tipo == 'altitude_t': #Altura
                     message = str(
                     round(random.uniform(0.0, 20.0), 2)
-                )  # temperatura random entre 10 y 35°C
+                )  # altitud random entre 0 y 20 mm
                 elif tipo == 'temp_t': #Temperatura
                     message = str(
                     round(random.uniform(10.0, 30.0), 2)
@@ -71,7 +71,12 @@ class Nodo:
                 elif tipo == 'voltage_t': #Voltaje
                     message = str(
                     round(random.uniform(0.0, 5.0), 2)
-                )  # temperatura random entre 10 y 35°C
+                )  # voltage random entre 0 y 5 V
+                elif tipo == 'rainfall_t': #Lluvia
+                    message = str(
+                    round(random.uniform(0.0, 10.0), 2)
+                )  # precipitacion random entre 0 y 10 mm
+                
             mensaje = self.formatear_mensaje(
                 topic,
                 tipo,
