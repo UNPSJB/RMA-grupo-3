@@ -58,3 +58,12 @@ if __name__ == "__main__":
         thread.start()
         
         time.sleep(random.randint(1, 3))
+        thread = threading.Thread(
+            target=nodo.publicar,
+            args=(config.topic, TipoMensaje.RAINFALL_T),
+        )
+        thread.start()
+
+
+
+        time.sleep(random.randint(1, 3))

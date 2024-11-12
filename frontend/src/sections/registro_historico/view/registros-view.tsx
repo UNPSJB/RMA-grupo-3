@@ -79,10 +79,11 @@ export function RegistroView() {
                 }
                 headLabel={[
                   { id: 'nodo', label: 'Nodo' },
+                  { id: 'fecha', label: 'Fecha' },
                   { id: 'ubicacion', label: 'Ubicación' },
-                  { id: 'fecha', label: 'fecha' },
                   { id: 'temperatura', label: 'Temperatura' },
                   { id: 'altura', label: 'Altura' },
+                  { id: 'precipitacion', label: 'Precipitacion'},
                   { id: 'status', label: 'Status' },
 
                 ]}

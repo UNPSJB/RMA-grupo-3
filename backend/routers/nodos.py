@@ -5,24 +5,23 @@ from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from dependencies import get_db  # Asegúrate de que esto es correcto
 from database import Nodo, DatosGenerales  # Importa tu modelo desde el módulo correcto
-
+import schemas
 
 router = APIRouter()
 
-@router.post("/")
-def create_nodo(id: int, latitud: float, longitud: float, alias: str = None, descripcion: str = None, estado: bool = True, db: Session = Depends(get_db)):
-    existing_nodo = db.query(Nodo).filter(Nodo.id == id).first()
+@router.post("/", response_model=schemas.Nodo)
+def create_nodo(nodo_data: schemas.NodoCreate, db: Session = Depends(get_db)):
+    existing_nodo = db.query(Nodo).filter(Nodo.id == nodo_data.id).first()
     if existing_nodo:
         raise HTTPException(status_code=400, detail="El nodo ya existe")
 
-    nodo = Nodo(id=id, latitud=latitud, longitud=longitud, alias=alias, descripcion=descripcion, estado=estado)
+    nodo = Nodo(**nodo_data.dict())
     db.add(nodo)
     db.commit()
     db.refresh(nodo)
-    
     return nodo
 
-@router.get("/")
+@router.get("/", response_model=list[schemas.Nodo])
 def get_nodos(db: Session = Depends(get_db)):
     return db.query(Nodo).all()
 
@@ -52,6 +51,18 @@ def export_csv(db: Session = Depends(get_db)):
             {column.name: getattr(row, column.name) for column in DatosGenerales.__table__.columns}
             for row in datos_generales
         ]
+
+            # Actualizar solo los campos proporcionados
+        for row in datos_generales_data:
+            if row.get("type"):  # Cambia "tu_variable" por el nombre de la columna
+                if row["type"] == "temp_t":
+                    row["type"] = "Temperatura °C"
+                elif row["type"] == "altitude_t":
+                    row["type"] = "Altitud mm"
+                elif row["type"] == "voltage_t":
+                    row["type"] = "Voltage V"
+                elif row["type"] == "rainfall_t":
+                    row["type"] = "Precipitación mm"
         df_datos_generales = pd.DataFrame(datos_generales_data)
         # Consulta la tabla DatosGenerales
 
@@ -84,27 +95,16 @@ def get_nodo(nodo_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Nodo no encontrado")
     return nodo
 
-@router.put("/{nodo_id}")
-def update_nodo(nodo_id: int, latitud: float = None, longitud: float = None, alias: str = None, descripcion: str = None, estado: bool = None, db: Session = Depends(get_db)):
+@router.put("/{nodo_id}", response_model=schemas.Nodo)
+def update_nodo(nodo_id: int, nodo_data: schemas.NodoCreate, db: Session = Depends(get_db)):
     nodo = db.query(Nodo).filter(Nodo.id == nodo_id).first()
     if nodo is None:
         raise HTTPException(status_code=404, detail="Nodo no encontrado")
 
-    # Actualizar solo los campos proporcionados
-    if latitud is not None:
-        nodo.latitud = latitud
-    if longitud is not None:
-        nodo.longitud = longitud
-    if alias is not None:
-        nodo.alias = alias
-    if descripcion is not None:
-        nodo.descripcion = descripcion
-    if estado is not None:
-        nodo.estado = estado
+
 
     db.commit()
     db.refresh(nodo)
-
     return nodo
 
 @router.delete("/{nodo_id}")
@@ -115,17 +115,4 @@ def delete_nodo(nodo_id: int, db: Session = Depends(get_db)):
     
     db.delete(nodo)
     db.commit()
-
     return {"detail": "Nodo eliminado"}
-
-
-# class YourTable(db.Model):
-#     __tablename__ = 'nodos'  # Cambia el nombre a tu tabla
-
-#     # Define las columnas de la tabla (ejemplo)
-#     id = Column(Integer, primary_key=True, index=True)
-#     latitud = Column(Float)  # Columna para latitud
-#     longitud = Column(Float)  # Columna para longitud
-#     # Agrega más columnas según tu tabla
-
-
