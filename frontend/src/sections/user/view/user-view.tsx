@@ -48,7 +48,7 @@ export function UserView() {
         <Button
           variant="contained"
           color="inherit"
-          startIcon={<Iconify icon="mingcute:add-line" />}
+          startIcon={<Iconify icon="mingcute:user-add-2-line" />}
         >
           Agregar usuario nuevo
         </Button>

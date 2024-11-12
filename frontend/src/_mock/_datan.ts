@@ -1,32 +1,18 @@
 import {
-   _ide,
-  /* _price,
-  _times, */
-  _ubicacion,
-  _bulean,
-  _fullNodo,
-  // _taskNames,
-  /* _postTitles,
-  _description, */
-  // _productNames,
+   _id1,
+   _ubicacion1,
+   _boolean1,
+   _fullNodo1,
 } from './_mockn';
 
 // ----------------------------------------------------------------------
 
-/* export const _myAccount = {
-  displayName: 'Jaydon Frankie',
-  email: 'demo@minimals.cc',
-  photoURL: '/assets/images/avatar/avatar-25.webp',
-}; */
-
 // ---------------------------------------------------------------------- este de abajo es copia de arriba
  
 export const _nodos = [...Array(24)].map((_, index) => ({
-  id: _ide(index),
-  nodo: _fullNodo(index),
-  ubicacion: _ubicacion(index),
-  // isVerified: _boolean(index),
-  // avatarUrl: `/assets/images/avatar/avatar-${index + 1}.webp`,
+  id: _id1(index),
+  nodo: _fullNodo1(index),
+  ubicacion: _ubicacion1(index),
   estado: index % 6 ? 'activo' : 'activo',
   bateria:
     [
@@ -35,7 +21,7 @@ export const _nodos = [...Array(24)].map((_, index) => ({
       '15 %',
       '84 %',
       '73 %',
-    ][index] || 'UI Designer',
+    ][index],
 }));
 
 // ----------------------------------------------------------------------

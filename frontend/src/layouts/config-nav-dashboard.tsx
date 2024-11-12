@@ -30,17 +30,17 @@ export const navData = [
   },
   {
     title: 'Regístro histórico',
-    path: '/dashboard/registro_historico', // acá deberia tener una lista con todos los datos cargados hasta el momento de hacer click.
+    path: '/dashboard/registro_historico', 
     icon: icon('documento'),
   },
   {
     title: 'Usuarios',
     path: '/dashboard/user', 
-    icon: icon('usuario'),
+    icon: icon('usuarios'),
   },
   {
     title: 'Configuración',
-    path: '/dashboard/configuracion', // hacerle una pagina para sacarle el "sign in"
+    path: '/dashboard/configuracion', 
     icon: icon('ajustes'),
   },
   /* {

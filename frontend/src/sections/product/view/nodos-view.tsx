@@ -23,7 +23,7 @@ import { NodoTableToolbar } from '../nodo-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
 import type { NodoProps } from '../nodo-table-row';
-
+// import { addNodo } from '../agregarNodo'; +o-
 // ----------------------------------------------------------------------
 
 export function NodoView() {
@@ -80,10 +80,14 @@ export function NodoView() {
                   )
                 }
                 headLabel={[
-                  { id: 'name', label: 'Nodo' },
+                  { id: 'nodo', label: 'Nodo' },
+                  { id: 'ubicacion', label: 'Ubicación' },
+                  { id: 'bateria', label: 'Batería' },
+                  { id: 'status', label: 'Status' },
+                  /* { id: 'name', label: 'Nodo' },
                   { id: 'company', label: 'Ubicación' },
                   { id: 'role', label: 'Batería' },
-                  { id: 'status', label: 'Status' },
+                  { id: 'status', label: 'Status' }, */
                   // { id: '' },
                   // { id: 'isVerified', label: 'Verified', align: 'center' },
 

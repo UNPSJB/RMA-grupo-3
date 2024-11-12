@@ -25,8 +25,8 @@ def get_usuarios(db: Session = Depends(get_db)):
     return db.query(Usuario).all()
 
 @router.get("/{user}")
-def get_usuario(user: str, db: Session = Depends(get_db)):
-    usuario = db.query(Usuario).filter(Usuario.user == user).first()
+def get_usuario(username: str, db: Session = Depends(get_db)):
+    usuario = db.query(Usuario).filter(Usuario.user == username).first()
     if usuario is None:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
     return usuario

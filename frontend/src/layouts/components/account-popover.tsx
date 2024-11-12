@@ -11,10 +11,10 @@ import MenuList from '@mui/material/MenuList';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuItem, { menuItemClasses } from '@mui/material/MenuItem';
-
 import { useRouter, usePathname } from 'src/routes/hooks';
-
 import { _myAccount } from 'src/_mock';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; 
 
 // ----------------------------------------------------------------------
 
@@ -28,8 +28,8 @@ export type AccountPopoverProps = IconButtonProps & {
 };
 
 export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps) {
+  const navigate = useNavigate(); // nuevo para el logout
   const router = useRouter();
-
   const pathname = usePathname();
 
   const [openPopover, setOpenPopover] = useState<HTMLButtonElement | null>(null);
@@ -49,6 +49,16 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
     },
     [handleClosePopover, router]
   );
+// nuevo lo de abajo para el logout
+  const handleLogout = async () => {
+    try {
+      await axios.get('/auth/logout');
+      localStorage.removeItem('access_token');
+      navigate('/login');
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
+  };
 
   return (
     <>
@@ -130,7 +140,13 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
 
         <Box sx={{ p: 1 }}>
         {/* Este boton deberia mandarnos al login */}
-          <Button fullWidth color="error" size="medium" variant="text"> 
+          <Button 
+            fullWidth 
+            color="error" 
+            size="medium" 
+            variant="text" 
+            onClick={handleLogout} // nuevo para el logout
+          >
             Cerrar sesión
           </Button>
         </Box>

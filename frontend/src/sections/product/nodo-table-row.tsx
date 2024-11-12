@@ -13,14 +13,15 @@ import MenuItem, { menuItemClasses } from '@mui/material/MenuItem';
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 
-// ----------------------------------------------------------------------
+// AUNQUE DIGA "ROW" ACÁ SE MODIFICAN LAS COLUMNAS ----------------------------------------------------------------------
 
 export type NodoProps = {
   id: string;
   nodo: string;
+  // nombre: string; 
+  ubicacion: string;
   bateria: string;
-  estado: string;
-  ubicacion: string; // -------------------------------------------------------------------------
+  estado: string; // -------------------------------------------------------------------------
   // avatarUrl: string;
   // isVerified: boolean;
 };
@@ -74,7 +75,7 @@ export function NodoTableRow({ row, selected, onSelectRow }: NodoTableRowProps) 
 
         <TableCell align="right">
           <IconButton onClick={handleOpenPopover}>
-            <Iconify icon="eva:more-vertical-fill" />
+            <Iconify icon="eva:more-vertical-fill" /> {/* puntitos de "más" */}
           </IconButton>
         </TableCell>
       </TableRow>

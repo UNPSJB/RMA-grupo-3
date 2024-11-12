@@ -1,4 +1,4 @@
-import type { UserProps } from './user-table-row';
+import type { RegistroProps } from './registro-table-row';
 
 // ----------------------------------------------------------------------
 
@@ -53,13 +53,13 @@ export function getComparator<Key extends keyof any>(
 // ----------------------------------------------------------------------
 
 type ApplyFilterProps = {
-  inputData: UserProps[];
+  inputDato: RegistroProps[];
   filterName: string;
   comparator: (a: any, b: any) => number;
 };
 
-export function applyFilter({ inputData, comparator, filterName }: ApplyFilterProps) {
-  const stabilizedThis = inputData.map((el, index) => [el, index] as const);
+export function applyFilter({ inputDato, comparator, filterName }: ApplyFilterProps) {
+  const stabilizedThis = inputDato.map((el, index) => [el, index] as const);
 
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -67,13 +67,13 @@ export function applyFilter({ inputData, comparator, filterName }: ApplyFilterPr
     return a[1] - b[1];
   });
 
-  inputData = stabilizedThis.map((el) => el[0]);
+  inputDato = stabilizedThis.map((el) => el[0]);
 
   if (filterName) {
-    inputData = inputData.filter(
-      (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+    inputDato = inputDato.filter(
+      (nodo) => nodo.nodo.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 
-  return inputData;
+  return inputDato;
 }

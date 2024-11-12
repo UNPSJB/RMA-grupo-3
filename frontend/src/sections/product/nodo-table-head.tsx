@@ -7,7 +7,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 
 import { visuallyHidden } from './utils';
 
-// ----------------------------------------------------------------------
+// ACÁ SE MODIFICA LA ESTRUCTURA DEL ENCABEZADO DE LA TABLA ------------------------------------------------------
 
 type NodoTableHeadProps = {
   orderBy: string;

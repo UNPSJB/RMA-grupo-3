@@ -22,6 +22,7 @@ import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
 import TemperatureChart from 'src/components/TemperatureChart'; 
 import Temperaturas from 'src/components/prueba'; 
 
+
 import { PostItem } from '../post-item';
 import { PostSort } from '../post-sort';
 import { PostSearch } from '../post-search';
@@ -61,7 +62,7 @@ export function BlogView() {
       </Box>
 
       <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ mb: 5 }}>
-        <PostSearch posts={_posts} />
+        {/* <PostSearch posts={_posts} /> */}
         <PostSort
           sortBy={sortBy}
           onSort={handleSort}
