@@ -11,7 +11,7 @@ export const _fullNodo2 = (index: number) =>
     'Nodo 6',
   ][index]; 
 
-export const _fecha = (index: number) =>
+export const _fecha_hora = (index: number) =>
   [
     '12/09/2024',
     '23/10/2024',
@@ -21,42 +21,15 @@ export const _fecha = (index: number) =>
   
   ][index];
 
-export const _ubicacion2 = (index: number) =>
-  [
-    'lat - long',
-    'lat - long',
-    'lat - long',
-    'lat - long',
-    'lat - long',
-    
-  ][index];
-
-export const _temperatura = (index: number) =>
+export const _tipo_dato = (index: number) =>
 [
-  'Max - min',
-  'Max - min',
-  'Max - min',
-  'Max - min',
-  'Max - min',
-][index];
 
-export const _altura = (index: number) =>
+] [index];
+
+export const _dato =(index: number) =>
 [
-    'Alt 1',
-    'Alt 2',
-    'Alt 3',
-    'Alt 4',
-    'Alt 5',
-][index];
 
-export const _precipitacion = (index: number) =>
-  [
-      '1 mm',
-      '20 mm',
-      '10 mm',
-      '30 mm',
-      '60 mm',
-  ][index];
+] [index];
     
 export const _boolean2 = (index: number) =>
   [

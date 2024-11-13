@@ -31,16 +31,16 @@ export function RegistroTableHead({
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+         <TableCell padding="checkbox">
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               onSelectAllRows(event.target.checked)
             }
-          />
+          /> 
         </TableCell>
-
+ 
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}

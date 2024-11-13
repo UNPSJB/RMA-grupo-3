@@ -1,12 +1,11 @@
 import {
     _id2,
     _fullNodo2,
-    _fecha,
-    _ubicacion2,
-    _temperatura,
-    _altura,
+    _fecha_hora,
+    _tipo_dato,
+    _dato, 
     _boolean2,
-    _precipitacion,
+  
    
  } from './_mockr';
  
@@ -16,12 +15,9 @@ import {
  export const _registros = [...Array(24)].map((_, index) => ({
    id: _id2(index),
    nodo: _fullNodo2(index),
-   fecha: _fecha(index),
-   ubicacion: _ubicacion2(index),
-   temperatura: _temperatura(index),
-   altura: _altura(index),
-   precipitacion: _precipitacion(index),
-   estado: index % 7 ? 'activo' : 'activo', 
+   fecha_hora: _fecha_hora(index),
+   tipoDato: _tipo_dato(index),
+   dato: _dato(index),
  }));
  
  // ----------------------------------------------------------------------

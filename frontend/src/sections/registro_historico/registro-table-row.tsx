@@ -18,12 +18,10 @@ import { Iconify } from 'src/components/iconify';
 export type RegistroProps = {
     id: string;
     nodo: string;
-    fecha: string; // Hacer opcional
-    ubicacion: string; // Hacer opcional
-    temperatura: string;
-    altura: string;
-    precipitacion: string;
-    estado: string;
+    fecha_hora: string;
+    tipoDato: string;
+    dato: string; // Hacer opcional
+
 };
 
   // -------------------------------------------------------------------------
@@ -61,14 +59,10 @@ export function RegistroTableRow({ row, selected, onSelectRow }: RegistroTableRo
           </Box>
         </TableCell> 
 
-        <TableCell>{row.fecha}</TableCell>
-        <TableCell>{row.ubicacion}</TableCell>
-        <TableCell>{row.temperatura}</TableCell>
-        <TableCell>{row.altura}</TableCell>
-        <TableCell>{row.precipitacion}</TableCell>
-       
-
-
+        <TableCell>{row.fecha_hora}</TableCell>
+        <TableCell>{row.tipoDato}</TableCell>
+        <TableCell>{row.dato}</TableCell>
+        
         {/* <TableCell align="center">
           {row.isVerified ? (
             <Iconify width={22} icon="solar:check-circle-bold" sx={{ color: 'success.main' }} />
@@ -77,9 +71,9 @@ export function RegistroTableRow({ row, selected, onSelectRow }: RegistroTableRo
           )}
         </TableCell> */}
 
-        <TableCell>
+       {/*  <TableCell>
           <Label color={(row.estado === 'banned' && 'error') || 'success'}>{row.estado}</Label>
-        </TableCell>
+        </TableCell> */}
 
         <TableCell align="right">
           <IconButton onClick={handleOpenPopover}>
