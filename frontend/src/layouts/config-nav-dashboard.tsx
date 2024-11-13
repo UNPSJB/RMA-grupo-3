@@ -25,11 +25,6 @@ export const navData = [
     
   },
   {
-    title: 'Regístros históricos',
-    path: '/dashboard/registros_historicos', // acá deberia tener una lista con todos los datos cargados hasta el momento de hacer click.
-    icon: icon('documento'),
-  },
-  {
     title: 'Regístro histórico',
     path: '/dashboard/registro_historico', 
     icon: icon('documento'),
