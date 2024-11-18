@@ -32,7 +32,7 @@ class Nodo(Base):
     alias = Column(String, nullable=True)  # Alias del nodo (opcional)
     descripcion = Column(String, nullable=True)  # Descripción del nodo
     estado = Column(Boolean, default=True)  # Estado del nodo (activo o inactivo)
-    
+
     datosGenerales = relationship("DatosGenerales", back_populates="nodos")
 
 class DatosGenerales(Base):

@@ -3,6 +3,7 @@ import pandas as pd
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
+from sqlalchemy import desc
 from dependencies import get_db  # Asegúrate de que esto es correcto
 from database import Nodo, DatosGenerales  # Importa tu modelo desde el módulo correcto
 import schemas
@@ -87,6 +88,38 @@ def export_csv(db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=404, detail={"error": str(e)})
 
+@router.get("/get-data")
+def get_data(db: Session = Depends(get_db)):
+    try:
+        data = []
+
+        # Consulta todos los nodos
+        nodos = db.query(Nodo).all()
+
+        for nodo in nodos:
+            # Obtén el último dato de voltage_t para el nodo actual
+            ultimo_voltaje = (
+                db.query(DatosGenerales)
+                .filter(DatosGenerales.nodo_id == nodo.id, DatosGenerales.type == "voltage_t")
+                .order_by(desc(DatosGenerales.time))
+                .first()
+            )
+
+            # Agrega la información al resultado
+            data.append({
+                "id": nodo.id,
+                "latitud": nodo.latitud,
+                "longitud": nodo.longitud,
+                "alias": nodo.alias,
+                "estado": nodo.estado,
+                "ultimo_voltaje": ultimo_voltaje.dato if ultimo_voltaje else None
+            })
+
+        return {"data": data}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al obtener datos: {str(e)}")
+
 
 @router.get("/{nodo_id}")
 def get_nodo(nodo_id: int, db: Session = Depends(get_db)):
@@ -116,3 +149,15 @@ def delete_nodo(nodo_id: int, db: Session = Depends(get_db)):
     db.delete(nodo)
     db.commit()
     return {"detail": "Nodo eliminado"}
+
+
+@router.put("/{nodo_id}/deactivate")
+def deactivate_nodo(nodo_id: int, db: Session = Depends(get_db)):
+    nodo = db.query(Nodo).filter(Nodo.id == nodo_id).first()
+    if nodo is None:
+        raise HTTPException(status_code=404, detail="Nodo no encontrado")
+    
+    nodo.estado = False
+    db.commit()
+    return {"detail": "Nodo desactivado"}
+

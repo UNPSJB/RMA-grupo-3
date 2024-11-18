@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 
+
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
@@ -15,18 +16,28 @@ import { DashboardContent } from 'src/layouts/dashboard';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 
-import { TableNoData } from '../table-no-data';
-import { NodoTableRow } from '../nodo-table-row';
-import { NodoTableHead } from '../nodo-table-head';
-import { TableEmptyRows } from '../table-empty-rows';
-import { NodoTableToolbar } from '../nodo-table-toolbar';
+
+import  NodoTable from 'src/components/NodoTable';
+import AddNodeForm from 'src/components/AddNodeForm';
+
+
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
 import type { NodoProps } from '../nodo-table-row';
-// import { addNodo } from '../agregarNodo'; +o-
+
+
 // ----------------------------------------------------------------------
 
 export function NodoView() {
+  const [showAddNodeForm, setShowAddNodeForm] = useState(false);
+
+  const handleShowForm = () => {
+    setShowAddNodeForm(true);
+  };
+
+  const handleHideForm = () => {
+    setShowAddNodeForm(false);
+  };
   const table = useTable();
 
   const [filterName, setFilterName] = useState('');
@@ -40,96 +51,34 @@ export function NodoView() {
   const notFound = !dataFiltered.length && !!filterName;
 
   return (
-    <DashboardContent>
-      <Box display="flex" alignItems="center" mb={5}>
-        <Typography variant="h4" flexGrow={1}>
-          Nodos
-        </Typography>
-        <Button
-          variant="contained"
-          color="inherit"
-          startIcon={<Iconify icon="mingcute:add-line" />}
-        >
-          Agregar nodo
-        </Button>
-      </Box>
 
-      <Card>
-        <NodoTableToolbar
-          numSelected={table.selected.length}
-          filterName={filterName}
-          onFilterName={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setFilterName(event.target.value);
-            table.onResetPage();
-          }}
-        />
+        <DashboardContent>
+          <Box display="flex" alignItems="center" mb={5}>
+            <Typography variant="h4" flexGrow={1}>
+              Nodos
+            </Typography>
+                {!showAddNodeForm && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleShowForm}
+                sx={{ mt: 2, ml: 2 }}
+              >
+                Agregar nodo
+              </Button>
+            )}
+          </Box>
 
-        <Scrollbar>
-          <TableContainer sx={{ overflow: 'unset' }}>
-            <Table sx={{ minWidth: 800 }}>
-              <NodoTableHead
-                order={table.order}
-                orderBy={table.orderBy}
-                rowCount={_nodos.length}
-                numSelected={table.selected.length}
-                onSort={table.onSort}
-                onSelectAllRows={(checked) =>
-                  table.onSelectAllRows(
-                    checked,
-                    _nodos.map((nodo) => nodo.id)
-                  )
-                }
-                headLabel={[
-                  { id: 'nodo', label: 'Nodo' },
-                  { id: 'ubicacion', label: 'Ubicación' },
-                  { id: 'bateria', label: 'Batería' },
-                  { id: 'status', label: 'Status' },
-                  /* { id: 'name', label: 'Nodo' },
-                  { id: 'company', label: 'Ubicación' },
-                  { id: 'role', label: 'Batería' },
-                  { id: 'status', label: 'Status' }, */
-                  // { id: '' },
-                  // { id: 'isVerified', label: 'Verified', align: 'center' },
+          <Box sx={{ padding: 2 }}>
+            {showAddNodeForm ? (
+              <AddNodeForm onCancel={handleHideForm} />
+            ) : (
+              <NodoTable />
+            )}
+          </Box>
+        </DashboardContent>
 
-                ]}
-              />
-              <TableBody>
-                {dataFiltered
-                  .slice(
-                    table.page * table.rowsPerPage,
-                    table.page * table.rowsPerPage + table.rowsPerPage
-                  )
-                  .map((row) => (
-                    <NodoTableRow
-                      key={row.id}
-                      row={row}
-                      selected={table.selected.includes(row.id)}
-                      onSelectRow={() => table.onSelectRow(row.id)}
-                    />
-                  ))}
 
-                <TableEmptyRows
-                  height={68}
-                  emptyRows={emptyRows(table.page, table.rowsPerPage, _nodos.length)}
-                />
-
-                {notFound && <TableNoData searchQuery={filterName} />}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Scrollbar>
-
-        <TablePagination
-          component="div"
-          page={table.page}
-          count={_nodos.length}
-          rowsPerPage={table.rowsPerPage}
-          onPageChange={table.onChangePage}
-          rowsPerPageOptions={[5, 10, 25]}
-          onRowsPerPageChange={table.onChangeRowsPerPage}
-        />
-      </Card>
-    </DashboardContent>
   );
 }
 
