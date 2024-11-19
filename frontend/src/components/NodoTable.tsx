@@ -18,6 +18,12 @@ import {
 } from "@mui/material";
 
 import { CheckCircle, Cancel } from "@mui/icons-material";
+import EditNodeForm from "./EditNodeForm";
+
+
+interface NodoTableProps {
+  onEditNode: (nodeId: number) => void; // Nueva prop para manejar la edición
+}
 
 // Define el tipo de dato que llega desde el backend
 interface NodoData {
@@ -29,12 +35,15 @@ interface NodoData {
   ultimo_voltaje: number | null;
 }
 
-const NodeTable: React.FC = () => {
+
+
+const NodoTable: React.FC<NodoTableProps> = ({ onEditNode }) => {
   const [data, setData] = useState<NodoData[]>([]);
   const [orderBy, setOrderBy] = useState<keyof NodoData>("id");
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedNodeId, setSelectedNodeId] = useState<number | null>(null);
+  const [editingNodeId, setEditingNodeId] = useState<number | null>(null);
 
   // Cargar datos desde el backend
   useEffect(() => {
@@ -71,7 +80,7 @@ const NodeTable: React.FC = () => {
     return valueA < valueB ? 1 : -1;
   });
 
-  // Abrir diálogo de confirmación
+  // Abrir diálogo de confirmación para desactivar nodo
   const handleOpenDialog = (nodeId: number) => {
     setSelectedNodeId(nodeId);
     setDialogOpen(true);
@@ -100,13 +109,34 @@ const NodeTable: React.FC = () => {
     }
   };
 
+  // Abrir formulario de edición
+  const handleEditNode = (nodeId: number) => {
+    setEditingNodeId(nodeId);
+  };
+
+  // Cerrar formulario de edición
+  const handleCloseEditForm = () => {
+    setEditingNodeId(null);
+  };
+
+  // Actualizar datos tras la edición
+  const handleUpdateNode = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/nodos/get-data");
+      setData(response.data.data); // Volver a cargar los datos después de la edición
+      handleCloseEditForm();
+    } catch (error) {
+      console.error("Error al actualizar los datos:", error);
+    }
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
             {[
-              { label: " Nodo ID", key: "id" },
+              { label: "Nodo ID", key: "id" },
               { label: "Latitud (°)", key: "latitud" },
               { label: "Longitud (°)", key: "longitud" },
               { label: "Alias", key: "alias" },
@@ -149,9 +179,17 @@ const NodeTable: React.FC = () => {
               <TableCell>
                 <Button
                   variant="contained"
+                  color="primary"
+                  onClick={() => onEditNode(row.id)}
+                >
+                  Modificar
+                </Button>
+                <Button
+                  variant="contained"
                   color="secondary"
                   onClick={() => handleOpenDialog(row.id)}
                   disabled={!row.estado}
+                  sx={{ ml: 1 }}
                 >
                   Desactivar
                 </Button>
@@ -166,7 +204,7 @@ const NodeTable: React.FC = () => {
         <DialogTitle>Confirmación</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            ¿Estás seguro de que deseas desactivar este nodo? Esta acción es reversible.
+            ¿Estás seguro de que deseas desactivar este nodo? Esta acción es irreversible.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -178,8 +216,17 @@ const NodeTable: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Formulario de edición */}
+      {editingNodeId !== null && (
+        <EditNodeForm
+          nodeId={editingNodeId}
+          onClose={handleCloseEditForm}
+          onUpdate={handleUpdateNode}
+        />
+      )}
     </TableContainer>
   );
 };
 
-export default NodeTable;
+export default NodoTable;

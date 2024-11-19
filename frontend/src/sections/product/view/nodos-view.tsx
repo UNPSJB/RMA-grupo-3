@@ -19,7 +19,7 @@ import { Scrollbar } from 'src/components/scrollbar';
 
 import  NodoTable from 'src/components/NodoTable';
 import AddNodeForm from 'src/components/AddNodeForm';
-
+import EditNodeForm from 'src/components/EditNodeForm';
 
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
@@ -30,55 +30,58 @@ import type { NodoProps } from '../nodo-table-row';
 
 export function NodoView() {
   const [showAddNodeForm, setShowAddNodeForm] = useState(false);
+  const [showEditNodeForm, setShowEditNodeForm] = useState(false);
+  const [selectedNodeId, setSelectedNodeId] = useState<number | null>(null);
 
-  const handleShowForm = () => {
+  const handleShowAddForm = () => {
     setShowAddNodeForm(true);
+    setShowEditNodeForm(false);
   };
 
-  const handleHideForm = () => {
+  const handleShowEditForm = (nodeId: number) => {
+    setSelectedNodeId(nodeId);
+    setShowEditNodeForm(true);
     setShowAddNodeForm(false);
   };
-  const table = useTable();
 
-  const [filterName, setFilterName] = useState('');
-
-  const dataFiltered: NodoProps[] = applyFilter({
-    inputDato: _nodos,
-    comparator: getComparator(table.order, table.orderBy),
-    filterName,
-  });
-
-  const notFound = !dataFiltered.length && !!filterName;
+  const handleHideForms = () => {
+    setShowAddNodeForm(false);
+    setShowEditNodeForm(false);
+    setSelectedNodeId(null);
+  };
 
   return (
+    <DashboardContent>
+      <Box display="flex" alignItems="center" mb={5}>
+        <Typography variant="h4" flexGrow={1}>
+          Nodos
+        </Typography>
+        {!showAddNodeForm && !showEditNodeForm && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleShowAddForm}
+            sx={{ mt: 2, ml: 2 }}
+          >
+            Agregar nodo
+          </Button>
+        )}
+      </Box>
 
-        <DashboardContent>
-          <Box display="flex" alignItems="center" mb={5}>
-            <Typography variant="h4" flexGrow={1}>
-              Nodos
-            </Typography>
-                {!showAddNodeForm && (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleShowForm}
-                sx={{ mt: 2, ml: 2 }}
-              >
-                Agregar nodo
-              </Button>
-            )}
-          </Box>
-
-          <Box sx={{ padding: 2 }}>
-            {showAddNodeForm ? (
-              <AddNodeForm onCancel={handleHideForm} />
-            ) : (
-              <NodoTable />
-            )}
-          </Box>
-        </DashboardContent>
-
-
+      <Box sx={{ padding: 2 }}>
+        {showAddNodeForm ? (
+          <AddNodeForm onCancel={handleHideForms} />
+        ) : showEditNodeForm && selectedNodeId !== null ? (
+          <EditNodeForm
+            nodeId={selectedNodeId}
+            onClose={handleHideForms}
+            onUpdate={() => console.log("Node updated!")}
+          />
+        ) : (
+          <NodoTable onEditNode={handleShowEditForm} />
+        )}
+      </Box>
+    </DashboardContent>
   );
 }
 
