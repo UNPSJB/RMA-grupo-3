@@ -18,37 +18,45 @@ interface EditNodeFormProps {
 }
 
 const EditNodeForm: React.FC<EditNodeFormProps> = ({ nodeId, onClose, onUpdate }) => {
+  // Ajuste para usar tipos adecuados
   const [formData, setFormData] = useState({
-    latitud: "",
-    longitud: "",
+    latitud: 0, // Valor inicial como número
+    longitud: 0, // Valor inicial como número
     alias: "",
     descripcion: "",
+    estado: true, // Booleano para cumplir con el esquema del backend
   });
   const [openDialog, setOpenDialog] = useState(false);
 
+  // Cargar los datos actuales del nodo al montar el componente
   useEffect(() => {
-    // Cargar los datos actuales del nodo
     const fetchNodeData = async () => {
       try {
         const response = await axios.get(`http://localhost:8000/nodos/${nodeId}`);
         const node = response.data;
         setFormData({
-          latitud: node.latitud.toString(),
-          longitud: node.longitud.toString(),
+          latitud: node.latitud, // Mantener como número
+          longitud: node.longitud, // Mantener como número
           alias: node.alias || "",
           descripcion: node.descripcion || "",
+          estado: node.estado || false,
         });
       } catch (error) {
         console.error("Error al cargar los datos del nodo:", error);
       }
     };
+
     fetchNodeData();
   }, [nodeId]);
 
   // Manejar cambios en el formulario
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "latitud" || name === "longitud" ? parseFloat(value) : value,
+    }));
   };
 
   // Confirmación antes de guardar
@@ -58,15 +66,12 @@ const EditNodeForm: React.FC<EditNodeFormProps> = ({ nodeId, onClose, onUpdate }
   // Guardar los cambios
   const handleSave = async () => {
     try {
-      await axios.put(`http://localhost:8000/nodos/${nodeId}`, {
-        ...formData,
-        latitud: parseFloat(formData.latitud),
-        longitud: parseFloat(formData.longitud),
-      });
+      await axios.put(`http://localhost:8000/nodos/${nodeId}`, formData);
       onUpdate(); // Actualizar la tabla
       onClose(); // Cerrar el formulario
     } catch (error) {
-      console.error("Error al actualizar el nodo:", error);
+      console.error("Error al actualizar el nodo:", error.response?.data || error.message);
+      alert("Hubo un error al actualizar el nodo.");
     }
   };
 
@@ -77,6 +82,7 @@ const EditNodeForm: React.FC<EditNodeFormProps> = ({ nodeId, onClose, onUpdate }
         <TextField
           label="Latitud"
           name="latitud"
+          type="number"
           value={formData.latitud}
           onChange={handleChange}
           fullWidth
@@ -86,6 +92,7 @@ const EditNodeForm: React.FC<EditNodeFormProps> = ({ nodeId, onClose, onUpdate }
         <TextField
           label="Longitud"
           name="longitud"
+          type="number"
           value={formData.longitud}
           onChange={handleChange}
           fullWidth
@@ -108,7 +115,6 @@ const EditNodeForm: React.FC<EditNodeFormProps> = ({ nodeId, onClose, onUpdate }
           fullWidth
           margin="normal"
         />
-
         <Box display="flex" justifyContent="space-between" mt={3}>
           <Button variant="outlined" onClick={onClose}>
             Cancelar

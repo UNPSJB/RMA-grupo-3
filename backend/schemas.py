@@ -31,6 +31,14 @@ class Nodo(BaseModel):
     descripcion: Optional[str] = None
     estado: bool
 
+class NodoUpdate(BaseModel):
+    latitud: float
+    longitud: float
+    alias: Optional[str] = None
+    descripcion: Optional[str] = None
+
+
+
     class Config:
         orm_mode = True
 
