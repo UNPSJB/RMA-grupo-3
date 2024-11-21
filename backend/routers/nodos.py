@@ -134,11 +134,18 @@ def update_nodo(nodo_id: int, nodo_data: schemas.NodoCreate, db: Session = Depen
     if nodo is None:
         raise HTTPException(status_code=404, detail="Nodo no encontrado")
 
+    # Actualizar los valores del nodo con los datos del esquema
+    nodo.latitud = nodo_data.latitud
+    nodo.longitud = nodo_data.longitud
+    nodo.alias = nodo_data.alias
+    nodo.descripcion = nodo_data.descripcion
+    nodo.estado = nodo_data.estado
 
-
+    # Guardar los cambios en la base de datos
     db.commit()
-    db.refresh(nodo)
+    db.refresh(nodo)  # Refrescar la instancia para devolver los datos actualizados
     return nodo
+
 
 @router.delete("/{nodo_id}")
 def delete_nodo(nodo_id: int, db: Session = Depends(get_db)):
