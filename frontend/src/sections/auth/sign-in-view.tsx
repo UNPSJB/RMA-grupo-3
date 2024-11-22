@@ -48,8 +48,8 @@ export function SignInView() {
       } else {
         setError("Nombre de usuario o contraseña incorrecto.");
       }
-    } catch (error) {
-      console.error("Error al iniciar sesión:", error);
+    } catch (error1) {
+      console.error("Error al iniciar sesión:", error1);
       setError("Hubo un problema al iniciar sesión. Intenta nuevamente.");
     } finally {
       setLoading(false);
