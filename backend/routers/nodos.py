@@ -108,12 +108,53 @@ def get_data(db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=f"Error al obtener datos: {str(e)}")
 
 
+@router.get("/tabla-datos")
+def get_tabla_datos(nodo_id: int = None, db: Session = Depends(get_db)):
+    try:
+        # Lista de columnas que devolveremos
+        tabla_datos = []
+
+        if nodo_id:
+            nodos = db.query(Nodo).filter(Nodo.id == nodo_id).all()
+        else:
+            nodos = db.query(Nodo).all()
+
+        for nodo in nodos:
+            datos_generales = (
+                db.query(DatosGenerales)
+                .filter(DatosGenerales.nodo_id == nodo.id)
+                .all()
+            )
+
+            for dato in datos_generales:
+                fila = {
+                    "Numero de nodo": nodo.id,
+                    "Alias": nodo.alias,
+                    "Temperatura [°C]": dato.dato if dato.type == "temp_t" else None,
+                    "Voltaje [V]": dato.dato if dato.type == "voltage_t" else None,
+                    "Precipitacion [mm]": dato.dato if dato.type == "rainfall_t" else None,
+                    "Altitud [cm]": dato.dato if dato.type == "altitude_t" else None,
+                    "Tiempo": dato.time,
+                }
+                tabla_datos.append(fila)
+
+        return {"tabla_datos": tabla_datos}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al generar la tabla de datos: {str(e)}")
+
+
 @router.get("/{nodo_id}")
 def get_nodo(nodo_id: int, db: Session = Depends(get_db)):
     nodo = db.query(Nodo).filter(Nodo.id == nodo_id).first()
     if nodo is None:
         raise HTTPException(status_code=404, detail="Nodo no encontrado")
     return nodo
+
+
+
+
+
 
 @router.put("/{nodo_id}", response_model=schemas.Nodo)
 def update_nodo(nodo_id: int, nodo_data: schemas.NodoUpdate, db: Session = Depends(get_db)):

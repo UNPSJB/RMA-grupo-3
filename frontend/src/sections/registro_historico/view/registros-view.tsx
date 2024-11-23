@@ -17,12 +17,16 @@ import { Scrollbar } from 'src/components/scrollbar';
 
 import ExportadorCsv from 'src/components/ExportadorCsv'; 
 
+
+import TablaDatos from 'src/components/TablaDatos';
+
 import { TableNoData } from '../table-no-data';
 import { RegistroTableRow } from '../registro-table-row';
 import { RegistroTableHead } from '../registro-table-head';
 import { TableEmptyRows } from '../table-empty-rows';
 import { RegistroTableToolbar } from '../registro-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
+
 
 import type { RegistroProps } from '../registro-table-row';
 
@@ -51,7 +55,7 @@ export function RegistroView() {
         <ExportadorCsv/>
         {/* </Button> */}
       </Box>
-
+{/* 
       <Card>
         <RegistroTableToolbar
           numSelected={table.selected.length}
@@ -121,6 +125,11 @@ export function RegistroView() {
           onRowsPerPageChange={table.onChangeRowsPerPage}
         />
       </Card>
+ */}
+      <div>
+      <h1>Datos de los Nodos</h1>
+      <TablaDatos />
+    </div>
     </DashboardContent>
   );
 }

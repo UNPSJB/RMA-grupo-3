@@ -55,6 +55,8 @@ class NodoResponse(BaseModel):
 
 
 
+
+
 # Schema para crear un registro de DatosGenerales (entrada)
 class DatosGeneralesCreate(BaseModel):
     nodo_id: int
@@ -77,6 +79,19 @@ class DatosGeneralesResponse(BaseModel):
 # Schema para ver los detalles de un nodo junto con sus datos generales
 class NodoDetail(NodoResponse):
     datosGenerales: List[DatosGeneralesResponse] = []
+
+    class Config:
+        orm_mode = True
+
+
+class TablaDatosResponse(BaseModel):
+    numero_nodo: int
+    alias: Optional[str]
+    temperatura: Optional[float]
+    voltaje: Optional[float]
+    precipitacion: Optional[float]
+    altitud: Optional[float]
+    tiempo: Optional[datetime]
 
     class Config:
         orm_mode = True

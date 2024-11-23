@@ -13,6 +13,8 @@ import TablePagination from '@mui/material/TablePagination';
 import { _nodos } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
 
+
+
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 
@@ -20,6 +22,8 @@ import { Scrollbar } from 'src/components/scrollbar';
 import  NodoTable from 'src/components/NodoTable';
 import AddNodeForm from 'src/components/AddNodeForm';
 import EditNodeForm from 'src/components/EditNodeForm';
+
+
 
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
@@ -80,6 +84,9 @@ export function NodoView() {
         ) : (
           <NodoTable onEditNode={handleShowEditForm} />
         )}
+
+
+
       </Box>
     </DashboardContent>
   );
