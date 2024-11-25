@@ -29,6 +29,15 @@ class UsuarioResponse(BaseModel):
     class Config:
         from_attributes = True 
 
+# para la modificación de usuario
+class UsuarioUpDate(BaseModel):
+    user: Optional[str] = None
+    password: Optional[str] = None
+    rol: Optional[str] = None
+    
+    class Config:
+        from_attributes = True 
+
 # Nodo
 class NodoCreate(BaseModel):
     id: int
@@ -52,8 +61,6 @@ class NodoUpdate(BaseModel):
     alias: Optional[str] = None
     descripcion: Optional[str] = None
 
-
-
     class Config:
         orm_mode = True
 
@@ -67,10 +74,6 @@ class NodoResponse(BaseModel):
 
     class Config:
         orm_mode = True
-
-
-
-
 
 # Schema para crear un registro de DatosGenerales (entrada)
 class DatosGeneralesCreate(BaseModel):

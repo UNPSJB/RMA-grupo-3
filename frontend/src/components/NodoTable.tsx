@@ -20,7 +20,6 @@ import {
 import { CheckCircle, Cancel } from "@mui/icons-material";
 import EditNodeForm from "./EditNodeForm";
 
-
 interface NodoTableProps {
   onEditNode: (nodeId: number) => void; // Nueva prop para manejar la edición
 }
@@ -34,8 +33,6 @@ interface NodoData {
   estado: boolean;
   ultimo_voltaje: number | null;
 }
-
-
 
 const NodoTable: React.FC<NodoTableProps> = ({ onEditNode }) => {
   const [data, setData] = useState<NodoData[]>([]);
@@ -136,11 +133,7 @@ const NodoTable: React.FC<NodoTableProps> = ({ onEditNode }) => {
         <TableHead>
           <TableRow>
             {[
-<<<<<<< HEAD
               { label: "ID nodo", key: "id" },
-=======
-              { label: "Nodo ID", key: "id" },
->>>>>>> 72540f3879d99e3efec2f038b3865d84ee797d16
               { label: "Latitud (°)", key: "latitud" },
               { label: "Longitud (°)", key: "longitud" },
               { label: "Alias", key: "alias" },

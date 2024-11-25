@@ -143,18 +143,12 @@ def get_tabla_datos(nodo_id: int = None, db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al generar la tabla de datos: {str(e)}")
 
-
 @router.get("/{nodo_id}")
 def get_nodo(nodo_id: int, db: Session = Depends(get_db)):
     nodo = db.query(Nodo).filter(Nodo.id == nodo_id).first()
     if nodo is None:
         raise HTTPException(status_code=404, detail="Nodo no encontrado")
     return nodo
-
-
-
-
-
 
 @router.put("/{nodo_id}", response_model=schemas.Nodo)
 def update_nodo(nodo_id: int, nodo_data: schemas.NodoUpdate, db: Session = Depends(get_db)):

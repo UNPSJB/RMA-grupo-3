@@ -4,31 +4,14 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { _nodos } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
-<<<<<<< HEAD
-/* import Card from '@mui/material/Card';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
-import TablePagination from '@mui/material/TablePagination';
-import { Iconify } from 'src/components/iconify';
-import { Scrollbar } from 'src/components/scrollbar'; */
-import NodoTable from 'src/components/NodoTable';  // nuevo
-import AddNodeForm from 'src/components/AddNodeForm'; // nuevo
-=======
-
-
 
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
-
 
 import  NodoTable from 'src/components/NodoTable';
 import AddNodeForm from 'src/components/AddNodeForm';
 import EditNodeForm from 'src/components/EditNodeForm';
 
-
-
->>>>>>> 72540f3879d99e3efec2f038b3865d84ee797d16
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import type { NodoProps } from '../nodo-table-row';
 
@@ -62,19 +45,11 @@ export function NodoView() {
         <Typography variant="h4" flexGrow={1}>
           Nodos
         </Typography>
-<<<<<<< HEAD
-            {!showAddNodeForm && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleShowForm}
-=======
-        {!showAddNodeForm && !showEditNodeForm && (
+            {!showAddNodeForm && !showEditNodeForm && (
           <Button
             variant="contained"
             color="primary"
             onClick={handleShowAddForm}
->>>>>>> 72540f3879d99e3efec2f038b3865d84ee797d16
             sx={{ mt: 2, ml: 2 }}
           >
             Agregar nodo
@@ -84,12 +59,6 @@ export function NodoView() {
 
       <Box sx={{ padding: 2 }}>
         {showAddNodeForm ? (
-<<<<<<< HEAD
-          <AddNodeForm onCancel={handleHideForm} />
-        ) : (
-          <NodoTable />
-        )}
-=======
           <AddNodeForm onCancel={handleHideForms} />
         ) : showEditNodeForm && selectedNodeId !== null ? (
           <EditNodeForm
@@ -100,10 +69,6 @@ export function NodoView() {
         ) : (
           <NodoTable onEditNode={handleShowEditForm} />
         )}
-
-
-
->>>>>>> 72540f3879d99e3efec2f038b3865d84ee797d16
       </Box>
     </DashboardContent>
   );
