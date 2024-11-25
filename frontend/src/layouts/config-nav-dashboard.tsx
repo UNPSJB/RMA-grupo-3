@@ -13,6 +13,11 @@ export const navData = [
     path: '/',
     icon: icon('ic-analytics'),
   }, */
+  { // NO ENCONTRE DONDE BAJAR LOS BOTONES U_U
+    title: '',
+    path: '',
+    icon: icon(''),
+  },
   { 
     title: 'Gráficos',
     path: '/dashboard/graficos',

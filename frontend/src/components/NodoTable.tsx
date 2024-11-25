@@ -106,7 +106,7 @@ const NodeTable: React.FC = () => {
         <TableHead>
           <TableRow>
             {[
-              { label: " Nodo ID", key: "id" },
+              { label: "ID nodo", key: "id" },
               { label: "Latitud (°)", key: "latitud" },
               { label: "Longitud (°)", key: "longitud" },
               { label: "Alias", key: "alias" },

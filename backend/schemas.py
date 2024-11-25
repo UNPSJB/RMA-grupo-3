@@ -5,14 +5,29 @@ from datetime import datetime
 #Usuario
 class UsuarioCreate(BaseModel):
     user: str
+    rol: str
     password: str
+    estado: bool = True
 
 class Usuario(BaseModel):
     id: int
     user: str
+    password: str
+    rol: str
+    estado: bool 
 
     class Config:
         from_attributes = True  # Configuración para Pydantic v2
+
+class UsuarioResponse(BaseModel):
+    id: int
+    user: str
+    password: str
+    rol: str
+    estado: bool 
+    
+    class Config:
+        from_attributes = True 
 
 # Nodo
 class NodoCreate(BaseModel):

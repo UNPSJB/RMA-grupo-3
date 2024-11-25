@@ -16,8 +16,12 @@ class Usuario(Base):
     __tablename__ = "usuarios"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    user = Column(String, nullable=False, unique=True)  # Cambia a String si el DNI tiene ceros a la izquierda
+    user = Column(String, nullable=False, unique=True)  
     password = Column(String, nullable=False)
+    """ email = Column(String, unique=True, nullable=False) """
+    rol = Column(String, nullable=False) 
+    estado = Column(Boolean, default=True)  # Estado del usuario (activo o inactivo)
+
     
     def __repr__(self):
         return f"<Usuario(user={self.user})>"

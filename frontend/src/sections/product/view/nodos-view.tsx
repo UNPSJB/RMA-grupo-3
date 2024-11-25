@@ -1,30 +1,20 @@
 import { useState, useCallback } from 'react';
-
-
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
-import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
-import TableContainer from '@mui/material/TableContainer';
-import TablePagination from '@mui/material/TablePagination';
-
 import { _nodos } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
-
+/* import Card from '@mui/material/Card';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableContainer from '@mui/material/TableContainer';
+import TablePagination from '@mui/material/TablePagination';
 import { Iconify } from 'src/components/iconify';
-import { Scrollbar } from 'src/components/scrollbar';
-
-
-import  NodoTable from 'src/components/NodoTable';
-import AddNodeForm from 'src/components/AddNodeForm';
-
-
+import { Scrollbar } from 'src/components/scrollbar'; */
+import NodoTable from 'src/components/NodoTable';  // nuevo
+import AddNodeForm from 'src/components/AddNodeForm'; // nuevo
 import { emptyRows, applyFilter, getComparator } from '../utils';
-
 import type { NodoProps } from '../nodo-table-row';
-
 
 // ----------------------------------------------------------------------
 
@@ -51,34 +41,31 @@ export function NodoView() {
   const notFound = !dataFiltered.length && !!filterName;
 
   return (
+    <DashboardContent>
+      <Box display="flex" alignItems="center" mb={5}>
+        <Typography variant="h4" flexGrow={1}>
+          Nodos
+        </Typography>
+            {!showAddNodeForm && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleShowForm}
+            sx={{ mt: 2, ml: 2 }}
+          >
+            Agregar nodo
+          </Button>
+        )}
+      </Box>
 
-        <DashboardContent>
-          <Box display="flex" alignItems="center" mb={5}>
-            <Typography variant="h4" flexGrow={1}>
-              Nodos
-            </Typography>
-                {!showAddNodeForm && (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleShowForm}
-                sx={{ mt: 2, ml: 2 }}
-              >
-                Agregar nodo
-              </Button>
-            )}
-          </Box>
-
-          <Box sx={{ padding: 2 }}>
-            {showAddNodeForm ? (
-              <AddNodeForm onCancel={handleHideForm} />
-            ) : (
-              <NodoTable />
-            )}
-          </Box>
-        </DashboardContent>
-
-
+      <Box sx={{ padding: 2 }}>
+        {showAddNodeForm ? (
+          <AddNodeForm onCancel={handleHideForm} />
+        ) : (
+          <NodoTable />
+        )}
+      </Box>
+    </DashboardContent>
   );
 }
 
