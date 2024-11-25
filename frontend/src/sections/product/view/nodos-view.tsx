@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { _nodos } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
+<<<<<<< HEAD
 /* import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,6 +14,21 @@ import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar'; */
 import NodoTable from 'src/components/NodoTable';  // nuevo
 import AddNodeForm from 'src/components/AddNodeForm'; // nuevo
+=======
+
+
+
+import { Iconify } from 'src/components/iconify';
+import { Scrollbar } from 'src/components/scrollbar';
+
+
+import  NodoTable from 'src/components/NodoTable';
+import AddNodeForm from 'src/components/AddNodeForm';
+import EditNodeForm from 'src/components/EditNodeForm';
+
+
+
+>>>>>>> 72540f3879d99e3efec2f038b3865d84ee797d16
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import type { NodoProps } from '../nodo-table-row';
 
@@ -20,25 +36,25 @@ import type { NodoProps } from '../nodo-table-row';
 
 export function NodoView() {
   const [showAddNodeForm, setShowAddNodeForm] = useState(false);
+  const [showEditNodeForm, setShowEditNodeForm] = useState(false);
+  const [selectedNodeId, setSelectedNodeId] = useState<number | null>(null);
 
-  const handleShowForm = () => {
+  const handleShowAddForm = () => {
     setShowAddNodeForm(true);
+    setShowEditNodeForm(false);
   };
 
-  const handleHideForm = () => {
+  const handleShowEditForm = (nodeId: number) => {
+    setSelectedNodeId(nodeId);
+    setShowEditNodeForm(true);
     setShowAddNodeForm(false);
   };
-  const table = useTable();
 
-  const [filterName, setFilterName] = useState('');
-
-  const dataFiltered: NodoProps[] = applyFilter({
-    inputDato: _nodos,
-    comparator: getComparator(table.order, table.orderBy),
-    filterName,
-  });
-
-  const notFound = !dataFiltered.length && !!filterName;
+  const handleHideForms = () => {
+    setShowAddNodeForm(false);
+    setShowEditNodeForm(false);
+    setSelectedNodeId(null);
+  };
 
   return (
     <DashboardContent>
@@ -46,11 +62,19 @@ export function NodoView() {
         <Typography variant="h4" flexGrow={1}>
           Nodos
         </Typography>
+<<<<<<< HEAD
             {!showAddNodeForm && (
           <Button
             variant="contained"
             color="primary"
             onClick={handleShowForm}
+=======
+        {!showAddNodeForm && !showEditNodeForm && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleShowAddForm}
+>>>>>>> 72540f3879d99e3efec2f038b3865d84ee797d16
             sx={{ mt: 2, ml: 2 }}
           >
             Agregar nodo
@@ -60,10 +84,26 @@ export function NodoView() {
 
       <Box sx={{ padding: 2 }}>
         {showAddNodeForm ? (
+<<<<<<< HEAD
           <AddNodeForm onCancel={handleHideForm} />
         ) : (
           <NodoTable />
         )}
+=======
+          <AddNodeForm onCancel={handleHideForms} />
+        ) : showEditNodeForm && selectedNodeId !== null ? (
+          <EditNodeForm
+            nodeId={selectedNodeId}
+            onClose={handleHideForms}
+            onUpdate={() => console.log("Node updated!")}
+          />
+        ) : (
+          <NodoTable onEditNode={handleShowEditForm} />
+        )}
+
+
+
+>>>>>>> 72540f3879d99e3efec2f038b3865d84ee797d16
       </Box>
     </DashboardContent>
   );

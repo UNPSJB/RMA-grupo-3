@@ -43,12 +43,13 @@ class DatosGenerales(Base):
     __tablename__ = "datosGenerales"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    nodo_id = Column(Integer, ForeignKey("nodos.id"), index=True)
-    type = Column(String)
-    dato = Column(Float)  
-    time = Column(DateTime)
+    nodo_id = Column(Integer, ForeignKey("nodos.id", ondelete="CASCADE"), index=True)
+    type = Column(String, nullable=False)
+    dato = Column(Float, nullable=False)
+    time = Column(DateTime, nullable=False)
 
     nodos = relationship("Nodo", back_populates="datosGenerales")
+
 
 # Crear las tablas
 Base.metadata.create_all(bind=engine)

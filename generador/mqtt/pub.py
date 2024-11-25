@@ -11,16 +11,21 @@ from mqtt import TipoMensaje
 from mqtt.config import config
 from dotenv import load_dotenv
 
-def random_date() -> datetime:
-    start_date = datetime(2010, 1, 1)
-    end_date = datetime(2024, 10, 10)
-    
-    delta = end_date - start_date
-    random_days = random.randint(0, delta.days)     #Dias
-    random_microseconds = random.randint(0, 999999)  # Microsegundos
-    random_datetime = start_date + timedelta(days=random_days, microseconds=random_microseconds)
+current_date = datetime(2024, 1, 1)
+call_count = 0  # Contador de llamadas
+max_voltage = 5.0
 
-    return random_datetime
+def increment_day():
+    global current_date , call_count , max_voltage
+    result_date = current_date
+    call_count += 1  # Incrementar el contador de llamadas
+
+    if call_count == 4:  # Cada cuarta llamada -- Genera un dato de cada tipo por dia
+        current_date += timedelta(days=1)  # Incrementa el dia
+        call_count = 0  # Reiniciar el contador
+        max_voltage -= random.uniform(0.1, 0.5)
+
+    return result_date
 
 class Mensaje(BaseModel):
     id: int
@@ -70,7 +75,7 @@ class Nodo:
                 )  # temperatura random entre 10 y 35°C
                 elif tipo == 'voltage_t': #Voltaje
                     message = str(
-                    round(random.uniform(0.0, 5.0), 2)
+                    round(max_voltage, 2)
                 )  # voltage random entre 0 y 5 V
                 elif tipo == 'rainfall_t': #Lluvia
                     message = str(
@@ -120,7 +125,7 @@ class Nodo:
     def formatear_mensaje(self, topic: str, tipo: TipoMensaje, mensaje: str) -> str:
         mensaje = Mensaje(
             #id=self.id, type=tipo, data=str(mensaje), time=str(random_date())
-            id=self.id, type=tipo, data=str(mensaje), time=str(datetime.now())
+            id=self.id, type=tipo, data=str(mensaje), time=str(increment_day())
         ).model_dump()
         return str(mensaje)
     

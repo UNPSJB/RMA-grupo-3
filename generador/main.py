@@ -30,7 +30,7 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     lista_nodos = [
-        Nodo(i, frecuencia=random.randint(10, 12), stop_event=stop_event)
+        Nodo(i, frecuencia=25, stop_event=stop_event)
         for i in range(args.nodos)
     ]
     print(f"{len(lista_nodos)} nodo/s creado/s. Publicando...")
@@ -43,27 +43,25 @@ if __name__ == "__main__":
         )
         thread.start()
 
-        time.sleep(random.randint(1, 3))
+        time.sleep(1)
         thread = threading.Thread(
             target=nodo.publicar,
             args=(config.topic, TipoMensaje.ALTITUDE_T),
         )
         thread.start()
 
-        time.sleep(random.randint(1, 3))
+        time.sleep(1)
         thread = threading.Thread(
             target=nodo.publicar,
             args=(config.topic, TipoMensaje.VOLTAGE_T),
         )
         thread.start()
         
-        time.sleep(random.randint(1, 3))
+        time.sleep(1)
         thread = threading.Thread(
             target=nodo.publicar,
             args=(config.topic, TipoMensaje.RAINFALL_T),
         )
         thread.start()
 
-
-
-        time.sleep(random.randint(1, 3))
+        time.sleep(1)

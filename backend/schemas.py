@@ -46,6 +46,14 @@ class Nodo(BaseModel):
     descripcion: Optional[str] = None
     estado: bool
 
+class NodoUpdate(BaseModel):
+    latitud: float
+    longitud: float
+    alias: Optional[str] = None
+    descripcion: Optional[str] = None
+
+
+
     class Config:
         orm_mode = True
 
@@ -59,6 +67,8 @@ class NodoResponse(BaseModel):
 
     class Config:
         orm_mode = True
+
+
 
 
 
@@ -84,6 +94,19 @@ class DatosGeneralesResponse(BaseModel):
 # Schema para ver los detalles de un nodo junto con sus datos generales
 class NodoDetail(NodoResponse):
     datosGenerales: List[DatosGeneralesResponse] = []
+
+    class Config:
+        orm_mode = True
+
+
+class TablaDatosResponse(BaseModel):
+    numero_nodo: int
+    alias: Optional[str]
+    temperatura: Optional[float]
+    voltaje: Optional[float]
+    precipitacion: Optional[float]
+    altitud: Optional[float]
+    tiempo: Optional[datetime]
 
     class Config:
         orm_mode = True
