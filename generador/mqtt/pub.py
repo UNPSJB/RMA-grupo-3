@@ -16,16 +16,19 @@ call_count = 0  # Contador de llamadas
 max_voltage = 5.0
 
 def increment_day():
-    global current_date , call_count , max_voltage
+    global current_date, call_count, max_voltage
     result_date = current_date
     call_count += 1  # Incrementar el contador de llamadas
 
-    if call_count == 4:  # Cada cuarta llamada -- Genera un dato de cada tipo por dia
-        current_date += timedelta(days=1)  # Incrementa el dia
+    if call_count == 4:  # Cada cuarta llamada -- Genera un dato de cada tipo por día
+        current_date += timedelta(days=1)  # Incrementa el día
         call_count = 0  # Reiniciar el contador
         max_voltage -= random.uniform(0.1, 0.5)
+        if max_voltage < 0:
+            max_voltage += 1
 
-    return result_date
+    # Devolver la fecha actual con milisegundos
+    return result_date.strftime("%Y-%m-%d %H:%M:%S.%f")
 
 class Mensaje(BaseModel):
     id: int

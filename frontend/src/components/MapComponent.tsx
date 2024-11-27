@@ -54,8 +54,8 @@ const MapComponent: React.FC = () => {
             [-43.192349, -65.083941],
             [-43.33826, -65.21180],
         ];
-        const polygon = L.polygon(polygonCoords, { color: 'purple', fillOpacity: 0.3 }).addTo(initialMap);
-        polygon.bindPopup('Área delimitada: Zona de interés');
+        // const polygon = L.polygon(polygonCoords, { color: 'purple', fillOpacity: 0.3 }).addTo(initialMap);
+        // polygon.bindPopup('Área delimitada: Zona de interés');
 
         // Establecer límites máximos del mapa
         const bounds = L.latLngBounds(polygonCoords);
