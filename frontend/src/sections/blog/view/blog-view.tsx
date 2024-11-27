@@ -45,7 +45,7 @@ export function BlogView() {
 
   return (
     <DashboardContent>
-      <Box display="flex" alignItems="center" mb={5}>
+      {/* <Box display="flex" alignItems="center" mb={5}>
         <Typography variant="h4" flexGrow={1}>
           Nodos
         </Typography>
@@ -56,7 +56,7 @@ export function BlogView() {
         >
           Agregar nodo
         </Button>
-      </Box>
+      </Box> */}
 
       {/* Agrega aquí el componente TemperatureChart */}
       <Box sx={{ padding: 2 }}>

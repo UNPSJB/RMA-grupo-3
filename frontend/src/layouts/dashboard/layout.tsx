@@ -86,8 +86,8 @@ export function DashboardLayout({ sx, children, header }: DashboardLayoutProps) 
                 <AccountPopover
                   data={[
                     {
-                      label: 'Home',
-                      href: '/',
+                      label: 'Inicio',
+                      href: '/home',
                       icon: <Iconify width={22} icon="solar:home-angle-bold-duotone" />,
                     },
                     {

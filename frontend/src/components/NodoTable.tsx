@@ -15,6 +15,7 @@ import {
   DialogContentText,
   DialogTitle,
   Paper,
+  Box,
 } from "@mui/material";
 
 import { CheckCircle, Cancel } from "@mui/icons-material";
@@ -41,6 +42,8 @@ const NodoTable: React.FC<NodoTableProps> = ({ onEditNode }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedNodeId, setSelectedNodeId] = useState<number | null>(null);
   const [editingNodeId, setEditingNodeId] = useState<number | null>(null);
+  const [fetchError, setError] = useState<string | null>(null);
+  const [selectedNodeState, setSelectedNodeState] = useState<boolean | null>(null);
 
   // Cargar datos desde el backend
   useEffect(() => {
@@ -78,8 +81,9 @@ const NodoTable: React.FC<NodoTableProps> = ({ onEditNode }) => {
   });
 
   // Abrir diálogo de confirmación para desactivar nodo
-  const handleOpenDialog = (nodeId: number) => {
+  const handleOpenDialog = (nodeId: number, currentState: boolean) => {
     setSelectedNodeId(nodeId);
+    setSelectedNodeState(currentState);
     setDialogOpen(true);
   };
 
@@ -89,8 +93,26 @@ const NodoTable: React.FC<NodoTableProps> = ({ onEditNode }) => {
     setSelectedNodeId(null);
   };
 
+const handleToggleNodeState = async (nodoId: number, currentState: boolean) => {
+  //  if (selectedUserId !== null) {
+    try {
+      const response = await axios.put(`http://localhost:8000/nodos/${selectedNodeId}/toggle`);
+      // console.log("Respuesta del servidor: ", response.data);
+      setData((prevData) =>
+        prevData.map((nodo) =>
+          nodo.id === nodoId ? { ...nodo, estado:  !currentState } : nodo
+        )
+      );
+    } catch (error) {
+      console.error("Error al desactivar/activar el nodo:", fetchError);
+      setError(error.response?.data?.detail || "No se pudo desactivar/activar el nodo. Intentalo nuevamente.");
+    } finally {
+      handleCloseDialog();
+    }
+  };
+
   // Desactivar nodo
-  const handleDeactivateNode = async () => {
+  /* const handleDeactivateNode = async () => {
     if (selectedNodeId !== null) {
       try {
         await axios.put(`http://localhost:8000/nodos/${selectedNodeId}/deactivate`);
@@ -104,7 +126,7 @@ const NodoTable: React.FC<NodoTableProps> = ({ onEditNode }) => {
         console.error("Error al desactivar el nodo:", error);
       }
     }
-  };
+  }; */
 
   // Abrir formulario de edición
   const handleEditNode = (nodeId: number) => {
@@ -181,15 +203,17 @@ const NodoTable: React.FC<NodoTableProps> = ({ onEditNode }) => {
                 >
                   Modificar
                 </Button>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => handleOpenDialog(row.id)}
-                  disabled={!row.estado}
-                  sx={{ ml: 1 }}
-                >
-                  Desactivar
-                </Button>
+              </TableCell>
+              <TableCell>
+                <Box sx={{ display: 'flex', gap: 1}}>
+                  <Button
+                     variant="contained"
+                    color={row.estado ? "secondary" : "primary"} 
+                    onClick={() => handleOpenDialog(row.id, row.estado)}
+                  >
+                    {row.estado ? "Deshabiltar" : "Habilitar"}
+                  </Button>
+                </Box>
               </TableCell>
             </TableRow>
           ))}
@@ -201,14 +225,21 @@ const NodoTable: React.FC<NodoTableProps> = ({ onEditNode }) => {
         <DialogTitle>Confirmación</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            ¿Estás seguro de que deseas desactivar este nodo? Esta acción es irreversible.
+            ¿Estás seguro de que deseas desactivar este nodo? Esta acción es reversible.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleDeactivateNode} color="secondary">
+          <Button 
+            onClick={() => {
+              if (selectedNodeId !== null && selectedNodeState !== null) {
+                handleToggleNodeState(selectedNodeId, selectedNodeState);
+              }
+            }}
+            color="secondary"
+          >
             Confirmar
           </Button>
         </DialogActions>

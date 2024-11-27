@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from dependencies import get_db
 from database import Usuario
-from schemas import Usuario as UsuarioSchema, UsuarioCreate
+from schemas import Usuario as UsuarioSchema, UsuarioCreate, UsuarioUpDate
 import schemas
 router = APIRouter()
 
@@ -53,25 +53,28 @@ def get_data(db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=f"Error al obtener usuarios: {str(e)}")
 
 # Devuelve a un usuario segun su id
-@router.get("/{user}", response_model=UsuarioSchema)
+@router.get("/userid", response_model=UsuarioSchema)
 def get_usuario(user: str, db: Session = Depends(get_db)):
     usuario = db.query(Usuario).filter(Usuario.user == user).first()
     if usuario is None:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
     return usuario
 
-@router.put("/{user}", response_model=UsuarioSchema)
-def update_usuario(user: str, usuario_data: UsuarioCreate, db: Session = Depends(get_db)):
+@router.put("/userp", response_model=UsuarioSchema)
+def update_usuario(user: str, usuario_data: UsuarioUpDate, db: Session = Depends(get_db)):
     usuario = db.query(Usuario).filter(Usuario.user == user).first()
-    if usuario is None:
+
+    """ if usuario is None:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
-    
+ """
     usuario.user = usuario_data.user
-    usuario.password = usuario_data.password
+    # usuario.password = usuario_data.password
     usuario.rol = usuario_data.rol
-    usuario.estado = usuario_data.estado
+    # usuario.estado = usuario_data.estado
     db.commit()
     db.refresh(usuario)
+    print(usuario_data)
+
     return usuario
 
 @router.put("/{user_id}/toggle")
@@ -84,7 +87,7 @@ def toggle_usuario(user_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"message": "Estado actualizado", "estado": usuario.estado}
 
-@router.delete("/{user}")
+@router.delete("/eliminar")
 def delete_usuario(user: str, db: Session = Depends(get_db)):
     usuario = db.query(Usuario).filter(Usuario.user == user).first()
     if usuario is None:

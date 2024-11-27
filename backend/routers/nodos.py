@@ -74,7 +74,6 @@ def export_csv(db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al exportar CSV: {str(e)}")
 
-
 @router.get("/get-data")
 def get_data(db: Session = Depends(get_db)):
     try:
@@ -106,7 +105,6 @@ def get_data(db: Session = Depends(get_db)):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al obtener datos: {str(e)}")
-
 
 @router.get("/tabla-datos")
 def get_tabla_datos(nodo_id: int = None, db: Session = Depends(get_db)):
@@ -142,6 +140,17 @@ def get_tabla_datos(nodo_id: int = None, db: Session = Depends(get_db)):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al generar la tabla de datos: {str(e)}")
+
+@router.put("/{nodo_id}/toggle")
+def toggle_nodo(nodo_id: int, db: Session = Depends(get_db)):
+    nodo = db.query(Nodo).filter(Nodo.id == nodo_id).first()
+    if not nodo:
+        raise HTTPException(status_code=404, detail="Nodo no encontrado")
+    
+    nodo.estado = not nodo.estado
+    db.commit()
+    return {"message": "Estado actualizado", "estado": nodo.estado}
+
 
 @router.get("/{nodo_id}")
 def get_nodo(nodo_id: int, db: Session = Depends(get_db)):
@@ -179,8 +188,7 @@ def delete_nodo(nodo_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"detail": "Nodo eliminado"}
 
-
-@router.put("/{nodo_id}/deactivate")
+""" @router.put("/{nodo_id}/deactivate")
 def deactivate_nodo(nodo_id: int, db: Session = Depends(get_db)):
     nodo = db.query(Nodo).filter(Nodo.id == nodo_id).first()
     if nodo is None:
@@ -188,5 +196,5 @@ def deactivate_nodo(nodo_id: int, db: Session = Depends(get_db)):
     
     nodo.estado = False
     db.commit()
-    return {"detail": "Nodo desactivado"}
+    return {"detail": "Nodo desactivado"} """
 

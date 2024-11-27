@@ -8,15 +8,15 @@ const icon = (name: string) => (
 );
 
 export const navData = [
-  /* {
-    title: 'Principal',
-    path: '/',
-    icon: icon('ic-analytics'),
-  }, */
-  { // NO ENCONTRE DONDE BAJAR LOS BOTONES U_U
+  {
     title: '',
-    path: '',
+    path: '/',
     icon: icon(''),
+  },
+  { 
+    title: 'Inicio',
+    path: '/home',
+    icon: icon('hogar'),
   },
   { 
     title: 'Gráficos',
@@ -39,12 +39,13 @@ export const navData = [
     path: '/dashboard/user', 
     icon: icon('usuarios'),
   },
-  {
+
+  /* {
     title: 'Configuración',
     path: '/dashboard/configuracion', 
     icon: icon('ajustes'),
-  },
-  
+  }, */
+
   /* {
     title: 'No encontrado',
     path: '/404',

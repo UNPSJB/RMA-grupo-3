@@ -32,7 +32,6 @@ class UsuarioResponse(BaseModel):
 # para la modificación de usuario
 class UsuarioUpDate(BaseModel):
     user: Optional[str] = None
-    password: Optional[str] = None
     rol: Optional[str] = None
     
     class Config:

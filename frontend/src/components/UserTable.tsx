@@ -24,6 +24,7 @@ import {
 import { CheckCircle, Cancel, MoreVert } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import AddUserForm from "./AddUserForm";
+import EditUserForm from "./EditUserForm";
 
 
 /* interface UserTableProps {
@@ -51,14 +52,14 @@ const UserTable: React.FC = () => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedMenuUserId, setSelectedMenuUserId] = useState<number | null>(null);
   const [showEditUserForm, setEditUserForm] = useState(false);
+  const [editingUserId, setEditingUserId] = useState<number | null>(null);
+
   const navigate = useNavigate();
   
-  const handleEdit = (userId: number) => {
+  /* const handleEdit = (userId: number) => {
     console.log("Editar usuario con ID:", userId);
-    navigate(`src/component/:EditUserForm`); // Redirige a la página de edición
-  };
-
-
+    navigate("/src/components/EditUserForm"); // Redirige a la página de edición
+  }; */
 
   // Cargar datos desde el backend
   useEffect(() => {
@@ -129,6 +130,26 @@ const UserTable: React.FC = () => {
       setError(error.response?.data?.detail || "No se pudo desactivar/activar el usuario. Intentalo nuevamente.");
     } finally {
       handleCloseDialog();
+    }
+  };
+
+  const handleEditUser = (userId: number) => {
+    setEditingUserId(userId);
+  };
+
+  // Cerrar formulario de edición
+  const handleCloseEditForm = () => {
+    setEditingUserId(null);
+  };
+
+  // Actualizar datos tras la edición
+  const handleUpdateUser = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/usuarios/get-data");
+      setData(response.data.data); // Volver a cargar los datos después de la edición
+      handleCloseEditForm();
+    } catch (error) {
+      console.error("Error al actualizar los datos:", error);
     }
   };
 
@@ -215,19 +236,21 @@ const UserTable: React.FC = () => {
                         >
                           {row.estado ? "Deshabiltar" : "Habilitar"}
                         </Button>
-                        <Button
+                        {/* <Button
                           variant="outlined"
                           color="primary"
-                          onClick={() => handleEdit(row.id)}
+                          onClick={() => handleEditUser(row.id)}
                         >
                           Modificar
-                        </Button>
+                        </Button> */}
                       </Box>
                     </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
+
+            
           </TableContainer>
         </>
       )}
@@ -260,6 +283,31 @@ const UserTable: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Formulario de edición */}
+      {editingUserId !== null && (
+        <Dialog
+          open={editingUserId !== null}
+          onClose={handleCloseEditForm}
+          fullWidth
+          maxWidth="sm" // Ajusta el tamaño de la ventana
+        >
+          <DialogTitle>Editar Usuario</DialogTitle>
+          <DialogContent>
+            <EditUserForm
+              userId={editingUserId}
+              onClose={handleCloseEditForm}
+              onUpdate={handleUpdateUser}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseEditForm} color="primary">
+              Cerrar
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
+
     </>
   );
 };
