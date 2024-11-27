@@ -5,14 +5,38 @@ from datetime import datetime
 #Usuario
 class UsuarioCreate(BaseModel):
     user: str
+    rol: str
     password: str
+    estado: bool = True
 
 class Usuario(BaseModel):
     id: int
     user: str
+    password: str
+    rol: str
+    estado: bool 
 
     class Config:
         from_attributes = True  # Configuración para Pydantic v2
+
+class UsuarioResponse(BaseModel):
+    id: int
+    user: str
+    password: str
+    rol: str
+    estado: bool 
+    
+    class Config:
+        from_attributes = True 
+
+# para la modificación de usuario
+class UsuarioUpDate(BaseModel):
+    user: Optional[str] = None
+    password: Optional[str] = None
+    rol: Optional[str] = None
+    
+    class Config:
+        from_attributes = True 
 
 # Nodo
 class NodoCreate(BaseModel):
@@ -37,8 +61,6 @@ class NodoUpdate(BaseModel):
     alias: Optional[str] = None
     descripcion: Optional[str] = None
 
-
-
     class Config:
         orm_mode = True
 
@@ -52,10 +74,6 @@ class NodoResponse(BaseModel):
 
     class Config:
         orm_mode = True
-
-
-
-
 
 # Schema para crear un registro de DatosGenerales (entrada)
 class DatosGeneralesCreate(BaseModel):

@@ -101,7 +101,7 @@ const DatosGeneralesChart: React.FC = () => {
           labels: times,
           datasets: [
             {
-              label: selectedTipo === 'temp_t' ? 'Temperatura' : selectedTipo === 'altitude_t' ? 'Altitud' : 'Tensión',
+              label: selectedTipo === 'temp_t' ? 'Temperatura' : selectedTipo === 'altitude_t' ? 'Altitud' : selectedTipo === 'rainfall_t' ? 'Precipitación' :'Tensión',
               data: valoresDato,
               backgroundColor: 'rgba(75, 192, 192, 0.5)', // Color fijo
               borderColor: 'rgba(75, 192, 192, 1)', // Color fijo
@@ -148,7 +148,8 @@ const DatosGeneralesChart: React.FC = () => {
         title: {
           display: true,
           text: selectedTipo === 'temp_t' ? 'Temperatura (°C)' : 
-                selectedTipo === 'altitude_t' ? 'Altitud (m)' : 'Tensión (V)',
+                selectedTipo === 'altitude_t' ? 'Altitud (cm)' : 
+                selectedTipo === 'rainfall_t' ? 'Precipitación (mm)':'Tensión (V)',
            font: {
             size: 28,
           }, 
@@ -187,6 +188,7 @@ const DatosGeneralesChart: React.FC = () => {
         <option value="altitude_t">Altitud</option>
         <option value="temp_t">Temperatura</option>
         <option value="voltage_t">Tensión</option>
+        <option value="rainfall_t">Precipitación</option>
       </select>
 
       <Line data={chartData} options={options} />

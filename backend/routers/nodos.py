@@ -1,12 +1,16 @@
 import os
 import pandas as pd
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Query, Depends
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
+from typing import List,Optional
+from datetime import datetime
 from dependencies import get_db  # Asegúrate de que esto es correcto
 from database import Nodo, DatosGenerales  # Importa tu modelo desde el módulo correcto
 import schemas
+
+router = APIRouter()
 
 router = APIRouter()
 
@@ -109,40 +113,91 @@ def get_data(db: Session = Depends(get_db)):
 
 
 @router.get("/tabla-datos")
-def get_tabla_datos(nodo_id: int = None, db: Session = Depends(get_db)):
+def get_tabla_datos(
+    nodo_ids: Optional[List[int]] = Query(None),
+    temperatura_min: Optional[float] = Query(None),
+    temperatura_max: Optional[float] = Query(None),
+    voltaje_min: Optional[float] = Query(None),
+    voltaje_max: Optional[float] = Query(None),
+    precipitacion_min: Optional[float] = Query(None),
+    precipitacion_max: Optional[float] = Query(None),
+    altitud_min: Optional[float] = Query(None),
+    altitud_max: Optional[float] = Query(None),
+    fecha_desde: Optional[datetime] = Query(None),
+    fecha_hasta: Optional[datetime] = Query(None),
+    db: Session = Depends(get_db),
+):
     try:
-        # Lista de columnas que devolveremos
-        tabla_datos = []
+        # Inicializar consulta base
+        query = db.query(DatosGenerales, Nodo).join(Nodo, DatosGenerales.nodo_id == Nodo.id)
 
-        if nodo_id:
-            nodos = db.query(Nodo).filter(Nodo.id == nodo_id).all()
-        else:
-            nodos = db.query(Nodo).all()
+        # Filtro de nodos
+        if nodo_ids:
+            query = query.filter(DatosGenerales.nodo_id.in_(nodo_ids))
 
-        for nodo in nodos:
-            datos_generales = (
-                db.query(DatosGenerales)
-                .filter(DatosGenerales.nodo_id == nodo.id)
-                .all()
+        # Filtros específicos
+        if temperatura_min is not None:
+            query = query.filter(
+                (DatosGenerales.type == "temp_t") & (DatosGenerales.dato >= temperatura_min)
+            )
+        if temperatura_max is not None:
+            query = query.filter(
+                (DatosGenerales.type == "temp_t") & (DatosGenerales.dato <= temperatura_max)
             )
 
-            for dato in datos_generales:
-                fila = {
-                    "Numero de nodo": nodo.id,
-                    "Alias": nodo.alias,
-                    "Temperatura [°C]": dato.dato if dato.type == "temp_t" else None,
-                    "Voltaje [V]": dato.dato if dato.type == "voltage_t" else None,
-                    "Precipitacion [mm]": dato.dato if dato.type == "rainfall_t" else None,
-                    "Altitud [cm]": dato.dato if dato.type == "altitude_t" else None,
-                    "Tiempo": dato.time,
-                }
-                tabla_datos.append(fila)
+        if voltaje_min is not None:
+            query = query.filter(
+                (DatosGenerales.type == "voltage_t") & (DatosGenerales.dato >= voltaje_min)
+            )
+        if voltaje_max is not None:
+            query = query.filter(
+                (DatosGenerales.type == "voltage_t") & (DatosGenerales.dato <= voltaje_max)
+            )
+
+        if precipitacion_min is not None:
+            query = query.filter(
+                (DatosGenerales.type == "rainfall_t") & (DatosGenerales.dato >= precipitacion_min)
+            )
+        if precipitacion_max is not None:
+            query = query.filter(
+                (DatosGenerales.type == "rainfall_t") & (DatosGenerales.dato <= precipitacion_max)
+            )
+
+        if altitud_min is not None:
+            query = query.filter(
+                (DatosGenerales.type == "altitude_t") & (DatosGenerales.dato >= altitud_min)
+            )
+        if altitud_max is not None:
+            query = query.filter(
+                (DatosGenerales.type == "altitude_t") & (DatosGenerales.dato <= altitud_max)
+            )
+
+        # Filtros de fecha
+        if fecha_desde:
+            query = query.filter(DatosGenerales.time >= fecha_desde)
+        if fecha_hasta:
+            query = query.filter(DatosGenerales.time <= fecha_hasta)
+
+        # Ejecución de la consulta
+        results = query.all()
+
+        # Formatear resultados
+        tabla_datos = []
+        for dato, nodo in results:
+            fila = {
+                "Numero de nodo": nodo.id,
+                "Alias": nodo.alias,
+                "Temperatura [°C]": dato.dato if dato.type == "temp_t" else None,
+                "Voltaje [V]": dato.dato if dato.type == "voltage_t" else None,
+                "Precipitacion [mm]": dato.dato if dato.type == "rainfall_t" else None,
+                "Altitud [cm]": dato.dato if dato.type == "altitude_t" else None,
+                "Tiempo": dato.time,
+            }
+            tabla_datos.append(fila)
 
         return {"tabla_datos": tabla_datos}
-
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al generar la tabla de datos: {str(e)}")
-
 
 @router.get("/{nodo_id}")
 def get_nodo(nodo_id: int, db: Session = Depends(get_db)):
@@ -150,11 +205,6 @@ def get_nodo(nodo_id: int, db: Session = Depends(get_db)):
     if nodo is None:
         raise HTTPException(status_code=404, detail="Nodo no encontrado")
     return nodo
-
-
-
-
-
 
 @router.put("/{nodo_id}", response_model=schemas.Nodo)
 def update_nodo(nodo_id: int, nodo_data: schemas.NodoUpdate, db: Session = Depends(get_db)):

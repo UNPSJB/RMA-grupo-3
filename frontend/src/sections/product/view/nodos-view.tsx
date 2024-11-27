@@ -1,34 +1,19 @@
 import { useState, useCallback } from 'react';
-
-
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
-import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
-import TableContainer from '@mui/material/TableContainer';
-import TablePagination from '@mui/material/TablePagination';
-
 import { _nodos } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
 
-
-
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
-
 
 import  NodoTable from 'src/components/NodoTable';
 import AddNodeForm from 'src/components/AddNodeForm';
 import EditNodeForm from 'src/components/EditNodeForm';
 
-
-
 import { emptyRows, applyFilter, getComparator } from '../utils';
-
 import type { NodoProps } from '../nodo-table-row';
-
 
 // ----------------------------------------------------------------------
 
@@ -60,7 +45,7 @@ export function NodoView() {
         <Typography variant="h4" flexGrow={1}>
           Nodos
         </Typography>
-        {!showAddNodeForm && !showEditNodeForm && (
+            {!showAddNodeForm && !showEditNodeForm && (
           <Button
             variant="contained"
             color="primary"
@@ -84,9 +69,6 @@ export function NodoView() {
         ) : (
           <NodoTable onEditNode={handleShowEditForm} />
         )}
-
-
-
       </Box>
     </DashboardContent>
   );

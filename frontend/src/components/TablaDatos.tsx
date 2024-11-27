@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useCallback} from "react";
 import axios from "axios";
 import {
   Table,
@@ -9,6 +9,16 @@ import {
   TableRow,
   Paper,
   TableSortLabel,
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Checkbox,
+  ListItemText,
+  Button,
+  Box,
+  FormControlLabel,
 } from "@mui/material";
 
 interface FilaDatos {
@@ -21,91 +31,339 @@ interface FilaDatos {
   tiempo: string | null;
 }
 
+interface FiltroMedicion {
+  habilitar: boolean;
+  rangoMin: number | null;
+  rangoMax: number | null;
+}
+
+type Filtros = {
+  [key: string]: FiltroMedicion | boolean | string;
+};
+
 const TablaDatos: React.FC = () => {
   const [datos, setDatos] = useState<FilaDatos[]>([]);
   const [order, setOrder] = useState<"asc" | "desc">("asc");
-  const [orderBy, setOrderBy] = useState<keyof FilaDatos>("numero_nodo");
+  const [orderBy, setOrderBy] = useState<keyof FilaDatos | null>(null);
 
-useEffect(() => {
-    // Cargar datos desde el backend
-    axios
-      .get("http://localhost:8000/nodos/tabla-datos")
-      .then((response) => {
-        const datosTransformados = response.data.tabla_datos.map((fila: any) => ({
-            /* eslint-disable @typescript-eslint/dot-notation */
-            numero_nodo: fila["Numero de nodo"], // Usar corchetes
-            alias: fila["Alias"], // Usar corchetes
-            temperatura: fila["Temperatura [°C]"], // Usar corchetes
-            voltaje: fila["Voltaje [V]"], // Usar corchetes
-            precipitacion: fila["Precipitacion [mm]"], // Usar corchetes
-            altitud: fila["Altitud [cm]"], // Usar corchetes
-            tiempo: fila["Tiempo"], // Usar corchetes
-            /* eslint-enable @typescript-eslint/dot-notation */
-
-        }));
-        setDatos(datosTransformados);
-      })
-      .catch((error) => {
-        console.error("Error al cargar los datos:", error);
-      });
-  }, []);
-
-
-  const handleSort = (property: keyof FilaDatos) => {
-    const isAscending = orderBy === property && order === "asc";
-    setOrder(isAscending ? "desc" : "asc");
-    setOrderBy(property);
-  };
-
-  const sortedDatos = [...datos].sort((a, b) => {
-    if (a[orderBy] === null) return 1;
-    if (b[orderBy] === null) return -1;
-    if (a[orderBy]! < b[orderBy]!) return order === "asc" ? -1 : 1;
-    if (a[orderBy]! > b[orderBy]!) return order === "asc" ? 1 : -1;
-    return 0;
+  // Filtros dinámicos
+  const [filtros, setFiltros] = useState<Filtros>({
+    nodo: false,
+    temperatura: { habilitar: false, rangoMin: null, rangoMax: null },
+    voltaje: { habilitar: false, rangoMin: null, rangoMax: null },
+    precipitacion: { habilitar: false, rangoMin: null, rangoMax: null },
+    altitud: { habilitar: false, rangoMin: null, rangoMax: null },
+    fecha: false,
+    fechaDesde: "",
+    fechaHasta: "",
   });
 
+
+  const [filtroNodo, setFiltroNodo] = useState<number[]>([]);
+  const [habilitarFiltroNodo, setHabilitarFiltroNodo] = useState(false);
+
+  const nodosUnicos = Array.from(new Set(datos.map((fila) => fila.numero_nodo)));
+
+  const columnasActivas = [
+    "numero_nodo",
+    "alias",
+    ...Object.keys(filtros).filter(
+      (key) =>
+        key !== "nodo" &&
+        key !== "fechaDesde" &&
+        key !== "fechaHasta" &&
+        typeof filtros[key] === "object" &&
+        (filtros[key] as FiltroMedicion).habilitar
+    ),
+    "tiempo",
+  ];
+
+  const handleFiltroHabilitar = (key: keyof Filtros) => {
+    if (typeof filtros[key] === "object") {
+      setFiltros({
+        ...filtros,
+        [key]: { ...(filtros[key] as FiltroMedicion), habilitar: !filtros[key]?.habilitar },
+      });
+    }
+  };
+
+  const handleFiltroRangoMin = (key: keyof Filtros, value: number | null) => {
+    if (typeof filtros[key] === "object") {
+      setFiltros({
+        ...filtros,
+        [key]: { ...(filtros[key] as FiltroMedicion), rangoMin: value },
+      });
+    }
+  };
+
+
+  const handleFiltroRangoMax = (key: keyof Filtros, value: number | null) => {
+    if (typeof filtros[key] === "object") {
+      setFiltros({
+        ...filtros,
+        [key]: { ...(filtros[key] as FiltroMedicion), rangoMax: value },
+      });
+    }
+  };
+
+
+const cargarDatos = useCallback((params: any) => {
+  axios
+    .get("http://localhost:8000/nodos/tabla-datos", {
+      params,
+      paramsSerializer: (queryParams) =>
+        Object.entries(queryParams)
+          .map(([key, value]) =>
+            Array.isArray(value)
+              ? value.map((v) => `${key}=${encodeURIComponent(v)}`).join("&")
+              : `${key}=${encodeURIComponent(value)}`
+          )
+          .join("&"),
+    })
+    .then((response) => {
+      const columnasHabilitadas = Object.keys(filtros)
+        .filter((key) => typeof filtros[key] === "object" && (filtros[key] as FiltroMedicion).habilitar);
+
+      // Asegúrate de filtrar únicamente por columnas habilitadas
+      setDatos(
+        response.data.tabla_datos
+          .filter((fila: any) =>
+            columnasHabilitadas.every((col) => {
+              if (col === "temperatura") return fila["Temperatura [°C]"] !== null;
+              if (col === "voltaje") return fila["Voltaje [V]"] !== null;
+              if (col === "precipitacion") return fila["Precipitación [mm]"] !== null;
+              if (col === "altitud") return fila["Altitud [cm]"] !== null;
+              return true;
+            })
+          )
+          .map((fila: any) => ({
+            numero_nodo: fila["Numero de nodo"],
+            /* eslint-disable @typescript-eslint/dot-notation */
+            alias: fila["Alias"],
+            /* eslint-disable @typescript-eslint/dot-notation */
+            temperatura: fila["Temperatura [°C]"],
+            voltaje: fila["Voltaje [V]"],
+            precipitacion: fila["Precipitación [mm]"],
+            altitud: fila["Altitud [cm]"],
+            /* eslint-disable @typescript-eslint/dot-notation */
+            tiempo: fila["Tiempo"],
+            /* eslint-disable @typescript-eslint/dot-notation */
+          }))
+      );
+    })
+
+    .catch((error) => console.error("Error al cargar los datos:", error));
+}, [filtros]); // Dependemos de `filtros`
+
+  // Cargar datos iniciales
+useEffect(() => {
+  cargarDatos({});
+}, [cargarDatos]);
+
+
+  const aplicarFiltros = () => {
+    const params: any = {};
+
+    if (filtros.nodo && filtroNodo.length > 0) {
+      params.nodo_ids = filtroNodo;
+    }
+
+        // Filtro por nodos
+        if (habilitarFiltroNodo && filtroNodo.length > 0) {
+          params.nodo_ids = filtroNodo;
+        }
+
+        Object.keys(filtros).forEach((key) => {
+          if (typeof filtros[key] === "object" && filtros[key]?.habilitar) {
+            const filtro = filtros[key] as FiltroMedicion;
+            if (filtro.rangoMin !== null) params[`${key}_min`] = filtro.rangoMin;
+            if (filtro.rangoMax !== null) params[`${key}_max`] = filtro.rangoMax;
+          }
+        });
+    
+        // Filtro por fecha
+        if (filtros.fecha) {
+          if (filtros.fechaDesde) params.fecha_desde = filtros.fechaDesde;
+          if (filtros.fechaHasta) params.fecha_hasta = filtros.fechaHasta;
+        }
+
+    cargarDatos(params);
+  };
+
+  const reiniciarFiltros = () => {
+    setFiltroNodo([]);
+    setFiltros({
+      nodo: false,
+      temperatura: { habilitar: false, rangoMin: null, rangoMax: null },
+      voltaje: { habilitar: false, rangoMin: null, rangoMax: null },
+      precipitacion: { habilitar: false, rangoMin: null, rangoMax: null },
+      altitud: { habilitar: false, rangoMin: null, rangoMax: null },
+      fecha: false,
+      fechaDesde: "",
+      fechaHasta: "",
+    });
+    cargarDatos({});
+  };
+
+  const handleSort = (column: keyof FilaDatos) => {
+    const isAsc = orderBy === column && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(column);
+    setDatos((prevDatos) =>
+      [...prevDatos].sort((a, b) => {
+        if (a[column] === null || b[column] === null) return 0;
+        return isAsc
+          ? (a[column]! > b[column]! ? 1 : -1)
+          : (a[column]! < b[column]! ? 1 : -1);
+      })
+    );
+  };
+
   return (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            {[
-              { id: "numero_nodo", label: "Número de Nodo" },
-              { id: "alias", label: "Alias" },
-              { id: "temperatura", label: "Temperatura [°C]" },
-              { id: "voltaje", label: "Voltaje [V]" },
-              { id: "precipitacion", label: "Precipitación [mm]" },
-              { id: "altitud", label: "Altitud [cm]" },
-              { id: "tiempo", label: "Tiempo" },
-            ].map((column) => (
-              <TableCell key={column.id}>
-                <TableSortLabel
-                  active={orderBy === column.id}
-                  direction={orderBy === column.id ? order : "asc"}
-                  onClick={() => handleSort(column.id as keyof FilaDatos)}
-                >
-                  {column.label}
-                </TableSortLabel>
-              </TableCell>
+    <Box>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mb: 2 }}>
+        {/* Filtro por Nodo */}
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={habilitarFiltroNodo}
+              onChange={(e) => setHabilitarFiltroNodo(e.target.checked)}
+            />
+          }
+          label="Habilitar filtro por Nodo"
+        />
+        <FormControl sx={{ minWidth: 150 }}>
+          <InputLabel id="filtro-nodo-label">Nodos</InputLabel>
+          <Select
+            labelId="filtro-nodo-label"
+            multiple
+            value={filtroNodo}
+            onChange={(e) => setFiltroNodo(e.target.value as number[])}
+            renderValue={(selected) => selected.join(", ")}
+            disabled={!habilitarFiltroNodo}
+          >
+            {nodosUnicos.map((nodo) => (
+              <MenuItem key={nodo} value={nodo}>
+                <Checkbox checked={filtroNodo.includes(nodo)} />
+                <ListItemText primary={`Nodo ${nodo}`} />
+              </MenuItem>
             ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {sortedDatos.map((fila, index) => (
-            <TableRow key={index}>
-              <TableCell>{fila.numero_nodo}</TableCell>
-              <TableCell>{fila.alias}</TableCell>
-              <TableCell>{fila.temperatura ?? "-"}</TableCell>
-              <TableCell>{fila.voltaje ?? "-"}</TableCell>
-              <TableCell>{fila.precipitacion ?? "-"}</TableCell>
-              <TableCell>{fila.altitud ?? "-"}</TableCell>
-              <TableCell>{fila.tiempo ? new Date(fila.tiempo).toLocaleString() : "-"}</TableCell>
+          </Select>
+        </FormControl>
+
+
+      {/* Filtros dinámicos */}
+      {["temperatura", "voltaje", "precipitacion", "altitud"].map((key) => (
+        <Box key={key} sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={typeof filtros[key] === "object" && (filtros[key] as FiltroMedicion).habilitar}
+                onChange={() => handleFiltroHabilitar(key as keyof Filtros)}
+              />
+            }
+            label={`Habilitar filtro para ${key}`}
+          />
+          <TextField
+            type="number"
+            label="Rango Mín."
+            value={typeof filtros[key] === "object" ? (filtros[key] as FiltroMedicion).rangoMin ?? "" : ""}
+            onChange={(e) =>
+              handleFiltroRangoMin(key as keyof Filtros, Number(e.target.value) || null)
+            }
+            disabled={typeof filtros[key] !== "object" || !(filtros[key] as FiltroMedicion).habilitar}
+          />
+          <TextField
+            type="number"
+            label="Rango Máx."
+            value={typeof filtros[key] === "object" ? (filtros[key] as FiltroMedicion).rangoMax ?? "" : ""}
+            onChange={(e) =>
+              handleFiltroRangoMax(key as keyof Filtros, Number(e.target.value) || null)
+            }
+            disabled={typeof filtros[key] !== "object" || !(filtros[key] as FiltroMedicion).habilitar}
+          />
+        </Box>
+        ))}
+
+        {/* Filtro por Fecha */}
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={filtros.fecha as boolean}
+              onChange={(e) =>
+                setFiltros({ ...filtros, fecha: e.target.checked })
+              }
+            />
+          }
+          label="Habilitar filtro por Fecha"
+        />
+        <TextField
+          type="datetime-local"
+          label="Desde"
+          value={filtros.fechaDesde}
+          onChange={(e) => setFiltros({ ...filtros, fechaDesde: e.target.value })}
+          disabled={!filtros.fecha}
+        />
+        <TextField
+          type="datetime-local"
+          label="Hasta"
+          value={filtros.fechaHasta}
+          onChange={(e) => setFiltros({ ...filtros, fechaHasta: e.target.value })}
+          disabled={!filtros.fecha}
+        />
+      </Box>
+
+      {/* Botones */}
+      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mb: 2 }}>
+        <Button variant="contained" onClick={aplicarFiltros}>
+          Aplicar Filtros
+        </Button>
+
+
+        <Button
+          variant="outlined"
+          onClick={() => {
+            setFiltroNodo([]);
+            setHabilitarFiltroNodo(false);
+            reiniciarFiltros(); // También reinicia el resto de los filtros
+          }}
+        >
+          Reiniciar Filtros
+        </Button>
+      </Box>
+
+      {/* Tabla */}
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              {columnasActivas.map((col) => (
+                <TableCell key={col}>
+                  <TableSortLabel
+                    active={orderBy === col}
+                    direction={orderBy === col ? order : "asc"}
+                    onClick={() => handleSort(col as keyof FilaDatos)}
+                  >
+                    {col.toUpperCase()}
+                  </TableSortLabel>
+                </TableCell>
+              ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {datos.map((fila, index) => (
+              <TableRow key={index}>
+                {columnasActivas.map((col) => (
+                  <TableCell key={col}>
+                    {(fila as Record<string, any>)[col] ?? "-"}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 };
 

@@ -70,7 +70,7 @@ export function NodoTableRow({ row, selected, onSelectRow }: NodoTableRowProps) 
         </TableCell> */}
 
         <TableCell>
-          <Label color={(row.estado === 'banned' && 'error') || 'success'}>{row.estado}</Label>
+          <Label color={(row.estado === 'innactivo' && 'error') || 'success'}>{row.estado}</Label>
         </TableCell>
 
         <TableCell align="right">
