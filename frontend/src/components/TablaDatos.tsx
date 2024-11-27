@@ -46,6 +46,9 @@ const TablaDatos: React.FC = () => {
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = useState<keyof FilaDatos | null>(null);
 
+
+
+
   // Filtros dinámicos
   const [filtros, setFiltros] = useState<Filtros>({
     nodo: false,
@@ -65,18 +68,21 @@ const TablaDatos: React.FC = () => {
   const nodosUnicos = Array.from(new Set(datos.map((fila) => fila.numero_nodo)));
 
   const columnasActivas = [
-    "numero_nodo",
-    "alias",
-    ...Object.keys(filtros).filter(
-      (key) =>
-        key !== "nodo" &&
-        key !== "fechaDesde" &&
-        key !== "fechaHasta" &&
-        typeof filtros[key] === "object" &&
-        (filtros[key] as FiltroMedicion).habilitar
-    ),
-    "tiempo",
+    { id: "numero_nodo", label: "Número de nodo" },
+    { id: "alias", label: "Alias" },
+    ...Object.keys(filtros)
+      .filter(
+        (key) =>
+          key !== "nodo" &&
+          key !== "fechaDesde" &&
+          key !== "fechaHasta" &&
+          typeof filtros[key] === "object" &&
+          (filtros[key] as FiltroMedicion).habilitar
+      )
+      .map((key) => ({ id: key, label: key.charAt(0).toUpperCase() + key.slice(1) })),
+    { id: "tiempo", label: "Tiempo (AAAA-MM-DD HH:MM:SS)" },
   ];
+
 
   const handleFiltroHabilitar = (key: keyof Filtros) => {
     if (typeof filtros[key] === "object") {
@@ -137,16 +143,18 @@ const cargarDatos = useCallback((params: any) => {
             })
           )
           .map((fila: any) => ({
-            numero_nodo: fila["Numero de nodo"],
-            /* eslint-disable @typescript-eslint/dot-notation */
-            alias: fila["Alias"],
-            /* eslint-disable @typescript-eslint/dot-notation */
-            temperatura: fila["Temperatura [°C]"],
-            voltaje: fila["Voltaje [V]"],
-            precipitacion: fila["Precipitación [mm]"],
-            altitud: fila["Altitud [cm]"],
-            /* eslint-disable @typescript-eslint/dot-notation */
-            tiempo: fila["Tiempo"],
+              numero_nodo: fila["Numero de nodo"],
+              /* eslint-disable @typescript-eslint/dot-notation */
+              alias: fila["Alias"],
+              /* eslint-disable @typescript-eslint/dot-notation */
+              temperatura: fila["Temperatura [°C]"],
+              voltaje: fila["Voltaje [V]"],
+              precipitacion: fila["Precipitación [mm]"],
+              altitud: fila["Altitud [cm]"],
+              /* eslint-disable @typescript-eslint/dot-notation */
+              tiempo: fila["Tiempo"]
+                ? fila["Tiempo"].replace("T", " ").split(".")[0]
+                : null, // Formateo del tiempo
             /* eslint-disable @typescript-eslint/dot-notation */
           }))
       );
@@ -338,13 +346,13 @@ useEffect(() => {
           <TableHead>
             <TableRow>
               {columnasActivas.map((col) => (
-                <TableCell key={col}>
+                <TableCell key={col.id}>
                   <TableSortLabel
-                    active={orderBy === col}
-                    direction={orderBy === col ? order : "asc"}
-                    onClick={() => handleSort(col as keyof FilaDatos)}
+                    active={orderBy === col.id}
+                    direction={orderBy === col.id ? order : "asc"}
+                    onClick={() => handleSort(col.id as keyof FilaDatos)}
                   >
-                    {col.toUpperCase()}
+                    {col.label}
                   </TableSortLabel>
                 </TableCell>
               ))}
@@ -354,8 +362,8 @@ useEffect(() => {
             {datos.map((fila, index) => (
               <TableRow key={index}>
                 {columnasActivas.map((col) => (
-                  <TableCell key={col}>
-                    {(fila as Record<string, any>)[col] ?? "-"}
+                  <TableCell key={col.id}>
+                    {(fila as Record<string, any>)[col.id] ?? "-"}
                   </TableCell>
                 ))}
               </TableRow>
